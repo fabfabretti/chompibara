@@ -1,6 +1,11 @@
 import "./Homepage.css";
+import { useNavigate } from "react-router";
 
-function App() {
+function Homepage() {
+  // Constants
+  const navigate = useNavigate();
+
+  // Render
   return (
     <div className="homepage">
       <div className="content-container">
@@ -15,17 +20,24 @@ function App() {
           </p>
 
           <div className="button-container">
-            <button> About Chompi</button>
-            <button> Add a meal</button>
+            <button className="secondary"> About Chompi</button>
+            <button className="primary" onClick={() => navigate("/track")}>
+              {" "}
+              Add a meal
+            </button>
           </div>
         </div>
         <div className="animation-container">
-          <img src="https://placehold.co/600x600"></img>
+          <img className="plate-img" src="src/assets/plate.png"></img>
+          <img className="orange1-img" src="src/assets/orange1.png"></img>
+          <img className="orange2-img" src="src/assets/orange2.png"></img>
         </div>
       </div>
-      <p>(c) fabsfabsfabs 2024</p>
+      <footer>
+        <p>(c) fabsfabsfabs 2024</p>
+      </footer>
     </div>
   );
 }
 
-export default App;
+export default Homepage;
