@@ -1,4 +1,5 @@
 import MealCard from "../../components/mealcard/MealCard";
+import mockData from "../../mockdata/mockmeals";
 
 function Track() {
   return (
@@ -33,8 +34,6 @@ function Track() {
         </div>
         <button className="primary">Analyze it!</button>
       </div>
-
-      <MealCard />
     </div>
   );
 }

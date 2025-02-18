@@ -23,7 +23,8 @@
     padding:3px;
     border-radius: 10px;
     transition: transform 0.2s ease-out;
-
+    display: flex;
+text-wrap: nowrap;
 }
 .chip:hover{
     transform: translateY(-5px) ;
