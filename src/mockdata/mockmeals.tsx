@@ -2,10 +2,10 @@ import MealData from "../type/MealData.tsx";
 
 const mockData: MealData = {
   id: 1,
-  photo: "",
+  photo: "src/assets/plate.png",
   title: "Piatto di pasta alla carbonara",
   datetime: "11-11-11",
-  tags: [],
+  tags: ["diaryFree", "highProtein", ""],
   comment: "Keep up!",
   mark: 10,
   mealtype: "Cena",

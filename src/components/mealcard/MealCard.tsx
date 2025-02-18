@@ -1,19 +1,26 @@
 import "./MealCard.css";
 import MealData from "../../type/MealData";
 import mockData from "../../mockdata/mockmeals";
+import Chip from "../Chip/Chip";
 
 //Const
+const meal: MealData = mockData;
 
 function MealCard() {
   return (
     <div className="mealcard flexcol">
-      <div className="firstrow flexrow">
-        <div className="imgandinfo flexrow gap20">
-          <img src="https://placehold.co/150x150" alt="food image" />
+      <div className="firstrow flexrow gap20">
+        <div className=" flexrow gap20">
+          <img className="mealphoto" src={meal.photo} alt="food image" />
           <div className="flexcol">
-            <p> 11/11/2024 - 23.30 - Snack - 450g</p>
-            <h1 className="mealtitle">Piatto con sticazzi fritti e altro</h1>
-            <p>Mele, pere, arance, banane, qualcosa, qualcos'altro</p>
+            <p>
+              {" "}
+              {meal.datetime} - {meal.mealtype}
+            </p>
+            <h1 className="mealtitle">{meal.title}</h1>
+            <p className="mealingredients">
+              {meal.ingredients.map((ingredient) => ingredient.name + ",  ")}
+            </p>
           </div>
         </div>
         <img src="https://placehold.co/150x50" alt="food image" />
@@ -21,9 +28,13 @@ function MealCard() {
       </div>
       <div className="secondrow flexrow gap20">
         <div className="flexrow gap20">
-          <div>Tag</div>
-          <div>Tag</div>
-          <div>Tag</div>
+          {meal.tags.map((tag) => {
+            return (
+              <div>
+                <Chip name={tag} />
+              </div>
+            );
+          })}
         </div>
         <div className="gap20 flexrow">
           <p>Edit</p>
@@ -32,12 +43,17 @@ function MealCard() {
       </div>
 
       {/** Ingredient */}
-      <div className="flexrow gap20 ">
-        <div>Pasta 80g</div>
-        <div>50%----</div>
-        <div>50%----</div>
-        <div>50%----</div>
-      </div>
+
+      {meal.ingredients.map((ingredient) => {
+        return (
+          <div className="flexrow gap20">
+            <div>{ingredient.name}</div>
+            <div>{ingredient.carb}</div>
+            <div>{ingredient.fat}</div>
+            <div>{ingredient.protein}</div>
+          </div>
+        );
+      })}
     </div>
   );
 }

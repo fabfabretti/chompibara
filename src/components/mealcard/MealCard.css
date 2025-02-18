@@ -17,7 +17,6 @@
 }
 
 .firstrow{
-    gap:30px;
     justify-content: space-between;
     align-items: center;
 }
@@ -31,4 +30,11 @@
 
 .gap20{
 gap:20px
+}
+
+
+.mealphoto{
+    width: 100%;
+    align-self: center;
+    max-width:150px ;
 }
