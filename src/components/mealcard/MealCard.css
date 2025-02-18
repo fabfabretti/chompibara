@@ -15,6 +15,7 @@
 .mealinfo{
 display: flex;
 flex-direction:column;
+justify-content:space-around;
 gap:5px}
 
 .flexrow{
@@ -32,10 +33,19 @@ gap:5px}
 }
 
 
+.tagcontainer{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items:center;
+    gap:5px;
+    padding:10px 0 10px 0}
 
-.secondrow{
-    align-items: center;
-    justify-content: space-between;
+.action-container{
+    display: flex;
+    gap:10px;
+    justify-content: end;
+
 }
 
 .gap20{

@@ -30,11 +30,11 @@ const mockData: MealData[] = [
     ],
   },
   {
-    id: 1,
+    id: 2,
     photo: "src/assets/plate.png",
     title: "Piatto di pasta alla carbonara",
     datetime: "11-11-11",
-    tags: ["diaryFree", "highProtein"],
+    tags: ["diaryFree", "highProtein", "vegan", "glutenFree", "highFiber"],
     comment: "Keep up!",
     mark: 10,
     mealtype: "Cena",
@@ -56,6 +56,17 @@ const mockData: MealData[] = [
         fat: "5g",
       },
     ],
+  },
+  {
+    id: 3,
+    photo: "src/assets/plate.png",
+    title: "Piatto di pasta alla carbonara",
+    datetime: "11-11-11",
+    tags: [],
+    comment: "Keep up!",
+    mark: 10,
+    mealtype: "Cena",
+    ingredients: [],
   },
 ];
 

@@ -37,18 +37,19 @@ function MealCard(props: MealCardProp) {
         <img src="https://placehold.co/150x150" alt="food image" />
       */}
       </div>
-      <div className="secondrow flexrow gap20">
-        <div className="flexrow gap20">
+      {props.meal.tags.length != 0 ? (
+        <div className=" tagcontainer">
           {meal.tags.map((tag) => {
             return <Chip name={tag} key={meal.id + tag} />;
           })}
         </div>
-        <div className="gap20 flexrow">
-          <p>Edit</p>
-          <p> Show details </p>
-        </div>
+      ) : (
+        ""
+      )}
+      <div className="action-container">
+        <button>Edit</button>
+        <button>Show details</button>
       </div>
-
       {/** Ingredient 
 
       {meal.ingredients.map((ingredient) => {
