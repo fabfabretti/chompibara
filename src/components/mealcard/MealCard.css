@@ -1,60 +1,59 @@
-.mealcard{
-    border:3px solid var(--primary-color);
-    padding:10px 20px 10px 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 0px #00000050;
-    background-color: white;
-    transition: transform 0.2s ease-out;
+.mealcard {
+  border: 3px solid var(--primary-color);
+  padding: 10px 20px 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 0px #00000050;
+  background-color: white;
+  transition: transform 0.2s ease-out;
 }
 
-
-.mealcard:hover{
-    transform: translateY(-5px);
+.mealcard:hover {
+  transform: translateY(-5px);
 }
 
-.mealinfo{
-display: flex;
-flex-direction:column;
-justify-content:space-around;
-gap:5px}
-
-.flexrow{
-    display: flex;
-    flex-direction: row;
-}
-.flexcol{
-    display: flex;
-    flex-direction: column;
+.mealinfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 5px;
+  flex-grow: 2;
 }
 
-.firstrow{
-    justify-content: space-between;
-    align-items: center;
+.flexrow {
+  display: flex;
+  flex-direction: row;
+}
+.flexcol {
+  display: flex;
+  flex-direction: column;
 }
 
-
-.tagcontainer{
-    display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items:center;
-    gap:5px;
-    padding:10px 0 10px 0}
-
-.action-container{
-    display: flex;
-    gap:10px;
-    justify-content: end;
-
+.firstrow {
+  justify-content: space-between;
+  align-items: center;
 }
 
-.gap20{
-gap:20px
+.tagcontainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 0 10px 0;
 }
 
+.action-container {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+}
 
-.mealphoto{
-    width: 100%;
-    align-self: center;
-    max-width:100px ;
+.gap20 {
+  gap: 20px;
+}
+
+.mealphoto {
+  width: 100%;
+  align-self: center;
+  max-width: 200px;
 }

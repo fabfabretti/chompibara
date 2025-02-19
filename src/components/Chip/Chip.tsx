@@ -1,50 +1,47 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Chip.css";
+import {
+  faClock,
+  faCow,
+  faDna,
+  faLeaf,
+  faPoo,
+  faWheatAlt,
+  faWheatAwn,
+} from "@fortawesome/free-solid-svg-icons";
+import { JSX } from "react";
 
 type ChipProps = {
   name: string;
 };
 
 type Dictionary = {
-  [key: string]: FoodTag;
-};
-
-type FoodTag = {
-  label: string;
-  icon: string;
-  color: string;
-  bgcolor: string;
+  [key: string]: {
+    label: string;
+    icon: JSX.Element;
+  };
 };
 
 const values: Dictionary = {
   vegan: {
     label: "No animal products",
-    icon: "?",
-    color: "string",
-    bgcolor: "aaa",
+    icon: <FontAwesomeIcon icon={faLeaf} />,
   },
   glutenFree: {
     label: "Gluten Free",
-    icon: "?",
-    color: "string",
-    bgcolor: "aaa",
+    icon: <FontAwesomeIcon icon={faWheatAwn} />,
   },
   diaryFree: {
     label: "No diary",
-    icon: "?",
-    color: "string",
-    bgcolor: "aaa",
+    icon: <FontAwesomeIcon icon={faCow} />,
   },
   highFiber: {
     label: "High fiber",
-    icon: "?",
-    color: "string",
-    bgcolor: "aaa",
+    icon: <FontAwesomeIcon icon={faPoo} />,
   },
   highProtein: {
     label: "High protein",
-    icon: "?",
-    color: "string",
-    bgcolor: "aaa",
+    icon: <FontAwesomeIcon icon={faDna} />,
   },
 };
 
@@ -58,7 +55,7 @@ function Chip(props: ChipProps) {
           {currentChip.icon} {currentChip.label}
         </div>
       ) : (
-        "Error with tag parsing"
+        "Error with tag parsing: tag doesn't exist or is empty"
       )}
     </div>
   );

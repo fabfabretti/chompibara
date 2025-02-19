@@ -1,5 +1,5 @@
-import MealCard from "../../components/mealcard/MealCard";
-import mockData from "../../mockdata/mockmeals";
+import MealCard from '../../components/mealcard/MealCard';
+import mockData from '../../mockdata/mockmeals';
 
 function Track() {
   return (
