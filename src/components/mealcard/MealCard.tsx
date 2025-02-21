@@ -1,6 +1,5 @@
 import "./MealCard.css";
 import MealData from "../../type/MealData";
-import mockData from "../../mockdata/mockmeals";
 import Chip from "../Chip/Chip";
 //Prop
 type MealCardProp = {

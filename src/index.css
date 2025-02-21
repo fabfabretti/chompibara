@@ -1,44 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Cantora+One&family=Caprasimo&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Cantora+One&family=Caprasimo&display=swap");
 
 .caprasimo-regular {
-    font-family: "Caprasimo", serif;
-    font-weight: 400;
-    font-style: normal;
-  }
+  font-family: "Caprasimo", serif;
+  font-weight: 400;
+  font-style: normal;
+}
 .cantora-one-regular {
-    font-family: "Cantora One", serif;
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Cantora One", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
-
-
-:root{
-    --primary-color: #F78A42;
-    --on-primary-color:white;
-    --on-body:black;
-    --font-headings:"Caprasimo";
-    --font-body:"Cantora One";
+:root {
+  --primary-color: #f78a42;
+  --on-primary-color: white;
+  --on-body: black;
+  --font-headings: "Caprasimo";
+  --font-body: "Cantora One";
 }
 body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: var(--font-body);
-    font-size: 1em;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+  font-size: 1em;
 }
 
-a{
-    color:inherit;
-    text-decoration: none;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-a:hover{
-    text-decoration: underline;
-    text-decoration-style: wavy;
+a:hover {
+  text-decoration: underline;
+  text-decoration-style: wavy;
 }
-h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-    padding: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
 }

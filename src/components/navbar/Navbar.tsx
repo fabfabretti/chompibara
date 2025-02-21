@@ -18,6 +18,9 @@ function Navbar() {
           <Link to="/history">History </Link>
         </li>
         <li>
+          <Link to="/profile">Profile </Link>
+        </li>
+        <li>
           <Link to="/track">Track a new meal </Link>
         </li>
       </ul>
