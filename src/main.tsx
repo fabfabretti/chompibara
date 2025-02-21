@@ -6,6 +6,7 @@ import Homepage from "./pages/homepage/Homepage.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import History from "./pages/history/History.tsx";
 import Track from "./pages/track/Track.tsx";
+import Profile from "./pages/profile/Profile.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -15,7 +16,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<Homepage />} />
         <Route path="/history" element={<History />} />
         <Route path="/track" element={<Track />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 );
