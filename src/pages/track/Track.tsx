@@ -39,7 +39,7 @@ function Track() {
 
   //Render
   return (
-    <div className="track-page">
+    <div className="track-page page">
       <h1 className="page-title">Add a meal</h1>
 
       {/* Upload file */}
