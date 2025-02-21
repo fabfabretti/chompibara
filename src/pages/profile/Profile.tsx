@@ -39,7 +39,7 @@ function Profile() {
   const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState<ProfileDBType>(defaultProfile);
   const [isLoading, setIsLoading] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [errorString, setErrorString] = useState("");
 
   //Controlled inputs
 
@@ -56,6 +56,7 @@ function Profile() {
       // Call Supabase
       const { data, error } = await supabase.from("ProfileDB").select();
       if (error) {
+        setIsLoading(false);
         throw new Error(error.message);
       }
       // Save return
@@ -64,13 +65,41 @@ function Profile() {
     } catch (err) {
       console.error("Error fetching user profile: ", err);
       alert("Couldn't fetch user data at this time. Please refresh the page.");
+      setIsLoading(false);
     }
   }
+
+  const profileIsValid = () => {
+    let errors = [];
+    if (profile.age <= 0 || profile.age >= 150)
+      errors.push("L'età deve essere maggiore di 0 e minore di 150.\n");
+    if (profile.height < 50 || profile.height > 250)
+      errors.push("L'altezza deve essere tra 50 e 250 cm.\n");
+    if (profile.weight < 20 || profile.weight > 300)
+      errors.push("Il peso deve essere tra 20 e 300 kg.\n");
+    if (profile.targetcalories < 500 || profile.targetcalories > 6000)
+      errors.push("Le calorie devono essere tra 500 e 6000.\n");
+    if (profile.targetcarbo < 0)
+      errors.push("I carboidrati non possono essere negativi.\n");
+    if (profile.targetprotein < 0)
+      errors.push("Le proteine non possono essere negative.\n");
+    if (profile.targetfat < 0)
+      errors.push("I grassi non possono essere negativi.\n");
+    if (profile.targetcarbo + profile.targetprotein + profile.targetfat > 100) {
+      errors.push(
+        "La somma di carboidrati, proteine e grassi non può superare il 100%.\n"
+      );
+    }
+
+    setErrorString(errors.join(""));
+    return errors.length === 0;
+  };
 
   //Update data
   const updateProfile = async () => {
     if (!profile?.id) {
       console.error("Missing ID!");
+      setIsLoading(false);
       return;
     }
 
@@ -94,13 +123,23 @@ function Profile() {
     } else {
       console.log("Update success!");
     }
+    setIsLoading(false);
   };
 
   //Edit profile data
   const changeEditStatus = () => {
-    setEditing(!editing);
+    setEditing((prev) => !prev);
     if (editing) {
       console.log("save");
+      setIsLoading(true);
+
+      if (!profileIsValid()) {
+        console.log("not valid bro");
+        setIsLoading(false);
+        setEditing((prev) => !prev);
+
+        return;
+      }
       updateProfile();
     } else {
       console.log("edit");
@@ -117,7 +156,38 @@ function Profile() {
         <div className="profile-container card-custom flex-col flex-center">
           <div className="profile-info flex-col flex-center">
             <img src="pfp" alt="Profile picture" />
-            Name Surname
+            <div>
+              {editing ? (
+                <input
+                  type="string"
+                  value={profile.name}
+                  onChange={(e) => {
+                    setProfile((prev) => ({
+                      ...prev,
+                      name: e.target.value,
+                    }));
+                  }}
+                ></input>
+              ) : (
+                profile.name
+              )}
+            </div>
+            <div>
+              {editing ? (
+                <input
+                  type="string"
+                  value={profile.surname}
+                  onChange={(e) => {
+                    setProfile((prev) => ({
+                      ...prev,
+                      surname: e.target.value,
+                    }));
+                  }}
+                ></input>
+              ) : (
+                profile.surname
+              )}
+            </div>
           </div>
           <div className="profile-data flex-col">
             <div className="profile-row flex-row">
@@ -135,7 +205,7 @@ function Profile() {
                     }}
                   ></input>
                 ) : (
-                  profile?.age
+                  profile.age
                 )}
               </div>
             </div>
@@ -254,6 +324,7 @@ function Profile() {
               </div>
             </div>
           </div>
+          {errorString}
           <button className="primary" onClick={() => changeEditStatus()}>
             {editing ? "Save" : "Edit"}
           </button>
