@@ -38,7 +38,8 @@ function Profile() {
   // State
   const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState<ProfileDBType>(defaultProfile);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   //Controlled inputs
 
@@ -52,25 +53,55 @@ function Profile() {
   //Load profile data
   async function getProfileDB() {
     try {
+      // Call Supabase
       const { data, error } = await supabase.from("ProfileDB").select();
-      console.log(data);
       if (error) {
         throw new Error(error.message);
       }
+      // Save return
       setProfile(data[0] ?? []);
-      setIsLoaded(true);
+      setIsLoading(false);
     } catch (err) {
       console.error("Error fetching user profile: ", err);
       alert("Couldn't fetch user data at this time. Please refresh the page.");
     }
   }
 
+  //Update data
+  const updateProfile = async () => {
+    if (!profile?.id) {
+      console.error("Missing ID!");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("ProfileDB") // Nome della tabella
+      .update({
+        height: profile.height,
+        age: profile.age,
+        name: profile.name,
+        surname: profile.surname,
+        targetcarbo: profile.targetcarbo,
+        targetfat: profile.targetfat,
+        targetprotein: profile.targetprotein,
+        weight: profile.weight,
+        targetcalories: profile.targetcalories,
+      })
+      .eq("id", profile.id); // Condizione per aggiornare il record corretto
+
+    if (error) {
+      console.error("Error when updating:", error.message);
+    } else {
+      console.log("Update success!");
+    }
+  };
+
   //Edit profile data
   const changeEditStatus = () => {
     setEditing(!editing);
-
     if (editing) {
       console.log("save");
+      updateProfile();
     } else {
       console.log("edit");
     }
@@ -82,7 +113,7 @@ function Profile() {
   return (
     <div className=" flex-col flex-center page">
       <div className="page-title">Profile page</div>
-      {isLoaded ? (
+      {!isLoading ? (
         <div className="profile-container card-custom flex-col flex-center">
           <div className="profile-info flex-col flex-center">
             <img src="pfp" alt="Profile picture" />
