@@ -34,8 +34,8 @@ a {
   text-decoration: none;
 }
 a:hover {
-  text-decoration-style: wavy;
   text-decoration: underline;
+  text-decoration-style: wavy;
 }
 h1,
 h2,

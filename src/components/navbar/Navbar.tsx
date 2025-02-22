@@ -5,7 +5,11 @@ function Navbar() {
     <nav className="navbar">
       <Link to="/">
         <div className="navbar-title">
-          <img src="https://placehold.co/50x50" alt="Chompibara icon" />
+          <img
+            style={{ width: "50px" }}
+            src="src/assets/logo_white.png"
+            alt="Chompibara icon"
+          />
           <h1>Chompibara</h1>
         </div>
       </Link>

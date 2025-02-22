@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Profile.css";
-
+import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 // Database access
 const DBurl = import.meta.env.VITE_SUPABASE_URL;
 const DBkey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -330,9 +330,8 @@ function Profile() {
           </button>
         </div>
       ) : (
-        "LOADING"
+        <Loadingspinner />
       )}
-      {/**TODO: metti una rotella che gira */}
     </div>
   );
 }
