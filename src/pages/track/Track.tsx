@@ -8,6 +8,21 @@ import {
   faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
+import FileLoader from "../../components/FileLoader/FileLoader";
+import MealData from "../../type/MealData";
+
+const defaultMeal: MealData = {
+  id: 1,
+  photo: undefined,
+  title: "",
+  tags: [""],
+  comment: "",
+  mark: -1,
+  mealtype: "Other",
+  ingredients: [],
+  date: "",
+  time: "",
+};
 
 function Track() {
   //State
@@ -15,43 +30,25 @@ function Track() {
   const now = new Date().toTimeString().slice(0, 5);
   const [date, setDate] = useState(today);
   const [time, setTime] = useState(now);
-  const [image, setImage] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [image, setImage] = useState<File | null>(null);
 
-  //Functions
-  const handleUploadClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-    }
-  };
+  const [meal, setMeal] = useState(defaultMeal);
 
   //Effects
-  useEffect(() => {
-    console.log("Date updated:", date);
-    console.log("Time updated:", time);
-  }, [date, time]);
+  useEffect(() => {}, [date, time]);
 
-  //Functions
+  // Functions
+
+  const submitData = () => {};
 
   //Render
   return (
     <div className="track-page page">
       <h1 className="page-title">Add a meal</h1>
 
-      {/* Upload file */}
       <div className="upload-container">
-        <div className="upload-file" onClick={handleUploadClick}>
-          <div className="filedropper-text1">
-            Drop your picture to import your meal
-          </div>
-          <div className="filedropper-text2">or click to browse</div>
-          <input type="file" ref={fileInputRef} />
-        </div>
-
+        {/* Upload file */}
+        <FileLoader image={image} setImage={setImage} />
         {/*Meal Selector*/}
         <div className="upload-data">
           <label className="upload-element">
@@ -88,9 +85,9 @@ function Track() {
               Date
               <input
                 type="date"
-                value={date}
+                value={meal.date}
                 onChange={(e) => {
-                  setDate(e.target.value);
+                  setMeal((prev) => ({ ...prev, date: e.target.value }));
                 }}
                 id="date"
               ></input>

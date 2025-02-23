@@ -1,0 +1,17 @@
+.upload-file {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 50%;
+  min-height: 100px;
+  padding: 20px;
+  border: 3px grey dashed;
+  border-radius: 10px;
+}
+.filedropper-text2 {
+  font-size: 0.8em;
+}
+.filedropper-text2 {
+  color: grey;
+}

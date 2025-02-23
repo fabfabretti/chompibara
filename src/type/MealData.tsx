@@ -2,11 +2,12 @@ type MealData = {
   id: number;
   photo?: string;
   title: string;
-  datetime: string;
+  date: string;
+  time: string;
   tags: Array<string>;
   comment: string;
   mark: number;
-  mealtype?: string;
+  mealtype: string;
   ingredients: Array<{
     id: number;
     name: string;
