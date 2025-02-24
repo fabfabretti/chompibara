@@ -65,28 +65,29 @@ function Track() {
   };
 
   const isValid = () => {
-    let errorString = "";
+    let errors = [];
 
     if (meal.title.trim() === "") {
-      errorString += "Title cannot be empty.\n";
+      errors.push("Title cannot be empty.");
     }
     if (meal.calories !== null && meal.calories <= 0) {
-      errorString += "Calories must be greater than 0.\n";
+      errors.push("Calories must be greater than 0.");
     }
     if (meal.fats !== null && meal.fats < 0) {
-      errorString += "Fats cannot be negative.\n";
+      errors.push("Fats cannot be negative.");
     }
     if (meal.carbos !== null && meal.carbos < 0) {
-      errorString += "Carbohydrates cannot be negative.\n";
+      errors.push("Carbohydrates cannot be negative.");
     }
     if (meal.protein !== null && meal.protein < 0) {
-      errorString += "Protein cannot be negative.\n";
+      errors.push("Protein cannot be negative.");
     }
     if (!imageUploaded) {
-      errorString += "An image must be uploaded.\n";
+      errors.push("An image must be uploaded.");
     }
 
-    return errorString === "" ? true : errorString;
+    setErrorString(errors.join("\n"));
+    return errors.length === 0;
   };
 
   const submitMealData = async () => {
