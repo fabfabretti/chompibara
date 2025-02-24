@@ -16,49 +16,17 @@ function MealCard(props: MealCardProp) {
       <img className="mealphoto" src={meal.photo} alt="food image" />
       <div className="mealinfo">
         <div>
-          {" "}
-          {meal.datetime} - {meal.mealtype}
+          {meal.date} - {meal.time} - {meal.mealtype}
         </div>
         <div>
           <h1 className="mealtitle">{meal.title}</h1>
         </div>
-        <div className="mealingredients">
-          {meal.ingredients.map((ingredient) => (
-            <span key={meal.id + ingredient.name}>{ingredient.name} </span>
-          ))}
-        </div>
 
-        {props.meal.tags.length != 0 ? (
-          <div className=" tagcontainer">
-            {meal.tags.map((tag) => {
-              return <Chip name={tag} key={meal.id + tag} />;
-            })}
-          </div>
-        ) : (
-          ""
-        )}
         <div className="action-container">
           <button>Edit</button>
           <button>Show details</button>
         </div>
       </div>
-      {/*
-        <img src="https://placehold.co/150x50" alt="food image" />
-        <img src="https://placehold.co/150x150" alt="food image" />
-      */}
-
-      {/** Ingredient 
-
-      {meal.ingredients.map((ingredient) => {
-        return (
-          <div className="flexrow gap20">
-            <div>{ingredient.name}</div>
-            <div>{ingredient.carb}</div>
-            <div>{ingredient.fat}</div>
-            <div>{ingredient.protein}</div>
-          </div>
-        );
-      })}*/}
     </div>
   );
 }
