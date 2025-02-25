@@ -1,6 +1,6 @@
-.mealhistory{
-display: flex;
-flex-direction: column;
-gap:30px;
-padding:20px;
+.mealhistory {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
 }

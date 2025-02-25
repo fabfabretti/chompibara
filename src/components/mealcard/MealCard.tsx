@@ -12,7 +12,7 @@ function MealCard(props: MealCardProp) {
 
   //Render
   return (
-    <div className="mealcard flexrow gap20">
+    <div className="mealcard flexrow gap20 fadein-card">
       <img className="mealphoto" src={meal.photo} alt="food image" />
       <div className="mealinfo">
         <div>

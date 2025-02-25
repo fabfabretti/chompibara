@@ -1,11 +1,12 @@
-import mockData from "../../mockdata/mockmeals";
-import MealCard from "../../components/mealcard/MealCard";
 import "./History.css";
-import supabase from "../../components/supabaseManager";
+
+import MealCard from "../../components/mealcard/MealCard";
+import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
+
 import MealData from "../../type/MealData";
+
 import { useEffect, useState } from "react";
 import { SupabaseManager } from "../../components/supabaseManager";
-import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 
 function History() {
   //States
@@ -29,9 +30,8 @@ function History() {
     <div>
       {
         /* Meals */
-
         isLoading ? (
-          <div style={{ height: "100vh" }} className="flex-col flex-center">
+          <div style={{ height: "90vh" }} className="flex-col flex-center">
             <Loadingspinner />
           </div>
         ) : (
