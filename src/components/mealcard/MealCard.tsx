@@ -1,6 +1,7 @@
 import "./MealCard.css";
 import MealData from "../../type/MealData";
-import Chip from "../Chip/Chip";
+import Loadingspinner from "../Loadingspinner/Loadingspinner";
+import { useState } from "react";
 //Prop
 type MealCardProp = {
   meal: MealData;
@@ -8,12 +9,23 @@ type MealCardProp = {
 
 function MealCard(props: MealCardProp) {
   //Const
-  const meal: MealData = props.meal;
+  const [meal, setMeal] = useState<MealData>(props.meal);
+  const [imageLoading, setImageLoading] = useState(true);
 
   //Render
   return (
     <div className="mealcard flexrow gap20 fadein-card">
-      <img className="mealphoto" src={meal.photo} alt="food image" />
+      <div className="image-container">
+        {imageLoading ? <Loadingspinner /> : ""}
+        <img
+          className="mealphoto"
+          src={meal.photo}
+          alt="food image"
+          onLoad={() => setImageLoading(false)}
+          style={{ display: imageLoading ? "none" : "block" }} // Nasconde l'immagine finché non è caricata
+        />
+      </div>
+
       <div className="mealinfo">
         <div>
           {meal.date} - {meal.time} - {meal.mealtype}

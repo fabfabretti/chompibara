@@ -52,8 +52,22 @@
   gap: 20px;
 }
 
+.image-container {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px;
+}
+
 .mealphoto {
   width: 100%;
-  align-self: center;
-  max-width: 200px;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

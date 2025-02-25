@@ -19,10 +19,7 @@ function History() {
   // Effects (load meals)
   useEffect(() => {
     supabaseManager.getAllMeals().then((meals) => setMeals(meals));
-
-    new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
-      setIsLoading(false)
-    );
+    setIsLoading(false);
   }, meals);
 
   // Render
