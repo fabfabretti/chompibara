@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Profile.css";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
-
-import supabase from "../../components/supabaseManager";
+import { SupabaseManager } from "../../components/supabaseManager";
 
 export type ProfileDBType = {
   height: number;
@@ -17,7 +16,7 @@ export type ProfileDBType = {
   targetcalories: number;
 };
 
-const defaultProfile: ProfileDBType = {
+export const defaultProfile: ProfileDBType = {
   height: 0,
   age: 0,
   id: -1,
@@ -37,33 +36,14 @@ function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const [errorString, setErrorString] = useState("");
 
-  //Controlled inputs
+  //DB manager
+  const supabaseManager: SupabaseManager = SupabaseManager.getInstance();
 
-  // Effects
+  // Effects (load profile)
   useEffect(() => {
-    getProfileDB();
+    supabaseManager.getProfile().then((profile) => setProfile(profile));
+    setIsLoading(false);
   }, []);
-
-  // Functions
-
-  //Load profile data
-  async function getProfileDB() {
-    try {
-      // Call Supabase
-      const { data, error } = await supabase.from("ProfileDB").select();
-      if (error) {
-        setIsLoading(false);
-        throw new Error(error.message);
-      }
-      // Save return
-      setProfile(data[0] ?? []);
-      setIsLoading(false);
-    } catch (err) {
-      console.error("Error fetching user profile: ", err);
-      alert("Couldn't fetch user data at this time. Please refresh the page.");
-      setIsLoading(false);
-    }
-  }
 
   const profileIsValid = () => {
     let errors = [];
@@ -81,11 +61,6 @@ function Profile() {
       errors.push("Le proteine non possono essere negative.\n");
     if (profile.targetfat < 0)
       errors.push("I grassi non possono essere negativi.\n");
-    if (profile.targetcarbo + profile.targetprotein + profile.targetfat > 100) {
-      errors.push(
-        "La somma di carboidrati, proteine e grassi non può superare il 100%.\n"
-      );
-    }
 
     setErrorString(errors.join(""));
     return errors.length === 0;
@@ -93,33 +68,8 @@ function Profile() {
 
   //Update data
   const updateProfile = async () => {
-    if (!profile?.id) {
-      console.error("Missing ID!");
-      setIsLoading(false);
-      return;
-    }
-
-    const { error } = await supabase
-      .from("ProfileDB") // Nome della tabella
-      .update({
-        height: profile.height,
-        age: profile.age,
-        name: profile.name,
-        surname: profile.surname,
-        targetcarbo: profile.targetcarbo,
-        targetfat: profile.targetfat,
-        targetprotein: profile.targetprotein,
-        weight: profile.weight,
-        targetcalories: profile.targetcalories,
-      })
-      .eq("id", profile.id); // Condizione per aggiornare il record corretto
-
-    if (error) {
-      console.error("Error when updating:", error.message);
-    } else {
-      console.log("Update success!");
-    }
-    setIsLoading(false);
+    if (!profileIsValid()) return;
+    supabaseManager.setProfile(profile).then(() => setIsLoading(false));
   };
 
   //Edit profile data
@@ -141,8 +91,6 @@ function Profile() {
       console.log("edit");
     }
   };
-
-  console.log(profile);
 
   // Render
   return (
@@ -263,7 +211,7 @@ function Profile() {
               </div>
             </div>{" "}
             <div className="profile-row flex-row">
-              <div>Target carbo</div>
+              <div>Target carbohydrates (g)</div>
               <div>
                 {editing ? (
                   <input
@@ -282,7 +230,7 @@ function Profile() {
               </div>
             </div>{" "}
             <div className="profile-row flex-row">
-              <div>Target protein</div>
+              <div>Target protein (g)</div>
               <div>
                 {editing ? (
                   <input
@@ -301,7 +249,7 @@ function Profile() {
               </div>
             </div>
             <div className="profile-row flex-row">
-              <div>Target fats</div>
+              <div>Target fats (g)</div>
               <div>
                 {editing ? (
                   <input
