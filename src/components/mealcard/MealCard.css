@@ -8,7 +8,7 @@
 }
 
 .mealcard:hover {
-  transform: translateY(-5px);
+  transform: translate3d(0, -5px, 0);
 }
 
 .mealinfo {

@@ -20,7 +20,7 @@ function History() {
   useEffect(() => {
     supabaseManager.getAllMeals().then((meals) => setMeals(meals));
     setIsLoading(false);
-  }, meals);
+  }, []);
 
   // Render
   return (
@@ -34,7 +34,7 @@ function History() {
         ) : (
           <div className="mealhistory">
             {meals.map((meal) => (
-              <MealCard meal={meal} />
+              <MealCard meal={meal} key={"meal" + meal.id} />
             ))}
           </div>
         )
