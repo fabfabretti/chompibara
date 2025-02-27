@@ -10,6 +10,9 @@ const DBurl = import.meta.env.VITE_SUPABASE_URL;
 const DBkey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(DBurl, DBkey);
 
+const mealDB = "MealDataDB";
+const mealImgStorage = "meal-images";
+
 export class SupabaseManager {
   private static instance: SupabaseManager;
   private supabase: SupabaseClient;
@@ -26,13 +29,68 @@ export class SupabaseManager {
   }
 
   // Meal functions
+  async createMeal(meal: MealData, file: File): Promise<boolean> {
+    //#1: upload file
+
+    const uploadMealFileResult = await this.uploadMealFile(file);
+
+    if (!uploadMealFileResult) {
+      this.throwError(
+        "createMeal",
+        undefined,
+        "As file upload failed, will not proceed with meal creation."
+      );
+      return false;
+    }
+
+    // #2: upload meal
+    const { error } = await this.supabase.from(mealDB).insert([
+      {
+        title: meal.title,
+        photo: meal.photo, // L'URL dell'immagine è già presente in meal.photo
+        mealtype: meal.mealtype,
+        date: meal.date,
+        time: meal.time,
+        calories: meal.calories,
+        fats: meal.fats,
+        carbos: meal.carbos,
+        protein: meal.protein,
+      },
+    ]);
+    if (error) {
+      this.throwError("createMeal", error);
+      return false;
+    }
+    return true;
+  }
 
   async getAllMeals(): Promise<MealData[]> {
-    const { data, error } = await this.supabase.from("MealDataDB").select("*");
+    const { data, error } = await this.supabase.from(mealDB).select("*");
     if (error) this.throwError("getAllMeals", error);
     return data ?? [];
   }
 
+  async deleteMeal(id: number): Promise<boolean> {
+    const { error, count } = await supabase
+      .from(mealDB)
+      .delete({ count: "exact" })
+      .eq("id", id);
+
+    if (error) {
+      this.throwError("deleteMeal", error);
+      return false;
+    }
+    if (count === 0) {
+      this.throwError(
+        "deleteMeal",
+        undefined,
+        "The meal you're trying to delete doesn't exist anymore."
+      );
+      return false;
+    }
+
+    return true;
+  }
   // Profile functions
 
   async getProfile(): Promise<ProfileDBType> {
@@ -67,11 +125,44 @@ export class SupabaseManager {
     return true;
   }
 
+  // Image upload
+  uploadMealFile = async (file: File): Promise<boolean> => {
+    const timestamp = Date.now();
+    const fileExtension = file.name.split(".").pop();
+    const fileName = `uploads/${timestamp}.${fileExtension}`;
+
+    const { error } = await supabase.storage
+      .from(mealImgStorage)
+      .upload(`uploads/${fileName}`, file);
+
+    if (error) {
+      this.throwError("uploadMealFile", undefined, error.name + error.message);
+      return false;
+    }
+    return true;
+  };
+
   //Error handling
 
-  private throwError(operation: string, error: PostgrestError) {
-    console.error(operation + error);
-    alert("Errore nella funzione " + operation + ": " + error);
+  private throwError(
+    operation: string,
+    error?: PostgrestError,
+    details?: string
+  ) {
+    console.error(
+      "Errore nella funzione " +
+        operation +
+        ": " +
+        (error ? error.message : "") +
+        (details ? details : "")
+    );
+    alert(
+      "Errore nella funzione " +
+        operation +
+        ": " +
+        (error ? error.message : "") +
+        (details ? details : "")
+    );
   }
 }
 

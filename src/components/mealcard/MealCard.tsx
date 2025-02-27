@@ -1,20 +1,48 @@
 import "./MealCard.css";
+import { useState } from "react";
+
 import MealData from "../../type/MealData";
 import Loadingspinner from "../Loadingspinner/Loadingspinner";
-import { useState } from "react";
-//Prop
+import MacroDonutChart from "../MacroDonutChart/MacroDonutChart";
+
+import { SupabaseManager } from "../supabaseManager";
+
+//Props
 type MealCardProp = {
   meal: MealData;
 };
 
 function MealCard(props: MealCardProp) {
-  //Const
+  //States
   const [meal, setMeal] = useState<MealData>(props.meal);
   const [imageLoading, setImageLoading] = useState(true);
+  const [isBeingDeleted, setIsBeingDeleted] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+
+  //DB
+  const supabaseManager = SupabaseManager.getInstance();
+
+  const deleteMeal = () => {
+    setIsBeingDeleted(true);
+    supabaseManager.deleteMeal(meal.id).then((result) => {
+      if (result == true) {
+        setIsBeingDeleted(false);
+        setDeleted(true);
+      }
+    });
+  };
 
   //Render
   return (
-    <div className="mealcard flexrow gap20 fadein-card">
+    <div
+      className={`mealcard flexrow gap20 fadein-card ${
+        deleted ? "fade-out" : ""
+      }`}
+      style={deleted ? { pointerEvents: "none" } : {}}
+      onTransitionEnd={(e) => {
+        if (deleted) e.currentTarget.style.display = "none";
+      }}
+    >
       <div className="image-container">
         {imageLoading ? <Loadingspinner /> : ""}
         <img
@@ -36,9 +64,12 @@ function MealCard(props: MealCardProp) {
 
         <div className="action-container">
           <button>Edit</button>
-          <button>Show details</button>
+          <button disabled={isBeingDeleted} onClick={deleteMeal}>
+            Delete
+          </button>
         </div>
       </div>
+      <MacroDonutChart meal={props.meal} />
     </div>
   );
 }

@@ -1,10 +1,10 @@
 .mealcard {
-  border: 3px solid var(--primary-color);
-  padding: 10px 20px 10px 20px;
-  border-radius: 10px;
   box-shadow: 0px 4px 0px #00000050;
-  background-color: white;
+  padding: 10px 20px 10px 20px;
   transition: transform 0.2s ease-out;
+  background-color: white;
+  border: 3px solid var(--primary-color);
+  border-radius: 10px;
 }
 
 .mealcard:hover {
@@ -44,8 +44,8 @@
 
 .action-container {
   display: flex;
-  gap: 10px;
   justify-content: end;
+  gap: 10px;
 }
 
 .gap20 {
@@ -53,21 +53,37 @@
 }
 
 .image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
   width: 150px;
   height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
   border-radius: 10px;
 }
 
 .mealphoto {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.fade-out {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease,
+    margin 0.3s ease, border 0.3s ease;
 }

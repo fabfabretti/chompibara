@@ -104,7 +104,7 @@ function Track() {
           time: meal.time,
           calories: meal.calories,
           fats: meal.fats,
-          carbs: meal.carbos,
+          carbos: meal.carbos,
           protein: meal.protein,
         },
       ]);
@@ -118,7 +118,6 @@ function Track() {
   };
 
   const submitData = async () => {
-    console.log("sumbitting data");
     if (image) {
       await uploadFile(image);
       console.log("uploaded?");
