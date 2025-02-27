@@ -44,41 +44,44 @@ function History() {
 
   // Render
   return (
-    <div className="flex-col flex-center">
-      <div className="flex-col flex-center">
-        <div className="year">{viewDate.getFullYear()}</div>
-        <div className="flex-row flex-center gap20">
-          <button onClick={goToYesterday}>
-            <h1>&lt;</h1>
-          </button>
-          <h1 className="date-header flex-col">
-            <div className="main-date">
-              {viewDate.toLocaleDateString("en-US", { weekday: "long" })},{" "}
-              {viewDate.getDate()}{" "}
-              {viewDate.toLocaleDateString("en-US", { month: "long" })}
-            </div>
-          </h1>
-          <button onClick={goToTomorrow}>
-            <h1>&gt;</h1>
-          </button>
+    <div className="page flex-row flex-around">
+      <div className="stat-container">aaaaaaaaaaaaaaaa</div>
+      <div className="history-container flex-col flex-center">
+        <div className="flex-col flex-center">
+          <div className="year">{viewDate.getFullYear()}</div>
+          <div className="flex-row flex-center gap20">
+            <button onClick={goToYesterday}>
+              <h1>&lt;</h1>
+            </button>
+            <h1 className="date-header flex-col">
+              <div className="main-date">
+                {viewDate.toLocaleDateString("en-US", { weekday: "long" })},{" "}
+                {viewDate.getDate()}{" "}
+                {viewDate.toLocaleDateString("en-US", { month: "long" })}
+              </div>
+            </h1>
+            <button onClick={goToTomorrow}>
+              <h1>&gt;</h1>
+            </button>
+          </div>
         </div>
+        {
+          /* Meals */
+          isLoading ? (
+            <div style={{ height: "90vh" }} className="flex-col flex-center">
+              <Loadingspinner />
+            </div>
+          ) : (
+            <div className="mealhistory">
+              {meals.length == 0
+                ? "No data recorded on this day"
+                : meals.map((meal) => (
+                    <MealCard meal={meal} key={"meal" + meal.id} />
+                  ))}
+            </div>
+          )
+        }
       </div>
-      {
-        /* Meals */
-        isLoading ? (
-          <div style={{ height: "90vh" }} className="flex-col flex-center">
-            <Loadingspinner />
-          </div>
-        ) : (
-          <div className="mealhistory">
-            {meals.length == 0
-              ? "No data recorded on this day"
-              : meals.map((meal) => (
-                  <MealCard meal={meal} key={"meal" + meal.id} />
-                ))}
-          </div>
-        )
-      }
     </div>
   );
 }

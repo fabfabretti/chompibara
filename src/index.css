@@ -19,6 +19,7 @@
   --on-body: black;
   --font-headings: "Caprasimo";
   --font-body: "Cantora One";
+  --dark-color: #2f2d2d;
 }
 
 /*RESETS*/
@@ -71,6 +72,7 @@ h6 {
   align-items: center;
   gap: 15px;
   padding: 30px;
+  margin-top: 60px;
 }
 
 .page-title {
@@ -91,6 +93,11 @@ h6 {
 
 .flex-center {
   justify-content: center;
+  align-items: center;
+}
+
+.flex-around {
+  justify-content: space-around;
   align-items: center;
 }
 

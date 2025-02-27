@@ -10,7 +10,7 @@ function Navbar() {
             src="src/assets/logo_white.png"
             alt="Chompibara icon"
           />
-          <h1>Chompibara</h1>
+          <h1 className="navbar-titletext">Chompibara</h1>
         </div>
       </Link>
 
