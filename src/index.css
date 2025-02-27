@@ -110,3 +110,29 @@ h6 {
     opacity: 1;
   }
 }
+
+/*BUTTONS*/
+button {
+  all: unset;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+  transition: color 0.2s ease-out, box-shadow 0.1s ease-out;
+}
+button.primary {
+  border: 3px solid var(--primary-color);
+  padding: 7px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 0px #00000050;
+}
+button:hover {
+  color: var(--primary-color);
+}
+button:active {
+  box-shadow: none;
+  transform: translateY(4px);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

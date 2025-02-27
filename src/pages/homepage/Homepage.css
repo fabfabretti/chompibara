@@ -1,129 +1,98 @@
-.homepage{
-    width: 100%;
-} 
-.content-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 100%;
-    height: 70vh;
-    padding-top: 50px;
-    gap:30px;
-    align-items:center;
+.homepage {
+  width: 100%;
+}
+.content-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+  height: 70vh;
+  padding-top: 50px;
+  gap: 30px;
+  align-items: center;
 }
 
-.text-container{
-    display: flex;
-    flex-direction: column;
-    width: 40%;
-    z-index:20;
+.text-container {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  z-index: 20;
 }
-.animation-container{
-    width: 30%;
-}
-
-.title{
-    text-decoration: underline;
-    text-decoration-style: wavy;
-    color:var(--primary-color);
-    font-size: 5em;
-    font-family: var(--font-headings);
-    text-decoration-thickness:1.8px;
-
+.animation-container {
+  width: 30%;
 }
 
-.paragraph{
-    font-size: 1.5em;
+.title {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  color: var(--primary-color);
+  font-size: 5em;
+  font-family: var(--font-headings);
+  text-decoration-thickness: 1.8px;
 }
 
-
-.button-container{
-    display: flex;
-    justify-content: flex-end;
-    padding:30px;
-    gap:30px;
-    flex-wrap: wrap;
-    font-size: 1.5em;
+.paragraph {
+  font-size: 1.5em;
 }
 
-
-
-/*BUTTONS*/
-button{
-    all: unset;
-    display: inline-block; 
-    cursor: pointer;
-    transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
-    transition: color 0.2s ease-out, box-shadow 0.1s ease-out;
-
-}
-button.primary {
-    border:3px solid var(--primary-color);
-    padding:7px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 0px #00000050;
-}
-button:hover{
-    color:var(--primary-color);
-}
-button:active{
-    box-shadow: none;
-    transform: translateY(4px); 
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 30px;
+  gap: 30px;
+  flex-wrap: wrap;
+  font-size: 1.5em;
 }
 
-
-.animation-container{
-    position:relative;
-    display: flex;
-    justify-content: center;
+.animation-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
 }
 
-
-.plate-img{
-    width: 400px;
+.plate-img {
+  width: 400px;
 }
 
-.orange1-img{
-    position:absolute;
-    right:0.5dvw;
-    bottom:-18dvh;
-    width: 300px;
-    animation: upAndDown 2s infinite ease-in-out;
-
+.orange1-img {
+  position: absolute;
+  right: 0.5dvw;
+  bottom: -18dvh;
+  width: 300px;
+  animation: upAndDown 2s infinite ease-in-out;
 }
-.orange2-img{
-    position:absolute;
-    right:-5dvw;
-    bottom:6dvh;
-    width: 250px;
-    z-index: -1;
-    animation: upAndDown 3s infinite ease-in-out;
-
+.orange2-img {
+  position: absolute;
+  right: -5dvw;
+  bottom: 6dvh;
+  width: 250px;
+  z-index: -1;
+  animation: upAndDown 3s infinite ease-in-out;
 }
 
 @keyframes upAndDown {
-0% {
-  transform: translateY(0px);
-}
-50% {
-  transform: translateY(-30px);
-}
-99% {
-  transform: translateY(0px);
-}
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  99% {
+    transform: translateY(0px);
+  }
 }
 
-footer{
-    text-align: center;
-    margin-top: 70px;
-    color:var(--primary-color);
+footer {
+  text-align: center;
+  margin-top: 70px;
+  color: var(--primary-color);
 }
 
 @media (max-width: 768px) {
-    .animation-container{
-        display: none;
-    }
-    .text-container{
-        width: 80%;
-    }
+  .animation-container {
+    display: none;
+  }
+  .text-container {
+    width: 80%;
+  }
 }

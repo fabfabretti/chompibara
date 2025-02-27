@@ -69,6 +69,17 @@ export class SupabaseManager {
     if (error) this.throwError("getAllMeals", error);
     return data ?? [];
   }
+  async getAllDailyMeals(date: Date): Promise<MealData[]> {
+    const formattedDate = date.toISOString().split("T")[0]; // Converte Date in "YYYY-MM-DD"
+
+    const { data, error } = await this.supabase
+      .from(mealDB)
+      .select("*")
+      .eq("date", formattedDate); // Filtra per data
+
+    if (error) this.throwError("getAllDailyMeals", error);
+    return data ?? [];
+  }
 
   async deleteMeal(id: number): Promise<boolean> {
     const { error, count } = await supabase
