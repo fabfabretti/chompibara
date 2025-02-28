@@ -80,7 +80,7 @@ h6 {
   font-family: var(--font-headings);
 }
 
-/*TAILWIND-LIKE STUFF*/
+/* WE HAVE TAILWIND AT HOME*/
 .flex-col {
   display: flex;
   flex-direction: column;
@@ -99,6 +99,9 @@ h6 {
 .flex-around {
   justify-content: space-around;
   align-items: center;
+}
+.flex-start {
+  align-items: flex-start;
 }
 
 /* Animazioni */

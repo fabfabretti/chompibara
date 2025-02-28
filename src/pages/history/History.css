@@ -7,4 +7,11 @@
 
 .stat-container {
   background-color: var(--dark-color);
+  height: 100%;
+  padding: 30px;
+  width: 100%;
+}
+
+.flex-between {
+  justify-content: space-between;
 }

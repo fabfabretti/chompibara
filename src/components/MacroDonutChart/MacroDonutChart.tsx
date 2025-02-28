@@ -1,17 +1,18 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import MealData from "../../type/MealData";
 
 type MacroDonutchartProps = {
-  meal: MealData;
+  meal?: MealData;
+  meals?: Array<MealData>;
 };
 
-type macroData = { name: string; value: number };
+export type MacroData = Array<{ name: string; value: number }>;
 
 const defaultData = [
-  { name: "Proteine", value: 0 },
-  { name: "Grassi", value: 0 },
-  { name: "Carbo", value: 0 },
+  { name: "Protein", value: 0 },
+  { name: "Fats", value: 0 },
+  { name: "Carbos", value: 0 },
 ];
 
 const COLORS = ["#0088FE", "#FFBB28", "#FF8042"];
@@ -20,13 +21,35 @@ export default function DonutChart(props: MacroDonutchartProps) {
   const [macroData, setMacroData] = useState(defaultData);
 
   //Memo
-  useMemo(() => {
-    setMacroData([
-      { name: "Protein", value: props.meal.protein ?? 0 },
-      { name: "Fats", value: props.meal.fats ?? 0 },
-      { name: "Carbohydrates", value: props.meal.carbos ?? 0 },
-    ]);
-  }, []);
+  useEffect(() => {
+    if (props.meal) {
+      setMacroData([
+        { name: "Protein", value: props.meal.protein ?? 0 },
+        { name: "Fats", value: props.meal.fats ?? 0 },
+        { name: "Carbohydrates", value: props.meal.carbos ?? 0 },
+      ]);
+    }
+    if (props.meals) {
+      console.log(props.meals);
+      let totalCalories = 0;
+      let totalCarbos = 0;
+      let totalFats = 0;
+      let totalProtein = 0;
+      props.meals.forEach((meal) => {
+        totalCalories += meal.calories ?? 0;
+        totalCarbos += meal.carbos ?? 0;
+        totalFats += meal.fats ?? 0;
+        totalProtein += meal.protein ?? 0;
+      });
+      console.log(totalProtein);
+
+      setMacroData([
+        { name: "Protein", value: totalProtein },
+        { name: "Fats", value: totalFats },
+        { name: "Carbohydrates", value: totalCarbos },
+      ]);
+    }
+  }, [props.meal, props.meals]);
 
   return (
     <div

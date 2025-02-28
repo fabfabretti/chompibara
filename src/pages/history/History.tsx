@@ -4,9 +4,10 @@ import MealCard from "../../components/mealcard/MealCard";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 
 import MealData from "../../type/MealData";
-
-import { useEffect, useState } from "react";
+import { MacroData } from "../../components/MacroDonutChart/MacroDonutChart";
+import { useEffect, useMemo, useState } from "react";
 import { SupabaseManager } from "../../components/supabaseManager";
+import MacroDonutChart from "../../components/MacroDonutChart/MacroDonutChart";
 
 function History() {
   //States
@@ -18,6 +19,9 @@ function History() {
   //DB manager
   const supabaseManager: SupabaseManager = SupabaseManager.getInstance();
 
+  // Compute daily stats
+  const [dailyStat, setDailyStat] = useState<MacroData | null>(null);
+
   // Effects (load meals)
   useEffect(() => {
     setIsLoading(true);
@@ -25,6 +29,7 @@ function History() {
     setIsLoading(false);
   }, [viewDate]);
 
+  // Date changes
   const goToYesterday = () => {
     setViewDate((prev) => {
       const newDate = new Date(prev);
@@ -44,8 +49,14 @@ function History() {
 
   // Render
   return (
-    <div className="page flex-row flex-around">
-      <div className="stat-container">aaaaaaaaaaaaaaaa</div>
+    <div className="dashboard-container page flex-row flex-between flex-start">
+      <div className="stat-container flex-col ">
+        <h1>Daily info</h1>
+        <div>
+          Today's stats
+          {meals ? <MacroDonutChart meals={meals} /> : "aaaaaaaaaaaa"}
+        </div>
+      </div>
       <div className="history-container flex-col flex-center">
         <div className="flex-col flex-center">
           <div className="year">{viewDate.getFullYear()}</div>
