@@ -3,10 +3,19 @@ import { useState } from "react";
 
 import MealData from "../../type/MealData";
 import Loadingspinner from "../Loadingspinner/Loadingspinner";
-import MacroDonutChart from "../MacroDonutChart/MacroDonutChart";
-
 import { SupabaseManager } from "../supabaseManager";
 import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import {
+  faClock,
+  faCalendar,
+  faCookie,
+  faDeleteLeft,
+  faTrash,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
+import Chip from "../Chip/Chip";
 
 //Props
 type MealCardProp = {
@@ -57,16 +66,31 @@ function MealCard(props: MealCardProp) {
 
       <div className="mealinfo">
         <div>
-          {meal.date} - {meal.time} - {meal.mealtype}
-        </div>
-        <div>
           <h1 className="mealtitle">{meal.title}</h1>
         </div>
-
+        <Chip
+          icon={<FontAwesomeIcon icon={faCookie} />}
+          label={meal.mealtype}
+          color="var(--primary-color)"
+        />
+        <div
+          className="flex-col"
+          style={{ color: "#12121", fontSize: "0.8em", gap: "5px" }}
+        >
+          <div>
+            <FontAwesomeIcon icon={faCalendar} /> {meal.date}
+          </div>{" "}
+          <div>
+            <FontAwesomeIcon icon={faClock} /> {meal.time}
+          </div>{" "}
+        </div>
         <div className="action-container">
-          <button>Edit</button>
+          <button>
+            {" "}
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
           <button disabled={isBeingDeleted} onClick={deleteMeal}>
-            Delete
+            <FontAwesomeIcon icon={faTrash} />
           </button>
         </div>
       </div>

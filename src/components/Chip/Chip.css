@@ -1,34 +1,13 @@
-.vegan{
-    color:#56AA4E;
-    background-color: #56AA4E38;
-}
-.glutenFree{
-    color:#BA9D26;
-    background-color: #BA9D2638;
-}
-.diaryFree{
-    color:#2676B0;
-    background-color: #2676B038;
-}
-.highFiber{
-    color:#5D8839;
-    background-color: #5D883938;
-}
-.highProtein{
-    color:#9747FF;
-    background-color: #9747FF38;
+.chip {
+  padding: 3px;
+  border-radius: 10px;
+  transition: transform 0.2s ease-out;
+  display: flex;
+  text-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
 }
 
-.chip{
-    padding:3px;
-    border-radius: 10px;
-    transition: transform 0.2s ease-out;
-    display: flex;
-    text-wrap: nowrap;
-    align-items: center;
-    gap:5px;
-}
-
-.chip:hover{
-    transform: translateY(-5px) ;
+.chip:hover {
+  transform: translateY(-3px);
 }
