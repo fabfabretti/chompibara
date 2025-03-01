@@ -56,7 +56,6 @@ const MacroDonutChart: React.FC<MacroDonutChartProps> = ({
     <div
       className="macrodonutchart"
       style={{
-        height: "100%",
         display: "flex",
         flexDirection: legendPosition === "bottom" ? "column" : "row",
         alignItems: "center",
@@ -120,10 +119,10 @@ const MacroDonutChart: React.FC<MacroDonutChartProps> = ({
         <div
           style={{
             display: "flex",
-            flexDirection: "column", // 👈 Always stacked vertically
+            flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            gap: "4px", // 👈 Reduced gap to save space
+            gap: "4px",
           }}
         >
           {data.map(({ name, value, color }) => (

@@ -35,6 +35,7 @@ function MacroProgressRing({
         width: size,
         height: size,
         position: "relative",
+        padding: "10px",
       }}
     >
       <PieChart width={size} height={size}>
@@ -59,15 +60,15 @@ function MacroProgressRing({
       <div
         style={{
           position: "absolute",
-          left: "30%",
-          top: "35%",
+          left: "30px",
+          top: "35px",
         }}
       >
         {Math.round(realPercentage)}%
       </div>
-      <div>{label}</div>
+      <div style={{ color: color }}>{label}</div>
       <div>
-        {value}/{target}
+        {value}g /{target}g
       </div>
     </div>
   );
