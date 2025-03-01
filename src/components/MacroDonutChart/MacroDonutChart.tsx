@@ -105,13 +105,15 @@ export default function DonutChart(props: MacroDonutchartProps) {
           <Pie
             data={macroData}
             cx="50%"
-            cy="100%"
-            startAngle={180}
-            endAngle={0}
-            innerRadius="70%"
+            cy="50%"
+            innerRadius="80%"
             outerRadius="100%"
-            paddingAngle={3}
+            startAngle={90}
+            endAngle={-270}
             dataKey="value"
+            stroke="none"
+            cornerRadius={100}
+            paddingAngle={5}
           >
             {macroData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index]} />

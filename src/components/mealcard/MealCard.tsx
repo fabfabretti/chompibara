@@ -6,6 +6,7 @@ import Loadingspinner from "../Loadingspinner/Loadingspinner";
 import MacroDonutChart from "../MacroDonutChart/MacroDonutChart";
 
 import { SupabaseManager } from "../supabaseManager";
+import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart2";
 
 //Props
 type MealCardProp = {
@@ -69,7 +70,11 @@ function MealCard(props: MealCardProp) {
           </button>
         </div>
       </div>
-      <MacroDonutChart meal={props.meal} />
+      <MacroDonutChart2
+        meals={[props.meal]}
+        height={100}
+        legendPosition="bottom"
+      />
     </div>
   );
 }
