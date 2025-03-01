@@ -29,25 +29,27 @@ export class SupabaseManager {
   }
 
   // Meal functions
-  async createMeal(meal: MealData, file: File): Promise<boolean> {
+  async createMeal(meal: MealData, file?: File): Promise<boolean> {
     //#1: upload file
+    let uploadMealFileResult = "";
+    if (file) {
+      uploadMealFileResult = await this.uploadMealFile(file);
 
-    const uploadMealFileResult = await this.uploadMealFile(file);
-
-    if (!uploadMealFileResult) {
-      this.throwError(
-        "createMeal",
-        undefined,
-        "As file upload failed, will not proceed with meal creation."
-      );
-      return false;
+      if (uploadMealFileResult == "") {
+        this.throwError(
+          "createMeal",
+          undefined,
+          "As file upload failed, will not proceed with meal creation."
+        );
+        return false;
+      }
     }
 
     // #2: upload meal
     const { error } = await this.supabase.from(mealDB).insert([
       {
         title: meal.title,
-        photo: meal.photo, // L'URL dell'immagine è già presente in meal.photo
+        photo: uploadMealFileResult,
         mealtype: meal.mealtype,
         date: meal.date,
         time: meal.time,
@@ -137,20 +139,33 @@ export class SupabaseManager {
   }
 
   // Image upload
-  uploadMealFile = async (file: File): Promise<boolean> => {
+  uploadMealFile = async (file: File): Promise<string> => {
     const timestamp = Date.now();
     const fileExtension = file.name.split(".").pop();
     const fileName = `uploads/${timestamp}.${fileExtension}`;
 
-    const { error } = await supabase.storage
+    const { data, error } = await supabase.storage
       .from(mealImgStorage)
-      .upload(`uploads/${fileName}`, file);
+      .upload(fileName, file);
 
     if (error) {
       this.throwError("uploadMealFile", undefined, error.name + error.message);
-      return false;
+      return "";
     }
-    return true;
+
+    //URL retrieval
+    const publicUrl = supabase.storage
+      .from(mealImgStorage)
+      .getPublicUrl(data.path).data.publicUrl;
+    if (!publicUrl) {
+      this.throwError(
+        "uploadMealFile",
+        undefined,
+        "Error retrieving public URL"
+      );
+      return "";
+    }
+    return publicUrl;
   };
 
   //Error handling

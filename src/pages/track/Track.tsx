@@ -3,7 +3,7 @@ import "./Track.css";
 import { useState } from "react";
 import FileLoader from "../../components/FileLoader/FileLoader";
 import MealData from "../../type/MealData";
-import supabase from "../../components/supabaseManager";
+import supabase, { SupabaseManager } from "../../components/supabaseManager";
 import {
   faAppleWhole,
   faBowlFood,
@@ -59,9 +59,9 @@ function Track() {
       .from("meal-images")
       .getPublicUrl(response.data.path).data.publicUrl;
 
-    console.log("File uploaded:", response.data, publicUrl);
+    console.log("File uploaded:", publicUrl);
+    setMeal((prev) => ({ ...prev, photo: publicUrl }));
     setImageUploaded(true);
-    meal.photo = publicUrl;
   };
 
   const isValid = () => {
@@ -82,50 +82,26 @@ function Track() {
     if (meal.protein !== null && meal.protein < 0) {
       errors.push("Protein cannot be negative.");
     }
-    if (!imageUploaded) {
-      errors.push("An image must be uploaded.");
-    }
 
     setErrorString(errors.join("\n"));
     return errors.length === 0;
   };
 
-  const submitMealData = async () => {
-    console.log("submitting meal...");
-    console.log(meal);
-    const { data, error } = await supabase
-      .from("MealDataDB") // Assicurati che il nome della tabella sia corretto
-      .insert([
-        {
-          title: meal.title,
-          photo: meal.photo, // L'URL dell'immagine è già presente in meal.photo
-          mealtype: meal.mealtype,
-          date: meal.date,
-          time: meal.time,
-          calories: meal.calories,
-          fats: meal.fats,
-          carbos: meal.carbos,
-          protein: meal.protein,
-        },
-      ]);
-
-    if (error) {
-      console.error("Error inserting data:", error.message);
-      alert("Error saving meal. Please try again." + error.message);
-    } else {
-      console.log("Meal saved successfully:", data);
-    }
-  };
-
   const submitData = async () => {
-    if (image) {
-      await uploadFile(image);
-      console.log("uploaded?");
-    }
+    console.log("Initiating upload");
+    const supabaseManager = SupabaseManager.getInstance();
+
     if (isValid()) {
-      submitMealData();
+      if (image) {
+        console.log("Image loaded");
+        supabaseManager.createMeal(meal, image);
+      } else {
+        console.log("No image loaded");
+        supabaseManager.createMeal(meal);
+      }
+    } else {
+      console.log("Uploaded");
     }
-    return;
   };
 
   //Render
