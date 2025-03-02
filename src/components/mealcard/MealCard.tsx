@@ -11,7 +11,6 @@ import {
   faClock,
   faCalendar,
   faCookie,
-  faDeleteLeft,
   faTrash,
   faEdit,
 } from "@fortawesome/free-solid-svg-icons";
@@ -54,14 +53,19 @@ function MealCard(props: MealCardProp) {
       }}
     >
       <div className="image-container">
-        {imageLoading ? <Loadingspinner /> : ""}
-        <img
-          className="mealphoto"
-          src={meal.photo}
-          alt="food image"
-          onLoad={() => setImageLoading(false)}
-          style={{ display: imageLoading ? "none" : "block" }} // Nasconde l'immagine finché non è caricata
-        />
+        {!meal.photo ? (
+          "No image was uploaded"
+        ) : (
+          <img
+            className="mealphoto"
+            src={meal.photo}
+            alt={"Food photo for meal " + meal.id}
+            onLoad={() => {
+              setImageLoading(() => false);
+              console.log("loaded");
+            }}
+          />
+        )}
       </div>
 
       <div className="mealinfo">
