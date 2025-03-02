@@ -2,7 +2,6 @@ import "./MealCard.css";
 import { useState } from "react";
 
 import MealData from "../../type/MealData";
-import Loadingspinner from "../Loadingspinner/Loadingspinner";
 import { SupabaseManager } from "../supabaseManager";
 import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +12,10 @@ import {
   faCookie,
   faTrash,
   faEdit,
+  faQuestion,
+  faBowlFood,
+  faAppleAlt,
+  faPizzaSlice,
 } from "@fortawesome/free-solid-svg-icons";
 import Chip from "../Chip/Chip";
 
@@ -20,13 +23,25 @@ import Chip from "../Chip/Chip";
 type MealCardProp = {
   meal: MealData;
 };
+type MealType = "other" | "breakfast" | "lunch" | "snack" | "dinner";
 
 function MealCard(props: MealCardProp) {
   //States
   const [meal, setMeal] = useState<MealData>(props.meal);
-  const [imageLoading, setImageLoading] = useState(true);
   const [isBeingDeleted, setIsBeingDeleted] = useState(false);
   const [deleted, setDeleted] = useState(false);
+
+  const getMealIcon = (mealType: string) => {
+    const key = mealType.toLowerCase() as MealType;
+    return icons[key] || icons.other;
+  };
+  const icons = {
+    other: <FontAwesomeIcon icon={faQuestion} />,
+    breakfast: <FontAwesomeIcon icon={faCookie} />,
+    lunch: <FontAwesomeIcon icon={faBowlFood} />,
+    snack: <FontAwesomeIcon icon={faAppleAlt} />,
+    dinner: <FontAwesomeIcon icon={faPizzaSlice} />,
+  };
 
   //DB
   const supabaseManager = SupabaseManager.getInstance();
@@ -54,16 +69,21 @@ function MealCard(props: MealCardProp) {
     >
       <div className="image-container">
         {!meal.photo ? (
-          "No image was uploaded"
+          <div
+            style={{
+              color: "#bbb",
+              backgroundColor: "#eee",
+              textAlign: "center",
+              height: "100%",
+            }}
+          >
+            <div>No image was uploaded</div>
+          </div>
         ) : (
           <img
             className="mealphoto"
             src={meal.photo}
             alt={"Food photo for meal " + meal.id}
-            onLoad={() => {
-              setImageLoading(() => false);
-              console.log("loaded");
-            }}
           />
         )}
       </div>
@@ -73,7 +93,7 @@ function MealCard(props: MealCardProp) {
           <h1 className="mealtitle">{meal.title}</h1>
         </div>
         <Chip
-          icon={<FontAwesomeIcon icon={faCookie} />}
+          icon={getMealIcon(meal.mealtype)}
           label={meal.mealtype}
           color="var(--primary-color)"
         />

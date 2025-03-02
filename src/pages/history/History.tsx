@@ -60,7 +60,10 @@ function History() {
       >
         <div className="flex-col flex-center">
           <div className="year">{viewDate.getFullYear()}</div>
-          <div className="flex-row flex-center gap20">
+          <div
+            className="flex-row flex-center gap20"
+            style={{ minWidth: "500px", justifyContent: "space-between" }}
+          >
             <button onClick={goToYesterday}>
               <h1>&lt;</h1>
             </button>
@@ -87,7 +90,7 @@ function History() {
               {meals.length == 0
                 ? "No data recorded on this day"
                 : meals.map((meal) => (
-                    <MealCard meal={meal} key={"meal" + meal.id} />
+                    <MealCard meal={meal} key={"meal" + meal.time + meal.id} />
                   ))}
             </div>
           )

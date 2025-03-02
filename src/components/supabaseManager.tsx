@@ -67,7 +67,10 @@ export class SupabaseManager {
   }
 
   async getAllMeals(): Promise<MealData[]> {
-    const { data, error } = await this.supabase.from(mealDB).select("*");
+    const { data, error } = await this.supabase
+      .from(mealDB)
+      .select("*")
+      .order("time", { ascending: true });
     if (error) this.throwError("getAllMeals", error);
     return data ?? [];
   }

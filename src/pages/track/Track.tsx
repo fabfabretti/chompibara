@@ -171,9 +171,6 @@ function Track() {
                   id="date"
                 ></input>
               </label>
-              <button id="dateNowButton" className="secondary-button">
-                Set to today
-              </button>
             </div>
 
             {/* Time selector */}
@@ -189,9 +186,6 @@ function Track() {
                   id="time"
                 ></input>
               </label>
-              <button id="timeNowButton" className="secondary-button">
-                Set to now
-              </button>
             </div>
           </div>
 
