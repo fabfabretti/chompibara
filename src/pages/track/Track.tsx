@@ -38,32 +38,6 @@ function Track() {
   const [meal, setMeal] = useState(defaultMeal);
 
   // Functions
-
-  const uploadFile = async (file: File) => {
-    const timestamp = Date.now();
-    const fileExtension = file.name.split(".").pop();
-    const fileName = `uploads/${timestamp}.${fileExtension}`;
-
-    const response = await supabase.storage
-      .from("meal-images")
-      .upload(`uploads/${fileName}`, file);
-
-    if (response.error) {
-      alert(
-        "Error during upload: please refresh page" + response.error.message
-      );
-      return;
-    }
-
-    const publicUrl = supabase.storage
-      .from("meal-images")
-      .getPublicUrl(response.data.path).data.publicUrl;
-
-    console.log("File uploaded:", publicUrl);
-    setMeal((prev) => ({ ...prev, photo: publicUrl }));
-    setImageUploaded(true);
-  };
-
   const isValid = () => {
     let errors = [];
 
@@ -115,12 +89,7 @@ function Track() {
 
         <div className="upload-data">
           <label className="upload-element">
-            <label className="meal-option">
-              {/*Meal Selector*/}
-              <input type="radio" name="mealtype" value="0" />
-              <FontAwesomeIcon icon={faQuestion} />
-              Other
-            </label>
+            {/*Meal Selector*/}
             <label className="meal-option">
               <input
                 type="radio"
