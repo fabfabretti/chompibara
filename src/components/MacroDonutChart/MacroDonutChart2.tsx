@@ -32,11 +32,17 @@ const MacroDonutChart: React.FC<MacroDonutChartProps> = ({
     (sum, meal) => sum + (meal.protein || 0),
     0
   );
-  const totalCalories = meals.reduce(
+  let totalCalories = meals.reduce(
     (sum, meal) => sum + (meal.calories || 0),
     0
   );
 
+  if (
+    (totalCarbs != 0 || totalFats != 0 || totalProtein != 0) &&
+    totalCalories === 0
+  )
+    totalCalories = totalCarbs * 4 + totalFats * 9 + totalProtein * 4;
+  console.log(totalCarbs, totalCalories);
   const isEmptyMacros =
     totalCarbs === 0 && totalFats === 0 && totalProtein === 0;
   const isMissingCalories = totalCalories === 0;
