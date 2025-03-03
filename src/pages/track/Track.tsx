@@ -1,18 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Track.css";
+
 import { useState } from "react";
+
+import { SupabaseManager } from "../../components/supabaseManager";
+
 import FileLoader from "../../components/FileLoader/FileLoader";
 import MealData from "../../type/MealData";
-import supabase, { SupabaseManager } from "../../components/supabaseManager";
-import {
-  faAppleWhole,
-  faBowlFood,
-  faCookie,
-  faPizzaSlice,
-  faQuestion,
-} from "@fortawesome/free-solid-svg-icons";
-
-// Types
+import MealTypeSelector from "../../components/inputs/MealTypeSelector";
 
 // Render
 function Track() {
@@ -20,7 +14,6 @@ function Track() {
   const today = new Date().toISOString().split("T")[0];
   const now = new Date().toTimeString().slice(0, 5);
   const [image, setImage] = useState<File | null>(null);
-  const [imageUploaded, setImageUploaded] = useState(false);
   const [errorString, setErrorString] = useState("");
 
   const defaultMeal: MealData = {
@@ -67,14 +60,14 @@ function Track() {
 
     if (isValid()) {
       if (image) {
-        console.log("Image loaded");
         supabaseManager.createMeal(meal, image);
+        console.log("Uploaded with image");
       } else {
-        console.log("No image loaded");
         supabaseManager.createMeal(meal);
+        console.log("Uploaded with NO image");
       }
     } else {
-      console.log("Uploaded");
+      console.log("Input not valid!!");
     }
   };
 
@@ -88,76 +81,9 @@ function Track() {
         <FileLoader image={image} setImage={setImage} />
 
         <div className="upload-data">
-          <label className="upload-element">
-            {/*Meal Selector*/}
-            <label className="meal-option">
-              <input
-                type="radio"
-                name="mealtype"
-                value="Other"
-                checked={meal.mealtype === "Other"}
-                onChange={(e) =>
-                  setMeal((prev) => ({ ...prev, mealtype: e.target.value }))
-                }
-              />
-              <FontAwesomeIcon icon={faQuestion} />
-              Other
-            </label>
-            <label className="meal-option">
-              <input
-                type="radio"
-                name="mealtype"
-                value="Breakfast"
-                checked={meal.mealtype === "Breakfast"}
-                onChange={(e) =>
-                  setMeal((prev) => ({ ...prev, mealtype: e.target.value }))
-                }
-              />
-              <FontAwesomeIcon icon={faCookie} />
-              Breakfast
-            </label>
-            <label className="meal-option">
-              <input
-                type="radio"
-                name="mealtype"
-                value="Lunch"
-                checked={meal.mealtype === "Lunch"}
-                onChange={(e) =>
-                  setMeal((prev) => ({ ...prev, mealtype: e.target.value }))
-                }
-              />
-              <FontAwesomeIcon icon={faBowlFood} />
-              Lunch
-            </label>
-            <label className="meal-option">
-              <input
-                type="radio"
-                name="mealtype"
-                value="Snack"
-                checked={meal.mealtype === "Snack"}
-                onChange={(e) =>
-                  setMeal((prev) => ({ ...prev, mealtype: e.target.value }))
-                }
-              />
-              <FontAwesomeIcon icon={faAppleWhole} />
-              Snack
-            </label>
-            <label className="meal-option">
-              <input
-                type="radio"
-                name="mealtype"
-                value="Dinner"
-                checked={meal.mealtype === "Dinner"}
-                onChange={(e) =>
-                  setMeal((prev) => ({ ...prev, mealtype: e.target.value }))
-                }
-              />
-              <FontAwesomeIcon icon={faPizzaSlice} />
-              Dinner
-            </label>
-          </label>
-
           <div className="flex-row space-around">
+            <MealTypeSelector meal={meal} setMeal={setMeal} />
+
             {/* Date selector */}
             <div className="upload-element">
               <label>
@@ -176,7 +102,7 @@ function Track() {
             {/* Time selector */}
             <div className="upload-element">
               <label>
-                Time
+                Timek
                 <input
                   type="time"
                   value={meal.time}

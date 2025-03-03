@@ -29,8 +29,12 @@ function MealCard(props: MealCardProp) {
   //States
   const [meal, setMeal] = useState<MealData>(props.meal);
   const [isBeingDeleted, setIsBeingDeleted] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); //User is editing the component
+  const [isBeingEdited, setIsBeingEdited] = useState(false); // User has clicked "Confirm" after editing
+  const [editedMeal, setEditedMeal] = useState(props.meal);
   const [deleted, setDeleted] = useState(false);
 
+  // Icon info
   const getMealIcon = (mealType: string) => {
     const key = mealType.toLowerCase() as MealType;
     return icons[key] || icons.other;
@@ -46,6 +50,7 @@ function MealCard(props: MealCardProp) {
   //DB
   const supabaseManager = SupabaseManager.getInstance();
 
+  // Functions
   const deleteMeal = () => {
     setIsBeingDeleted(true);
     supabaseManager.deleteMeal(meal.id).then((result) => {
@@ -54,6 +59,11 @@ function MealCard(props: MealCardProp) {
         setDeleted(true);
       }
     });
+  };
+
+  const toggleEditing = () => {
+    setIsEditing((prev) => !prev);
+    console.log(props.meal.id + " " + isEditing);
   };
 
   //Render
@@ -68,7 +78,9 @@ function MealCard(props: MealCardProp) {
       }}
     >
       <div className="image-container">
-        {!meal.photo ? (
+        {isEditing ? (
+          "aaa"
+        ) : !meal.photo ? (
           <div
             style={{
               color: "#bbb",
@@ -87,30 +99,49 @@ function MealCard(props: MealCardProp) {
           />
         )}
       </div>
-
+      <div style={{ minWidth: "90px" }}>
+        {isEditing ? (
+          "editing"
+        ) : (
+          <MacroDonutChart2
+            meals={[props.meal]}
+            height={100}
+            legendPosition="bottom"
+          />
+        )}
+      </div>
       <div className="mealinfo">
         <div>
-          <h1 className="mealtitle">{meal.title}</h1>
+          <h1 className="mealtitle">
+            {isEditing ? "editing" : props.meal.title}
+          </h1>
         </div>
-        <Chip
-          icon={getMealIcon(meal.mealtype)}
-          label={meal.mealtype}
-          color="var(--primary-color)"
-        />
+
+        {isEditing ? (
+          "editing"
+        ) : (
+          <Chip
+            icon={getMealIcon(meal.mealtype)}
+            label={meal.mealtype}
+            color="var(--primary-color)"
+          />
+        )}
+
         <div
           className="flex-col"
           style={{ color: "#12121", fontSize: "0.8em", gap: "5px" }}
         >
           <div>
-            <FontAwesomeIcon icon={faCalendar} /> {meal.date}
-          </div>{" "}
+            <FontAwesomeIcon icon={faCalendar} />{" "}
+            {isEditing ? "editing" : meal.date}
+          </div>
           <div>
-            <FontAwesomeIcon icon={faClock} /> {meal.time}
-          </div>{" "}
+            <FontAwesomeIcon icon={faClock} />{" "}
+            {isEditing ? "editing" : meal.time}
+          </div>
         </div>
         <div className="action-container">
-          <button>
-            {" "}
+          <button onClick={toggleEditing}>
             <FontAwesomeIcon icon={faEdit} />
           </button>
           <button disabled={isBeingDeleted} onClick={deleteMeal}>
@@ -118,11 +149,6 @@ function MealCard(props: MealCardProp) {
           </button>
         </div>
       </div>
-      <MacroDonutChart2
-        meals={[props.meal]}
-        height={100}
-        legendPosition="bottom"
-      />
     </div>
   );
 }
