@@ -5,6 +5,8 @@
   background-color: white;
   border: 3px solid var(--primary-color);
   border-radius: 10px;
+
+  transition: height 1s ease-in-out;
 }
 
 .mealcard:hover {

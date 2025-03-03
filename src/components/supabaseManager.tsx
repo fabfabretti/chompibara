@@ -171,6 +171,29 @@ export class SupabaseManager {
     return publicUrl;
   };
 
+  // Meal update
+  async updateMeal(meal: MealData): Promise<boolean> {
+    const { error, count } = await supabase
+      .from(mealDB)
+      .update(meal, { count: "exact" })
+      .eq("id", meal.id);
+
+    if (error) {
+      this.throwError("updateMeal", error);
+      return false;
+    }
+    if (count === 0) {
+      this.throwError(
+        "updateMeal",
+        undefined,
+        "The meal you're trying to update doesn't exist anymore."
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   //Error handling
 
   private throwError(

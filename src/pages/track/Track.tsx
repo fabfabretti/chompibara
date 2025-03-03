@@ -6,7 +6,7 @@ import { SupabaseManager } from "../../components/supabaseManager";
 
 import FileLoader from "../../components/FileLoader/FileLoader";
 import MealData from "../../type/MealData";
-import MealTypeSelector from "../../components/inputs/MealTypeSelector";
+import MealTypeSelector from "../../components/inputs/MealTypeSelector/MealTypeSelector";
 
 // Render
 function Track() {
