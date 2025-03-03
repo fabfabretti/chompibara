@@ -7,6 +7,7 @@ import { SupabaseManager } from "../../components/supabaseManager";
 import FileLoader from "../../components/FileLoader/FileLoader";
 import MealData from "../../type/MealData";
 import MealTypeSelector from "../../components/inputs/MealTypeSelector/MealTypeSelector";
+import TextInput from "../../components/inputs/TextInput/TextInput";
 
 // Render
 function Track() {
@@ -37,17 +38,37 @@ function Track() {
     if (meal.title.trim() === "") {
       errors.push("Title cannot be empty.");
     }
-    if (meal.calories !== null && meal.calories <= 0) {
-      errors.push("Calories must be greater than 0.");
+    if (meal.calories !== null) {
+      if (meal.calories <= 0) {
+        errors.push("Calories must be greater than 0.");
+      }
+      if (meal.calories > 32767) {
+        errors.push("Calories value is too large.");
+      }
     }
-    if (meal.fats !== null && meal.fats < 0) {
-      errors.push("Fats cannot be negative.");
+    if (meal.fats !== null) {
+      if (meal.fats < 0) {
+        errors.push("Fats cannot be negative.");
+      }
+      if (meal.fats > 32767) {
+        errors.push("Fats value is too large.");
+      }
     }
-    if (meal.carbos !== null && meal.carbos < 0) {
-      errors.push("Carbohydrates cannot be negative.");
+    if (meal.carbos !== null) {
+      if (meal.carbos < 0) {
+        errors.push("Carbohydrates cannot be negative.");
+      }
+      if (meal.carbos > 32767) {
+        errors.push("Carbohydrates value is too large.");
+      }
     }
-    if (meal.protein !== null && meal.protein < 0) {
-      errors.push("Protein cannot be negative.");
+    if (meal.protein !== null) {
+      if (meal.protein < 0) {
+        errors.push("Protein cannot be negative.");
+      }
+      if (meal.protein > 32767) {
+        errors.push("Protein value is too large.");
+      }
     }
 
     setErrorString(errors.join("\n"));
@@ -86,118 +107,78 @@ function Track() {
 
             {/* Date selector */}
             <div className="upload-element">
-              <label>
-                Date
-                <input
-                  type="date"
-                  value={meal.date}
-                  onChange={(e) => {
-                    setMeal((prev) => ({ ...prev, date: e.target.value }));
-                  }}
-                  id="date"
-                ></input>
-              </label>
+              <TextInput
+                meal={meal}
+                setMeal={setMeal}
+                type="date"
+                label="Date"
+                fieldName="date"
+              />
             </div>
 
             {/* Time selector */}
             <div className="upload-element">
-              <label>
-                Timek
-                <input
-                  type="time"
-                  value={meal.time}
-                  onChange={(e) => {
-                    setMeal((prev) => ({ ...prev, time: e.target.value }));
-                  }}
-                  id="time"
-                ></input>
-              </label>
+              <TextInput
+                meal={meal}
+                setMeal={setMeal}
+                type="time"
+                label="Time"
+                fieldName="time"
+              />
             </div>
           </div>
 
           {/* Title selector */}
           <div className="upload-element">
-            <label>
-              Meal name
-              <input
-                type="text"
-                value={meal.title}
-                onChange={(e) => {
-                  setMeal((prev) => ({ ...prev, title: e.target.value }));
-                }}
-                id="title"
-              ></input>
-            </label>
+            <TextInput
+              meal={meal}
+              setMeal={setMeal}
+              type="text"
+              label="Meal Name"
+              fieldName="title"
+            />
           </div>
 
           {/* Calories selector */}
           <div className="upload-element">
-            <label>
-              Calories
-              <input
-                type="number"
-                value={meal.calories !== null ? meal.calories.toString() : ""}
-                onChange={(e) => {
-                  setMeal((prev) => ({
-                    ...prev,
-                    calories: parseInt(e.target.value),
-                  }));
-                }}
-                id="title"
-              ></input>
-            </label>
+            <TextInput
+              meal={meal}
+              setMeal={setMeal}
+              type="number"
+              label="Calories"
+              fieldName="calories"
+            />
           </div>
 
           <div className="flex-row space-around">
             <div className="upload-element">
-              <label>
-                Carbohydrates (g)
-                <input
-                  type="number"
-                  value={meal.carbos !== null ? meal.carbos.toString() : ""}
-                  onChange={(e) => {
-                    setMeal((prev) => ({
-                      ...prev,
-                      carbos: parseInt(e.target.value),
-                    }));
-                  }}
-                  id="title"
-                ></input>
-              </label>
+              <TextInput
+                meal={meal}
+                setMeal={setMeal}
+                type="number"
+                label="Carbohydrates (g)"
+                fieldName="carbos"
+              />
             </div>
 
             <div className="upload-element">
-              <label>
-                Fats (g)
-                <input
-                  type="number"
-                  value={meal.fats !== null ? meal.fats.toString() : ""}
-                  onChange={(e) => {
-                    setMeal((prev) => ({
-                      ...prev,
-                      fats: parseInt(e.target.value),
-                    }));
-                  }}
-                  id="title"
-                ></input>
-              </label>
+              <TextInput
+                meal={meal}
+                setMeal={setMeal}
+                type="number"
+                label="Fats (g)"
+                fieldName="fats"
+              />
             </div>
 
             <div className="upload-element">
-              <label>
-                Protein (g)
-                <input
-                  type="number"
-                  value={meal.protein !== null ? meal.protein.toString() : ""}
-                  onChange={(e) => {
-                    setMeal((prev) => ({
-                      ...prev,
-                      protein: parseInt(e.target.value),
-                    }));
-                  }}
-                  id="title"
-                ></input>
-              </label>
+              <TextInput
+                meal={meal}
+                setMeal={setMeal}
+                type="number"
+                label="Proteins (g)"
+                fieldName="protein"
+              />
             </div>
           </div>
         </div>
