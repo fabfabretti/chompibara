@@ -187,6 +187,46 @@ function MacroDonutChart({
           )}
         </div>
       </div>
+      {/* Legend - Hidden when macros are empty */}
+      {!isEmptyMacros && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "4px",
+          }}
+        >
+          {data.map(({ name, value, color }) =>
+            name == "Target" ? (
+              ""
+            ) : (
+              <div
+                key={name}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: `${fontSize * 0.7}px`,
+                  fontWeight: "bold",
+                }}
+              >
+                <span
+                  style={{
+                    width: `${fontSize * 0.5}px`,
+                    height: `${fontSize * 0.5}px`,
+                    backgroundColor: color,
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    marginRight: "6px",
+                  }}
+                />
+                {value} kcal {name}
+              </div>
+            )
+          )}
+        </div>
+      )}
     </div>
   );
 }
