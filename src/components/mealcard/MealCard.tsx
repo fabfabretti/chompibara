@@ -21,6 +21,7 @@ import Chip from "../Chip/Chip";
 import MealTypeSelector from "../inputs/MealTypeSelector/MealTypeSelector";
 import Loadingspinner from "../Loadingspinner/Loadingspinner";
 import TextInput from "../inputs/TextInput/TextInput";
+import FileLoader from "../FileLoader/FileLoader";
 
 //Props
 type MealCardProp = {
@@ -31,6 +32,8 @@ type MealType = "other" | "breakfast" | "lunch" | "snack" | "dinner";
 function MealCard(props: MealCardProp) {
   //States
   const [meal, setMeal] = useState<MealData>(props.meal);
+  const [image, setImage] = useState<File | null>(null);
+
   const [isBeingDeleted, setIsBeingDeleted] = useState(false);
   const [isEditing, setIsEditing] = useState(false); //User is editing the component
   const [isUpdating, setIsUpdating] = useState(false); // User has clicked "Confirm" after editing
@@ -64,15 +67,19 @@ function MealCard(props: MealCardProp) {
     });
   };
 
-  const toggleEditing = () => {
-    if (!isEditing) setOldMeal(meal);
-    if (isEditing) saveEditing();
-    setIsEditing((prev) => !prev);
-  };
-
   const saveEditing = () => {
     setIsUpdating(true);
-    supabaseManager.updateMeal(meal).then(() => setIsUpdating(false));
+
+    if (image) {
+      supabaseManager.uploadMealFile(image).then((resultUrl) => {
+        setMeal((prev) => ({ ...prev, photo: resultUrl }));
+        supabaseManager
+          .updateMeal({ ...meal, photo: resultUrl })
+          .then(() => setIsUpdating(false));
+      });
+    } else supabaseManager.updateMeal(meal).then(() => setIsUpdating(false));
+
+    setIsEditing((prev) => !prev);
   };
   const discardEditing = () => {
     setMeal(oldMeal);
@@ -94,7 +101,7 @@ function MealCard(props: MealCardProp) {
         <div className="flexrow gap20 fadein-card">
           <div className="image-container">
             {isEditing ? (
-              "aaa"
+              <FileLoader image={image} setImage={setImage} />
             ) : !meal.photo ? (
               <div
                 style={{
@@ -216,11 +223,11 @@ function MealCard(props: MealCardProp) {
             <div className="action-container">
               {isEditing ? (
                 <div>
-                  <button onClick={toggleEditing}>Save</button>
+                  <button onClick={saveEditing}>Save</button>
                   <button onClick={discardEditing}>Discard</button>
                 </div>
               ) : (
-                <button onClick={toggleEditing}>
+                <button onClick={() => setIsEditing(true)}>
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
               )}
