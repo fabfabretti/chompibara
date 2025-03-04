@@ -6,11 +6,19 @@ type TextInputProps = {
   label: string;
   fieldName: string;
   type: string;
+  align?: string;
 };
 
-function TextInput({ meal, setMeal, type, label, fieldName }: TextInputProps) {
+function TextInput({
+  meal,
+  setMeal,
+  type,
+  label,
+  fieldName,
+  align,
+}: TextInputProps) {
   return (
-    <label style={{ display: "flex", alignItems: "center" }}>
+    <label style={{ display: "flex", alignItems: align ?? "center" }}>
       {label}
       <input
         style={{ width: "80%" }}

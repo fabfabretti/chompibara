@@ -18,9 +18,9 @@ import {
   faPizzaSlice,
 } from "@fortawesome/free-solid-svg-icons";
 import Chip from "../Chip/Chip";
-import FileLoader from "../FileLoader/FileLoader";
 import MealTypeSelector from "../inputs/MealTypeSelector/MealTypeSelector";
 import Loadingspinner from "../Loadingspinner/Loadingspinner";
+import TextInput from "../inputs/TextInput/TextInput";
 
 //Props
 type MealCardProp = {
@@ -116,7 +116,34 @@ function MealCard(props: MealCardProp) {
           </div>
           <div style={{ minWidth: "90px" }}>
             {isEditing ? (
-              "editing"
+              <div
+                className="flex-col space-between"
+                style={{ justifyContent: "center" }}
+              >
+                <TextInput
+                  meal={meal}
+                  setMeal={setMeal}
+                  type="number"
+                  label="Carbohydrates (g)"
+                  fieldName="carbos"
+                />
+
+                <TextInput
+                  meal={meal}
+                  setMeal={setMeal}
+                  type="number"
+                  label="Fats (g)"
+                  fieldName="fats"
+                />
+
+                <TextInput
+                  meal={meal}
+                  setMeal={setMeal}
+                  type="number"
+                  label="Proteins (g)"
+                  fieldName="protein"
+                />
+              </div>
             ) : (
               <MacroDonutChart2
                 meals={[props.meal]}
@@ -127,9 +154,18 @@ function MealCard(props: MealCardProp) {
           </div>
           <div className="mealinfo">
             <div>
-              <h1 className="mealtitle">
-                {isEditing ? "editing" : props.meal.title}
-              </h1>
+              {isEditing ? (
+                <TextInput
+                  meal={meal}
+                  setMeal={setMeal}
+                  type="text"
+                  label="Meal Name"
+                  fieldName="title"
+                  align=""
+                />
+              ) : (
+                <h1 className="mealtitle">{props.meal.title} </h1>
+              )}
             </div>
 
             {isEditing ? (
@@ -148,11 +184,33 @@ function MealCard(props: MealCardProp) {
             >
               <div>
                 <FontAwesomeIcon icon={faCalendar} />{" "}
-                {isEditing ? "editing" : meal.date}
+                {isEditing ? (
+                  <TextInput
+                    meal={meal}
+                    setMeal={setMeal}
+                    type="date"
+                    label="Date"
+                    fieldName="date"
+                    align=""
+                  />
+                ) : (
+                  meal.date
+                )}
               </div>
               <div>
                 <FontAwesomeIcon icon={faClock} />{" "}
-                {isEditing ? "editing" : meal.time}
+                {isEditing ? (
+                  <TextInput
+                    meal={meal}
+                    setMeal={setMeal}
+                    type="time"
+                    label="Time"
+                    fieldName="time"
+                    align=""
+                  />
+                ) : (
+                  meal.time
+                )}
               </div>
             </div>
             <div className="action-container">
