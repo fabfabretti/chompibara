@@ -150,7 +150,10 @@ function Track() {
             />
           </div>
 
-          <div className="flex-row space-around">
+          <div
+            className="flex-row space-between"
+            style={{ justifyContent: "center" }}
+          >
             <div className="upload-element">
               <TextInput
                 meal={meal}

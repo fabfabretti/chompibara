@@ -25,7 +25,7 @@ function MacroProgressRing({
 
   const data = [
     { value: percentage, color: color },
-    { value: 100 - percentage, color: "#E0E0E0" },
+    { value: 100 - percentage, color: "#efefef20" },
   ];
 
   return (
@@ -45,8 +45,8 @@ function MacroProgressRing({
           cy="50%"
           innerRadius="75%"
           outerRadius="100%"
-          startAngle={240} // Inizia in basso a sinistra
-          endAngle={-60} // Termina in basso a destra
+          startAngle={240}
+          endAngle={-60}
           dataKey="value"
           stroke="none"
           cornerRadius={size * 0.1}

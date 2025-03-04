@@ -10,9 +10,10 @@ type TextInputProps = {
 
 function TextInput({ meal, setMeal, type, label, fieldName }: TextInputProps) {
   return (
-    <label>
+    <label style={{ display: "flex", alignItems: "center" }}>
       {label}
       <input
+        style={{ width: "80%" }}
         type={type}
         inputMode={type === "number" ? "numeric" : undefined}
         pattern={type === "number" ? "[0-9]*" : undefined}

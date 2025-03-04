@@ -51,22 +51,26 @@ function DailyStat({ meals }: DailyStatProps) {
     >
       <h1>Daily stats</h1>
       <div className="flex-col" style={{ gap: "10px", marginTop: "10px" }}>
-        <MacroDonutChart2 meals={meals} height={200} />
+        <MacroDonutChart2
+          meals={meals}
+          height={200}
+          targetCalories={profile.targetcalories}
+        />
         <div className="macros flex-row flex-center">
-          <MacroProgressRing
-            label="Protein"
-            target={profile.targetprotein}
-            value={totalProtein}
-          />{" "}
-          <MacroProgressRing
-            label="Fats"
-            target={profile.targetfat}
-            value={totalFats}
-          />{" "}
           <MacroProgressRing
             label="Carbs"
             target={profile.targetcarbo}
             value={totalCarbs}
+          />
+          <MacroProgressRing
+            label="Protein"
+            target={profile.targetprotein}
+            value={totalProtein}
+          />
+          <MacroProgressRing
+            label="Fats"
+            target={profile.targetfat}
+            value={totalFats}
           />
         </div>
       </div>
