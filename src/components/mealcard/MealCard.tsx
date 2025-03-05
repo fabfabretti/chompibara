@@ -40,6 +40,8 @@ function MealCard(props: MealCardProp) {
   const [oldMeal, setOldMeal] = useState(props.meal);
   const [deleted, setDeleted] = useState(false);
 
+  const [errorString, setErrorString] = useState("");
+
   // Icon info
   const getMealIcon = (mealType: string) => {
     const key = mealType.toLowerCase() as MealType;
@@ -57,6 +59,50 @@ function MealCard(props: MealCardProp) {
   const supabaseManager = SupabaseManager.getInstance();
 
   // Functions
+
+  // Functions
+  const isValid = () => {
+    let errors = [];
+
+    if (meal.title.trim() === "") {
+      errors.push("Title cannot be empty.");
+    }
+    if (meal.calories !== null) {
+      if (meal.calories <= 0) {
+        errors.push("Calories must be greater than 0.");
+      }
+      if (meal.calories > 32767) {
+        errors.push("Calories value is too large.");
+      }
+    }
+    if (meal.fats !== null) {
+      if (meal.fats < 0) {
+        errors.push("Fats cannot be negative.");
+      }
+      if (meal.fats > 32767) {
+        errors.push("Fats value is too large.");
+      }
+    }
+    if (meal.carbos !== null) {
+      if (meal.carbos < 0) {
+        errors.push("Carbohydrates cannot be negative.");
+      }
+      if (meal.carbos > 32767) {
+        errors.push("Carbohydrates value is too large.");
+      }
+    }
+    if (meal.protein !== null) {
+      if (meal.protein < 0) {
+        errors.push("Protein cannot be negative.");
+      }
+      if (meal.protein > 32767) {
+        errors.push("Protein value is too large.");
+      }
+    }
+
+    setErrorString(errors.join("\n"));
+    return errors.length === 0;
+  };
   const deleteMeal = () => {
     setIsBeingDeleted(true);
     supabaseManager.deleteMeal(meal.id).then((result) => {
@@ -68,8 +114,9 @@ function MealCard(props: MealCardProp) {
   };
 
   const saveEditing = () => {
-    setIsUpdating(true);
+    if (!isValid()) return;
 
+    setIsUpdating(true);
     if (image) {
       supabaseManager.uploadMealFile(image).then((resultUrl) => {
         setMeal((prev) => ({ ...prev, photo: resultUrl }));
@@ -235,6 +282,7 @@ function MealCard(props: MealCardProp) {
               <button disabled={isBeingDeleted} onClick={deleteMeal}>
                 <FontAwesomeIcon icon={faTrash} />
               </button>
+              {isEditing ? errorString : ""}
             </div>
           </div>
         </div>
