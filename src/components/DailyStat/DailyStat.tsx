@@ -19,8 +19,6 @@ function DailyStat({ meals }: DailyStatProps) {
 
   const supabaseManager = SupabaseManager.getInstance();
 
-  // Effects
-
   // Load profile to get targets
   useEffect(() => {
     supabaseManager.getProfile().then((profile) => setProfile(profile));
