@@ -81,7 +81,7 @@ export class SupabaseManager {
     return data ?? [];
   }
   async getAllDailyMeals(date: Date): Promise<MealData[]> {
-    const formattedDate = date.toISOString().split("T")[0]; // Converte Date in "YYYY-MM-DD"
+    const formattedDate = date.toISOString().split("T")[0]; // Convert Date in "YYYY-MM-DD"
 
     const { data, error } = await this.supabase
       .from(mealDB)
@@ -89,6 +89,23 @@ export class SupabaseManager {
       .eq("date", formattedDate); // Filtra per data
 
     if (error) this.throwError("getAllDailyMeals", error);
+    return data ?? [];
+  }
+
+  async getMealsInDateRange(
+    dateStart: Date,
+    dateEnd: Date
+  ): Promise<MealData[]> {
+    const formattedStartDate = dateStart.toISOString().split("T")[0]; // Convert Date in "YYYY-MM-DD"
+    const formattedEndDate = dateEnd.toISOString().split("T")[0]; // Convert Date in "YYYY-MM-DD"
+
+    const { data, error } = await this.supabase
+      .from(mealDB)
+      .select("*")
+      .gte("date", formattedStartDate) // date >= formattedStartDate
+      .lte("date", formattedEndDate); // date <= formattedEndDate
+
+    if (error) this.throwError("getMealsInDateRange", error);
     return data ?? [];
   }
 

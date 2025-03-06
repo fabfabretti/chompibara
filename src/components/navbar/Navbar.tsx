@@ -16,7 +16,7 @@ function Navbar() {
 
       <ul className="navbar-links">
         <li>
-          <Link to="/about">About </Link>
+          <Link to="/stats">Stats </Link>
         </li>
         <li>
           <Link to="/history">History </Link>
@@ -25,7 +25,7 @@ function Navbar() {
           <Link to="/profile">Profile </Link>
         </li>
         <li>
-          <Link to="/track">Track a new meal </Link>
+          <Link to="/track">Track </Link>
         </li>
       </ul>
     </nav>
