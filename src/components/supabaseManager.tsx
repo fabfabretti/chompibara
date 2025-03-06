@@ -29,41 +29,47 @@ export class SupabaseManager {
   }
 
   // Meal functions
-  async createMeal(meal: MealData, file?: File): Promise<boolean> {
+  async createMeal(meal: MealData, file?: File): Promise<number | null> {
     //#1: upload file
     let uploadMealFileResult = "";
     if (file) {
       uploadMealFileResult = await this.uploadMealFile(file);
 
-      if (uploadMealFileResult == "") {
+      if (uploadMealFileResult === "") {
         this.throwError(
           "createMeal",
           undefined,
           "As file upload failed, will not proceed with meal creation."
         );
-        return false;
+        return null;
       }
     }
 
     // #2: upload meal
-    const { error } = await this.supabase.from(mealDB).insert([
-      {
-        title: meal.title,
-        photo: uploadMealFileResult,
-        mealtype: meal.mealtype,
-        date: meal.date,
-        time: meal.time,
-        calories: meal.calories,
-        fats: meal.fats,
-        carbos: meal.carbos,
-        protein: meal.protein,
-      },
-    ]);
+    const { data, error } = await this.supabase
+      .from(mealDB)
+      .insert([
+        {
+          title: meal.title,
+          photo: uploadMealFileResult,
+          mealtype: meal.mealtype,
+          date: meal.date,
+          time: meal.time,
+          calories: meal.calories,
+          fats: meal.fats,
+          carbos: meal.carbos,
+          protein: meal.protein,
+        },
+      ])
+      .select("id") // Recupera l'ID del pasto creato
+      .single();
+
     if (error) {
       this.throwError("createMeal", error);
-      return false;
+      return null;
     }
-    return true;
+
+    return data?.id ?? null;
   }
 
   async getAllMeals(): Promise<MealData[]> {

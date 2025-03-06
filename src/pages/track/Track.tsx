@@ -8,27 +8,35 @@ import FileLoader from "../../components/FileLoader/FileLoader";
 import MealData from "../../type/MealData";
 import MealTypeSelector from "../../components/inputs/MealTypeSelector/MealTypeSelector";
 import TextInput from "../../components/inputs/TextInput/TextInput";
+import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
+import MealCard from "../../components/mealcard/MealCard";
+import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
+
+const today = new Date().toISOString().split("T")[0];
+const now = new Date().toTimeString().slice(0, 5);
+
+const defaultMeal: MealData = {
+  id: 1,
+  photo: undefined,
+  title: "",
+  mealtype: "Other",
+  date: today,
+  time: now,
+  calories: null,
+  fats: null,
+  carbos: null,
+  protein: null,
+};
 
 // Render
 function Track() {
   //State
-  const today = new Date().toISOString().split("T")[0];
-  const now = new Date().toTimeString().slice(0, 5);
   const [image, setImage] = useState<File | null>(null);
   const [errorString, setErrorString] = useState("");
 
-  const defaultMeal: MealData = {
-    id: 1,
-    photo: undefined,
-    title: "",
-    mealtype: "Other",
-    date: today,
-    time: now,
-    calories: null,
-    fats: null,
-    carbos: null,
-    protein: null,
-  };
+  const [isUploading, setIsUploading] = useState(false);
+  const [hasBeenUploaded, setHasBeenUploaded] = useState(false);
   const [meal, setMeal] = useState(defaultMeal);
 
   // Functions
@@ -76,16 +84,23 @@ function Track() {
   };
 
   const submitData = async () => {
-    console.log("Initiating upload");
-    const supabaseManager = SupabaseManager.getInstance();
-
     if (isValid()) {
+      console.log("Initiating upload");
+      setIsUploading(true);
+      let result: number | null = null;
+
+      const supabaseManager = SupabaseManager.getInstance();
       if (image) {
-        supabaseManager.createMeal(meal, image);
+        result = await supabaseManager.createMeal(meal, image);
         console.log("Uploaded with image");
       } else {
-        supabaseManager.createMeal(meal);
+        result = await supabaseManager.createMeal(meal);
         console.log("Uploaded with NO image");
+      }
+      setIsUploading(false);
+      setHasBeenUploaded(true);
+      if (result != null) {
+        setMeal((prev) => ({ ...prev, id: result }));
       }
     } else {
       console.log("Input not valid!!");
@@ -95,101 +110,129 @@ function Track() {
   //Render
   return (
     <div className="track-page page">
-      <h1 className="page-title">Add a meal</h1>
+      {hasBeenUploaded ? (
+        <h1 className="page-title">Meal uploaded!</h1>
+      ) : (
+        <h1 className="page-title">Add a meal</h1>
+      )}
 
-      <div className="upload-container">
-        {/* Upload file */}
-        <FileLoader image={image} setImage={setImage} />
+      {!hasBeenUploaded ? (
+        <div className="upload-container">
+          {isUploading ? (
+            <Loadingspinner />
+          ) : (
+            <div>
+              {/* Upload file */}
+              <FileLoader image={image} setImage={setImage} />
 
-        <div className="upload-data">
-          <div className="flex-row space-around">
-            <MealTypeSelector meal={meal} setMeal={setMeal} />
+              <div className="upload-data">
+                <div className="flex-row space-around">
+                  <MealTypeSelector meal={meal} setMeal={setMeal} />
 
-            {/* Date selector */}
-            <div className="upload-element">
-              <TextInput
-                meal={meal}
-                setMeal={setMeal}
-                type="date"
-                label="Date"
-                fieldName="date"
-              />
+                  {/* Date selector */}
+                  <div className="upload-element">
+                    <TextInput
+                      meal={meal}
+                      setMeal={setMeal}
+                      type="date"
+                      label="Date"
+                      fieldName="date"
+                    />
+                  </div>
+
+                  {/* Time selector */}
+                  <div className="upload-element">
+                    <TextInput
+                      meal={meal}
+                      setMeal={setMeal}
+                      type="time"
+                      label="Time"
+                      fieldName="time"
+                    />
+                  </div>
+                </div>
+
+                {/* Title selector */}
+                <div className="upload-element">
+                  <TextInput
+                    meal={meal}
+                    setMeal={setMeal}
+                    type="text"
+                    label="Meal Name"
+                    fieldName="title"
+                  />
+                </div>
+
+                {/* Calories selector */}
+                <div className="upload-element">
+                  <TextInput
+                    meal={meal}
+                    setMeal={setMeal}
+                    type="number"
+                    label="Calories"
+                    fieldName="calories"
+                  />
+                </div>
+
+                <div
+                  className="calories-element flex-row space-between"
+                  style={{ justifyContent: "center" }}
+                >
+                  <div className="upload-element">
+                    <TextInput
+                      meal={meal}
+                      setMeal={setMeal}
+                      type="number"
+                      label="Carbohydrates (g)"
+                      fieldName="carbos"
+                    />
+                  </div>
+
+                  <div className="upload-element">
+                    <TextInput
+                      meal={meal}
+                      setMeal={setMeal}
+                      type="number"
+                      label="Fats (g)"
+                      fieldName="fats"
+                    />
+                  </div>
+
+                  <div className="upload-element">
+                    <TextInput
+                      meal={meal}
+                      setMeal={setMeal}
+                      type="number"
+                      label="Proteins (g)"
+                      fieldName="protein"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-
-            {/* Time selector */}
-            <div className="upload-element">
-              <TextInput
-                meal={meal}
-                setMeal={setMeal}
-                type="time"
-                label="Time"
-                fieldName="time"
-              />
-            </div>
-          </div>
-
-          {/* Title selector */}
-          <div className="upload-element">
-            <TextInput
-              meal={meal}
-              setMeal={setMeal}
-              type="text"
-              label="Meal Name"
-              fieldName="title"
-            />
-          </div>
-
-          {/* Calories selector */}
-          <div className="upload-element">
-            <TextInput
-              meal={meal}
-              setMeal={setMeal}
-              type="number"
-              label="Calories"
-              fieldName="calories"
-            />
-          </div>
-
-          <div
-            className="flex-row space-between"
-            style={{ justifyContent: "center" }}
-          >
-            <div className="upload-element">
-              <TextInput
-                meal={meal}
-                setMeal={setMeal}
-                type="number"
-                label="Carbohydrates (g)"
-                fieldName="carbos"
-              />
-            </div>
-
-            <div className="upload-element">
-              <TextInput
-                meal={meal}
-                setMeal={setMeal}
-                type="number"
-                label="Fats (g)"
-                fieldName="fats"
-              />
-            </div>
-
-            <div className="upload-element">
-              <TextInput
-                meal={meal}
-                setMeal={setMeal}
-                type="number"
-                label="Proteins (g)"
-                fieldName="protein"
-              />
-            </div>
-          </div>
+          )}
         </div>
-      </div>
+      ) : (
+        <MealCard meal={meal} />
+      )}
+
       <div>{errorString}</div>
-      <button className="submit primary" onClick={submitData}>
-        Analyze it!
-      </button>
+      {!hasBeenUploaded ? (
+        <button
+          className="submit primary"
+          onClick={submitData}
+          disabled={isUploading}
+        >
+          Upload your meal!
+        </button>
+      ) : (
+        <button
+          className="submit primary"
+          onClick={() => window.location.reload()}
+        >
+          Track another meal
+        </button>
+      )}
     </div>
   );
 }

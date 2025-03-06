@@ -37,7 +37,7 @@ function MealCard(props: MealCardProp) {
   const [isBeingDeleted, setIsBeingDeleted] = useState(false);
   const [isEditing, setIsEditing] = useState(false); //User is editing the component
   const [isUpdating, setIsUpdating] = useState(false); // User has clicked "Confirm" after editing
-  const [oldMeal, setOldMeal] = useState(props.meal);
+  const [oldMeal, setOldMeal] = useState(meal);
   const [deleted, setDeleted] = useState(false);
 
   const [errorString, setErrorString] = useState("");
@@ -113,21 +113,34 @@ function MealCard(props: MealCardProp) {
     });
   };
 
-  const saveEditing = () => {
+  const saveEditing = async () => {
     if (!isValid()) return;
 
     setIsUpdating(true);
-    if (image) {
-      supabaseManager.uploadMealFile(image).then((resultUrl) => {
-        setMeal((prev) => ({ ...prev, photo: resultUrl }));
-        supabaseManager
-          .updateMeal({ ...meal, photo: resultUrl })
-          .then(() => setIsUpdating(false));
-      });
-    } else supabaseManager.updateMeal(meal).then(() => setIsUpdating(false));
 
-    setIsEditing((prev) => !prev);
+    let updatedMeal = meal;
+
+    if (image) {
+      try {
+        const resultUrl = await supabaseManager.uploadMealFile(image);
+        updatedMeal = { ...updatedMeal, photo: resultUrl };
+      } catch (error) {
+        console.error("Errore durante l'upload dell'immagine", error);
+        setIsUpdating(false);
+        return;
+      }
+    }
+
+    try {
+      await supabaseManager.updateMeal(updatedMeal);
+    } catch (error) {
+      console.error("Errore durante l'update del pasto", error);
+    }
+
+    setIsUpdating(false);
+    setIsEditing(false);
   };
+
   const discardEditing = () => {
     setMeal(oldMeal);
     setIsEditing((prev) => !prev);
@@ -200,7 +213,7 @@ function MealCard(props: MealCardProp) {
               </div>
             ) : (
               <MacroDonutChart2
-                meals={[props.meal]}
+                meals={[meal]}
                 height={100}
                 legendPosition="bottom"
               />
@@ -218,7 +231,7 @@ function MealCard(props: MealCardProp) {
                   align=""
                 />
               ) : (
-                <h1 className="mealtitle">{props.meal.title} </h1>
+                <h1 className="mealtitle">{meal.title} </h1>
               )}
             </div>
 
