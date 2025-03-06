@@ -12,6 +12,7 @@ import {
   Label,
 } from "recharts";
 import MealData from "../../../type/MealData";
+import COLORS from "../../../context/macroColors";
 
 // Props per il componente
 type MealChartProps = {
@@ -107,29 +108,33 @@ const MacroStackedChart: React.FC<MealChartProps> = ({ meals, target }) => {
           type="monotone"
           dataKey="carbs"
           stackId="1"
-          stroke="#8884d8"
+          stroke={COLORS.carbos}
           fillOpacity={0.6}
-          fill="#8884d8"
+          fill={COLORS.carbos}
         />
         <Area
           type="monotone"
           dataKey="fats"
           stackId="1"
-          stroke="#82ca9d"
+          stroke={COLORS.fats}
           fillOpacity={0.6}
-          fill="#82ca9d"
+          fill={COLORS.fats}
         />
         <Area
           type="monotone"
           dataKey="protein"
           stackId="1"
-          stroke="#ffc658"
+          stroke={COLORS.protein}
           fillOpacity={0.6}
-          fill="#ffc658"
+          fill={COLORS.protein}
         />
         {/* Se target è presente, aggiungi la ReferenceLine */}
         {target !== undefined && (
-          <ReferenceLine y={target} stroke="#dcdcdc" strokeDasharray="3 3">
+          <ReferenceLine
+            y={target}
+            stroke={COLORS.greyedOut}
+            strokeDasharray="3 3"
+          >
             <Label value="Target" position="insideTop" offset={10} />
           </ReferenceLine>
         )}
