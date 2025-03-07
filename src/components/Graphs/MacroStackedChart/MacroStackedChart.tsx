@@ -84,7 +84,7 @@ function MacroStackedChart({
 
   return (
     <div ref={chartRef} style={{ width: "100%" }}>
-      <AreaChart width={chartWidth} height={300} data={dataPoints}>
+      <AreaChart width={chartWidth} height={250} data={dataPoints}>
         <CartesianGrid {...gridLineStyle} />
         <XAxis dataKey="dateTime" tickFormatter={xAxisFormatter} />
         <YAxis domain={[0, maxYValue * 1.1]} />

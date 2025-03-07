@@ -47,8 +47,8 @@ function Stats() {
         <button onClick={() => setMealsFromRange()}>Calculate</button>
       </div>
 
-      <MacroDonutChart meals={meals} />
-      <MacroStackedChart meals={meals} />
+      <MacroDonutChart meals={meals} average={true} />
+      <MacroStackedChart meals={meals} cumulative={false} />
     </div>
   );
 }

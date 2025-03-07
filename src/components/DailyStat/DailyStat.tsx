@@ -49,7 +49,7 @@ function DailyDashboard({ meals }: DailyDashboardProps) {
       <div className="flex-col" style={{ gap: "10px", marginTop: "10px" }}>
         <MacroDonutChart2
           meals={meals}
-          height={200}
+          height={150}
           targetCalories={profile.targetcalories}
         />
       </div>

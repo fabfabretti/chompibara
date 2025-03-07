@@ -7,6 +7,7 @@ type MacroDonutChartProps = {
   height?: number;
   legendPosition?: "side" | "bottom";
   targetCalories?: number;
+  average?: boolean;
 };
 
 function MacroDonutChart({
@@ -14,6 +15,7 @@ function MacroDonutChart({
   height = 200,
   legendPosition = "side",
   targetCalories: targetcalories,
+  average = false,
 }: MacroDonutChartProps) {
   // Compute macros
   const totalCarbs = meals.reduce((sum, meal) => sum + (meal.carbos || 0), 0);
@@ -26,6 +28,14 @@ function MacroDonutChart({
     (sum, meal) => sum + (meal.calories || 0),
     0
   );
+
+  const numberOfDays = [...new Set(meals.map((meal) => meal.date))].length;
+
+  const avgCalories =
+    meals.length > 0
+      ? meals.reduce((sum, meal) => sum + (meal.calories || 0), 0) /
+        numberOfDays
+      : 0;
 
   // If macros are present but not calories, compute calories
   if (
@@ -164,6 +174,12 @@ function MacroDonutChart({
         >
           {isMissingCalories ? (
             "Missing calories"
+          ) : average ? (
+            <div>
+              {Math.round(avgCalories)} kcal
+              <br />
+              <div style={{ fontSize: "12px" }}>daily average</div>
+            </div>
           ) : (
             <div className="kcalAndPercentage-container">
               {totalCalories} kcal
@@ -212,7 +228,12 @@ function MacroDonutChart({
                     marginRight: "6px",
                   }}
                 />
-                {value} kcal {name}
+                {average
+                  ? Math.round(value / numberOfDays) +
+                    " kcal in " +
+                    name.toLocaleLowerCase() +
+                    " (average)"
+                  : Math.round(value) + " kcal in " + name.toLowerCase()}
               </div>
             )
           )}
