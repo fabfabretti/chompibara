@@ -5,17 +5,16 @@ import MacroProgressRing from "../MacroProgressRing/MacroProgressRing";
 
 import { SupabaseManager } from "../supabaseManager";
 import { defaultProfile } from "../../pages/profile/Profile";
-import MacroStackedChart from "../Graphs/MacroStackedChart/MacroStatschart";
+import MacroStackedChart from "../Graphs/MacroStackedChart/MacroStackedChart";
 
-type DailyStatProps = {
+type DailyDashboardProps = {
   meals: Array<MealData>;
 };
 
-function DailyStat({ meals }: DailyStatProps) {
+function DailyDashboard({ meals }: DailyDashboardProps) {
   const [totalCarbs, setTotalCarbs] = useState(0);
   const [totalFats, setTotalFats] = useState(0);
   const [totalProtein, setTotalProtein] = useState(0);
-  const [totalCalories, setTotalCalories] = useState(0);
   const [profile, setProfile] = useState(defaultProfile);
 
   const supabaseManager = SupabaseManager.getInstance();
@@ -30,12 +29,10 @@ function DailyStat({ meals }: DailyStatProps) {
     const carbs = meals.reduce((sum, meal) => sum + (meal.carbos || 0), 0);
     const fats = meals.reduce((sum, meal) => sum + (meal.fats || 0), 0);
     const protein = meals.reduce((sum, meal) => sum + (meal.protein || 0), 0);
-    const calories = meals.reduce((sum, meal) => sum + (meal.calories || 0), 0);
 
     setTotalCarbs(carbs);
     setTotalFats(fats);
     setTotalProtein(protein);
-    setTotalCalories(calories);
   }, [meals]);
 
   return (
@@ -87,4 +84,4 @@ function DailyStat({ meals }: DailyStatProps) {
   );
 }
 
-export default DailyStat;
+export default DailyDashboard;

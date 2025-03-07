@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -18,10 +18,18 @@ interface MealChartProps {
   cumulative?: boolean;
 }
 
+type dataPoint = {
+  dateTime: string;
+  carbs: number;
+  fats: number;
+  protein: number;
+  unassigned: number;
+};
+
 function MacroStackedChart({
   meals,
   target,
-  cumulative = false,
+  cumulative = true,
 }: MealChartProps) {
   if (!meals || meals.length === 0) {
     return <p>No meal data available.</p>;
@@ -29,14 +37,16 @@ function MacroStackedChart({
 
   const mealDataPoints = meals.map(createMealDataPoint).sort(sortByDateTime);
 
-  const augmentedDataPoints = augmentDataPoints(mealDataPoints, cumulative);
-  const dataPoints = cumulative
-    ? calculateCumulativeCalories(augmentedDataPoints)
-    : augmentedDataPoints;
+  const augmentedDataPoints = augmentDataPoints(mealDataPoints); // This adds an "empty" datapoint at start and end of day
+  const cumulativeMealDataPoints =
+    calculateCumulativeCalories(augmentedDataPoints);
+
+  const dataPoints = cumulative ? cumulativeMealDataPoints : mealDataPoints;
 
   const isSingleDay = isSameDay(meals);
   const xAxisFormatter = createXAxisFormatter(isSingleDay);
 
+  // Style stuff
   const maxYValue = Math.max(
     ...dataPoints.flatMap((point) => [
       point.carbs,
@@ -45,12 +55,10 @@ function MacroStackedChart({
       target || 0,
     ])
   );
-
   const referenceLineStyle = {
     stroke: "currentColor",
     strokeWidth: 2,
   };
-
   const gridLineStyle = {
     stroke: "currentColor",
     strokeOpacity: 0.2,
@@ -105,6 +113,14 @@ function MacroStackedChart({
           fillOpacity={0.6}
           fill={COLORS.protein}
         />
+        <Area
+          type="monotone"
+          dataKey="unassigned"
+          stackId="1"
+          stroke={COLORS.greyedOut}
+          fillOpacity={0.6}
+          fill={COLORS.greyedOut}
+        />
         {target !== undefined && (
           <ReferenceLine y={target} style={referenceLineStyle}>
             <Label value="Target" position="insideTop" offset={10} />
@@ -117,11 +133,15 @@ function MacroStackedChart({
 
 function createMealDataPoint(meal: MealData) {
   const combinedDateTime = new Date(`${meal.date}T${meal.time}`).toISOString();
+  const unassignedCalories =
+    (meal.calories || 0) -
+    ((meal.carbos || 0) * 4 + (meal.fats || 0) * 9 + (meal.protein || 0) * 4);
   return {
     dateTime: combinedDateTime,
     carbs: (meal.carbos || 0) * 4,
     fats: (meal.fats || 0) * 9,
     protein: (meal.protein || 0) * 4,
+    unassigned: unassignedCalories > 0 ? unassignedCalories : 0,
   };
 }
 
@@ -152,41 +172,29 @@ function createXAxisFormatter(isSingleDay: boolean) {
   };
 }
 
-function calculateCumulativeCalories(
-  dataPoints: {
-    dateTime: string;
-    carbs: number;
-    fats: number;
-    protein: number;
-  }[]
-) {
+function calculateCumulativeCalories(dataPoints: dataPoint[]) {
   let cumulativeCarbs = 0;
   let cumulativeFats = 0;
   let cumulativeProtein = 0;
+  let cumulativeUnassigned = 0;
 
   return dataPoints.map((point) => {
     cumulativeCarbs += point.carbs;
     cumulativeFats += point.fats;
     cumulativeProtein += point.protein;
+    cumulativeUnassigned += point.unassigned;
 
     return {
       dateTime: point.dateTime,
       carbs: cumulativeCarbs,
       fats: cumulativeFats,
       protein: cumulativeProtein,
+      unassigned: cumulativeUnassigned,
     };
   });
 }
 
-function augmentDataPoints(
-  dataPoints: {
-    dateTime: string;
-    carbs: number;
-    fats: number;
-    protein: number;
-  }[],
-  cumulative: boolean
-) {
+function augmentDataPoints(dataPoints: dataPoint[]) {
   if (dataPoints.length === 0) return [];
 
   const firstDateTime = new Date(dataPoints[0].dateTime);
@@ -199,9 +207,21 @@ function augmentDataPoints(
   endOfDay.setHours(23, 59, 59, 999);
 
   const augmentedData = [
-    { dateTime: startOfDay.toISOString(), carbs: 0, fats: 0, protein: 0 },
+    {
+      dateTime: startOfDay.toISOString(),
+      carbs: 0,
+      fats: 0,
+      protein: 0,
+      unassigned: 0,
+    },
     ...dataPoints,
-    { dateTime: endOfDay.toISOString(), carbs: 0, fats: 0, protein: 0 },
+    {
+      dateTime: endOfDay.toISOString(),
+      carbs: 0,
+      fats: 0,
+      protein: 0,
+      unassigned: 0,
+    },
   ];
 
   return augmentedData;

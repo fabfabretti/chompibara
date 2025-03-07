@@ -210,6 +210,14 @@ function MealCard(props: MealCardProp) {
                   label="Proteins (g)"
                   fieldName="protein"
                 />
+
+                <TextInput
+                  meal={meal}
+                  setMeal={setMeal}
+                  type="number"
+                  label="Calories (kcal)"
+                  fieldName="calories"
+                />
               </div>
             ) : (
               <MacroDonutChart2

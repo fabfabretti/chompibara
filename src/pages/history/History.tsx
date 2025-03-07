@@ -8,8 +8,7 @@ import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import MealData from "../../type/MealData";
 
 import { SupabaseManager } from "../../components/supabaseManager";
-import DailyStat from "../../components/DailyStat/DailyStat";
-import MacroStackedChart from "../../components/Graphs/MacroStackedChart/MacroStatschart";
+import DailyDashboard from "../../components/DailyStat/DailyStat";
 
 function History() {
   //States
@@ -27,6 +26,10 @@ function History() {
     setIsLoading(false);
   }, [viewDate]);
 
+  useEffect(() => {
+    console.log("AAAAAAAAAA");
+  }, [meals]);
+
   // Date changes
   const goToYesterday = () => {
     setViewDate((prev) => {
@@ -43,12 +46,10 @@ function History() {
     });
   };
 
-  // lunedì 11.15
-
   // Render
   return (
     <div className="flex-row" style={{ height: "100dvh", marginTop: 60 }}>
-      <DailyStat meals={meals} />
+      <DailyDashboard meals={meals} />
       <div
         className="history-container flex-col flex-start"
         style={{
