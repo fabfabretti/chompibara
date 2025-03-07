@@ -1,5 +1,5 @@
 import { PieChart, Pie, Cell } from "recharts";
-import { COLORS } from "../../context/macroColors";
+import COLORS from "../../context/macroColors";
 
 type MacroProgressRingProps = {
   label: string;

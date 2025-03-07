@@ -1,6 +1,6 @@
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { COLORS } from "../../context/macroColors";
+import COLORS from "../../context/macroColors";
 
 type MealData = {
   id: number;

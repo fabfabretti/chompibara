@@ -50,7 +50,7 @@ Once everything is set up, you can start the development server:
 npm start dev
 ```
 
-This will start the app on http://localhost:3000 by default.
+This will start the app on http://localhost:5173 by default.
 
 ## Technologies Used
 
