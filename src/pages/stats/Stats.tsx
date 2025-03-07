@@ -1,6 +1,6 @@
 import { useState } from "react";
 import InputCustom from "../../components/InputCustom/InputCustom";
-import MacroDonutChart from "../../components/MacroDonutChart/MacroDonutChart2";
+import MacroDonutChart from "../../components/MacroDonutChart/MacroDonutChart";
 import MealData from "../../type/MealData";
 import { SupabaseManager } from "../../components/supabaseManager";
 import MacroStackedChart from "../../components/Graphs/MacroStackedChart/MacroStatschart";

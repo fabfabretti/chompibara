@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import MealData from "../../type/MealData";
-import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart2";
+import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart";
 import MacroProgressRing from "../MacroProgressRing/MacroProgressRing";
 
 import { SupabaseManager } from "../supabaseManager";
 import { defaultProfile } from "../../pages/profile/Profile";
+import MacroStackedChart from "../Graphs/MacroStackedChart/MacroStatschart";
 
 type DailyStatProps = {
   meals: Array<MealData>;
@@ -54,6 +55,8 @@ function DailyStat({ meals }: DailyStatProps) {
           height={200}
           targetCalories={profile.targetcalories}
         />
+      </div>
+      <div className="macrorings-container">
         <div className="macros flex-row flex-center">
           <MacroProgressRing
             label="Carbs"
@@ -71,6 +74,14 @@ function DailyStat({ meals }: DailyStatProps) {
             value={totalFats}
           />
         </div>
+      </div>
+      <h2>Cumulative calories by hour</h2>
+      <div>
+        <MacroStackedChart
+          meals={meals}
+          target={profile.targetcalories}
+          cumulative={true}
+        />
       </div>
     </div>
   );

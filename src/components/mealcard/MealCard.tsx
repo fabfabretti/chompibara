@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import MealData from "../../type/MealData";
 import { SupabaseManager } from "../supabaseManager";
-import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart2";
+import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {

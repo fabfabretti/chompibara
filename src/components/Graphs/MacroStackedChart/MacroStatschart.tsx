@@ -1,109 +1,86 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
-  ResponsiveContainer,
   AreaChart,
   Area,
   XAxis,
   YAxis,
   Tooltip,
   CartesianGrid,
-  Legend,
   ReferenceLine,
   Label,
 } from "recharts";
 import MealData from "../../../type/MealData";
 import COLORS from "../../../context/macroColors";
 
-// Props per il componente
-type MealChartProps = {
-  meals: MealData[]; // array di MealData che verrà passato al componente
-  target?: number; // obiettivo giornaliero di calorie (opzionale)
-};
+interface MealChartProps {
+  meals: MealData[];
+  target?: number;
+  cumulative?: boolean;
+}
 
-const MacroStackedChart: React.FC<MealChartProps> = ({ meals, target }) => {
-  // Trova la data minima e massima tra i pasti
-  const minDate = new Date(
-    Math.min(...meals.map((meal) => new Date(meal.date).getTime()))
-  );
-  const maxDate = new Date(
-    Math.max(...meals.map((meal) => new Date(meal.date).getTime()))
+function MacroStackedChart({
+  meals,
+  target,
+  cumulative = false,
+}: MealChartProps) {
+  if (!meals || meals.length === 0) {
+    return <p>No meal data available.</p>;
+  }
+
+  const mealDataPoints = meals.map(createMealDataPoint).sort(sortByDateTime);
+
+  const augmentedDataPoints = augmentDataPoints(mealDataPoints, cumulative);
+  const dataPoints = cumulative
+    ? calculateCumulativeCalories(augmentedDataPoints)
+    : augmentedDataPoints;
+
+  const isSingleDay = isSameDay(meals);
+  const xAxisFormatter = createXAxisFormatter(isSingleDay);
+
+  const maxYValue = Math.max(
+    ...dataPoints.flatMap((point) => [
+      point.carbs,
+      point.fats,
+      point.protein,
+      target || 0,
+    ])
   );
 
-  // Crea una funzione per generare tutti i giorni tra la data minima e massima
-  const generateDateRange = (start: Date, end: Date) => {
-    const dateArray = [];
-    let currentDate = new Date(start);
-    while (currentDate <= end) {
-      dateArray.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return dateArray;
+  const referenceLineStyle = {
+    stroke: "currentColor",
+    strokeWidth: 2,
   };
 
-  // Genera tutti i giorni tra il primo e l'ultimo pasto
-  const allDates = generateDateRange(minDate, maxDate);
+  const gridLineStyle = {
+    stroke: "currentColor",
+    strokeOpacity: 0.2,
+  };
 
-  // Raggruppa i pasti per giorno, convertendo le macro in calorie
-  const groupedMeals = meals.reduce(
-    (
-      acc: {
-        [key: string]: {
-          date: string;
-          carbs: number;
-          fats: number;
-          protein: number;
-          calories: number;
-        };
-      },
-      meal
-    ) => {
-      const date = meal.date;
-      if (!acc[date])
-        acc[date] = { date, carbs: 0, fats: 0, protein: 0, calories: 0 };
+  const chartRef = useRef<HTMLDivElement>(null);
+  const [chartWidth, setChartWidth] = useState(0);
 
-      // Conversione delle macro in calorie
-      const mealCalories = {
-        carbs: (meal.carbos || 0) * 4,
-        fats: (meal.fats || 0) * 9,
-        protein: (meal.protein || 0) * 4,
-      };
-
-      acc[date].carbs += mealCalories.carbs;
-      acc[date].fats += mealCalories.fats;
-      acc[date].protein += mealCalories.protein;
-      acc[date].calories +=
-        mealCalories.carbs + mealCalories.fats + mealCalories.protein;
-
-      return acc;
-    },
-    {}
-  );
-
-  // Converte l'oggetto in un array e include anche i giorni senza pasti
-  const data = allDates.map((date) => {
-    const formattedDate = date.toISOString().split("T")[0]; // formato "YYYY-MM-DD"
-    return (
-      groupedMeals[formattedDate] || {
-        date: formattedDate,
-        carbs: 0,
-        fats: 0,
-        protein: 0,
-        calories: 0,
+  useEffect(() => {
+    const updateChartWidth = () => {
+      if (chartRef.current) {
+        setChartWidth(chartRef.current.offsetWidth);
       }
-    );
-  });
+    };
 
-  // Ordina i dati per data crescente
-  data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    updateChartWidth();
+    window.addEventListener("resize", updateChartWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateChartWidth);
+    };
+  }, []);
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <AreaChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
+    <div ref={chartRef} style={{ width: "100%" }}>
+      <AreaChart width={chartWidth} height={300} data={dataPoints}>
+        <CartesianGrid {...gridLineStyle} />
+        <XAxis dataKey="dateTime" tickFormatter={xAxisFormatter} />
+        <YAxis domain={[0, maxYValue * 1.1]} />
         <Tooltip />
-        <Legend />
         <Area
           type="monotone"
           dataKey="carbs"
@@ -128,19 +105,106 @@ const MacroStackedChart: React.FC<MealChartProps> = ({ meals, target }) => {
           fillOpacity={0.6}
           fill={COLORS.protein}
         />
-        {/* Se target è presente, aggiungi la ReferenceLine */}
         {target !== undefined && (
-          <ReferenceLine
-            y={target}
-            stroke={COLORS.greyedOut}
-            strokeDasharray="3 3"
-          >
+          <ReferenceLine y={target} style={referenceLineStyle}>
             <Label value="Target" position="insideTop" offset={10} />
           </ReferenceLine>
         )}
       </AreaChart>
-    </ResponsiveContainer>
+    </div>
   );
-};
+}
+
+function createMealDataPoint(meal: MealData) {
+  const combinedDateTime = new Date(`${meal.date}T${meal.time}`).toISOString();
+  return {
+    dateTime: combinedDateTime,
+    carbs: (meal.carbos || 0) * 4,
+    fats: (meal.fats || 0) * 9,
+    protein: (meal.protein || 0) * 4,
+  };
+}
+
+function sortByDateTime(a: { dateTime: string }, b: { dateTime: string }) {
+  return new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime();
+}
+
+function isSameDay(meals: MealData[]) {
+  const firstDate = new Date(meals[0].date);
+  const lastDate = new Date(meals[meals.length - 1].date);
+  return firstDate.toDateString() === lastDate.toDateString();
+}
+
+function createXAxisFormatter(isSingleDay: boolean) {
+  return (dateTime: string) => {
+    const date = new Date(dateTime);
+
+    if (isNaN(date.getTime())) {
+      return "Invalid Date";
+    }
+
+    if (isSingleDay) {
+      const hours = date.getHours().toString().padStart(2, "0");
+      return `${hours}:00`;
+    } else {
+      return date.toLocaleDateString();
+    }
+  };
+}
+
+function calculateCumulativeCalories(
+  dataPoints: {
+    dateTime: string;
+    carbs: number;
+    fats: number;
+    protein: number;
+  }[]
+) {
+  let cumulativeCarbs = 0;
+  let cumulativeFats = 0;
+  let cumulativeProtein = 0;
+
+  return dataPoints.map((point) => {
+    cumulativeCarbs += point.carbs;
+    cumulativeFats += point.fats;
+    cumulativeProtein += point.protein;
+
+    return {
+      dateTime: point.dateTime,
+      carbs: cumulativeCarbs,
+      fats: cumulativeFats,
+      protein: cumulativeProtein,
+    };
+  });
+}
+
+function augmentDataPoints(
+  dataPoints: {
+    dateTime: string;
+    carbs: number;
+    fats: number;
+    protein: number;
+  }[],
+  cumulative: boolean
+) {
+  if (dataPoints.length === 0) return [];
+
+  const firstDateTime = new Date(dataPoints[0].dateTime);
+  const lastDateTime = new Date(dataPoints[dataPoints.length - 1].dateTime);
+
+  const startOfDay = new Date(firstDateTime);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(lastDateTime);
+  endOfDay.setHours(23, 59, 59, 999);
+
+  const augmentedData = [
+    { dateTime: startOfDay.toISOString(), carbs: 0, fats: 0, protein: 0 },
+    ...dataPoints,
+    { dateTime: endOfDay.toISOString(), carbs: 0, fats: 0, protein: 0 },
+  ];
+
+  return augmentedData;
+}
 
 export default MacroStackedChart;

@@ -9,6 +9,7 @@ import MealData from "../../type/MealData";
 
 import { SupabaseManager } from "../../components/supabaseManager";
 import DailyStat from "../../components/DailyStat/DailyStat";
+import MacroStackedChart from "../../components/Graphs/MacroStackedChart/MacroStatschart";
 
 function History() {
   //States
