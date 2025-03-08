@@ -3,7 +3,7 @@ import InputCustom from "../../components/InputCustom/InputCustom";
 import MacroDonutChart from "../../components/MacroDonutChart/MacroDonutChart";
 import MealData from "../../type/MealData";
 import { SupabaseManager } from "../../components/supabaseManager";
-import MacroStackedChart from "../../components/Graphs/MacroStackedChart/MacroStackedChart";
+import MacroStackedChart from "../../components/graphs/MacroStackedChart/MacroStackedChart";
 
 const today = new Date().toISOString().split("T")[0];
 const now = new Date().toTimeString().slice(0, 5);

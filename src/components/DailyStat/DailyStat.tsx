@@ -5,7 +5,7 @@ import MacroProgressRing from "../MacroProgressRing/MacroProgressRing";
 
 import { SupabaseManager } from "../supabaseManager";
 import { defaultProfile } from "../../pages/profile/Profile";
-import MacroStackedChart from "../Graphs/MacroStackedChart/MacroStackedChart";
+import MacroStackedChart from "../graphs/MacroStackedChart/MacroStackedChart";
 
 type DailyDashboardProps = {
   meals: Array<MealData>;
