@@ -35,16 +35,40 @@ function MacroStackedChart({
     return <p>No meal data available.</p>;
   }
 
-  const mealDataPoints = meals.map(createMealDataPoint).sort(sortByDateTime);
+  const isSingleDay = isSameDay(meals);
+  let mealDataPoints = meals.map(createMealDataPoint).sort(sortByDateTime);
+
+  // If more than one day is included, group datapoints by day
+  if (!isSingleDay) {
+    mealDataPoints = Object.values(
+      mealDataPoints.reduce(
+        (acc: { [key: string]: dataPoint }, point: dataPoint) => {
+          const date = point.dateTime.split("T")[0]; // Extract date part
+          if (!acc[date]) {
+            acc[date] = {
+              dateTime: date,
+              carbs: 0,
+              fats: 0,
+              protein: 0,
+              unassigned: 0,
+            };
+          }
+          acc[date].carbs += point.carbs;
+          acc[date].fats += point.fats;
+          acc[date].protein += point.protein;
+          acc[date].unassigned += point.unassigned;
+          return acc;
+        },
+        {}
+      )
+    );
+  }
 
   const augmentedDataPoints = augmentDataPoints(mealDataPoints); // This adds an "empty" datapoint at start and end of day
   const cumulativeMealDataPoints =
     calculateCumulativeCalories(augmentedDataPoints);
 
   const dataPoints = cumulative ? cumulativeMealDataPoints : mealDataPoints;
-
-  const isSingleDay = isSameDay(meals);
-  const xAxisFormatter = createXAxisFormatter(isSingleDay);
 
   // Style stuff
   const maxYValue = Math.max(
@@ -63,6 +87,7 @@ function MacroStackedChart({
     stroke: "currentColor",
     strokeOpacity: 0.2,
   };
+  const xAxisFormatter = createXAxisFormatter(isSingleDay);
 
   const chartRef = useRef<HTMLDivElement>(null);
   const [chartWidth, setChartWidth] = useState(0);
@@ -123,7 +148,7 @@ function MacroStackedChart({
         />
         {target !== undefined && (
           <ReferenceLine y={target} style={referenceLineStyle}>
-            <Label value="Target" position="insideTop" offset={10} />
+            <Label value="Daily target" position="insideTop" offset={10} />
           </ReferenceLine>
         )}
       </AreaChart>
@@ -131,6 +156,7 @@ function MacroStackedChart({
   );
 }
 
+// This converts meals to data usable in the graph (e.g. macros weight is converted to calories)
 function createMealDataPoint(meal: MealData) {
   const combinedDateTime = new Date(`${meal.date}T${meal.time}`).toISOString();
   const unassignedCalories =

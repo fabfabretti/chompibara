@@ -1,25 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MacroDonutChart from "../../components/graphs/MacroDonutChart/MacroDonutChart";
 import MealData from "../../types/MealData";
 import { SupabaseManager } from "../../context/supabaseManager";
 import MacroStackedChart from "../../components/graphs/MacroStackedChart/MacroStackedChart";
+import { defaultProfile, ProfileDBType } from "../profile/Profile";
 
 const today = new Date().toISOString().split("T")[0];
+const aWeekAgo = new Date(); // Create a new Date object
+aWeekAgo.setDate(aWeekAgo.getDate() - 7); // Subtract 7 days
+
+const weekAgo = aWeekAgo.toISOString().split("T")[0];
 
 function Stats() {
   //State
-  const [startDay, setStartDay] = useState(today);
+  const [startDay, setStartDay] = useState(weekAgo);
   const [endDay, setEndDay] = useState(today);
   const [meals, setMeals] = useState<MealData[]>([]);
+  const [profile, setProfile] = useState<ProfileDBType>(defaultProfile);
+
+  const supabaseManager = SupabaseManager.getInstance();
 
   //Functions
   const setMealsFromRange = () => {
-    const supabaseManager = SupabaseManager.getInstance();
-
     supabaseManager
       .getMealsInDateRange(new Date(startDay), new Date(endDay))
       .then((result) => setMeals(result));
   };
+
+  //Effects
+  useEffect(() => {
+    setMealsFromRange();
+    supabaseManager.getProfile().then((profile) => {
+      setProfile(profile);
+    });
+  }, []);
 
   //Render
   return (
@@ -46,7 +60,11 @@ function Stats() {
       </div>
 
       <MacroDonutChart meals={meals} average={true} />
-      <MacroStackedChart meals={meals} cumulative={false} />
+      <MacroStackedChart
+        meals={meals}
+        cumulative={false}
+        target={profile.targetcalories}
+      />
     </div>
   );
 }
