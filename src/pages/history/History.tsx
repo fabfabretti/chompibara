@@ -22,13 +22,25 @@ function History() {
   // Effects - load meals
   useEffect(() => {
     setIsLoading(true);
-    supabaseManager.getAllDailyMeals(viewDate).then((meals) => setMeals(meals));
-    setIsLoading(false);
+    supabaseManager.getAllDailyMeals(viewDate).then((meals) => {
+      setMeals(meals.sort(sortByDateTime));
+      console.log(meals);
+      setIsLoading(false);
+    });
   }, [viewDate]);
 
-  useEffect(() => {
-    console.log("AAAAAAAAAA");
-  }, [meals]);
+  const sortByDateTime = (a: MealData, b: MealData) => {
+    const parseTime = (timeString: string): number => {
+      if (!timeString) return 0; // Handle cases where time is missing
+      const [hours, minutes, seconds] = timeString.split(":").map(Number);
+      return hours * 3600000 + minutes * 60000 + seconds * 1000;
+    };
+
+    const aTime = parseTime(a.time);
+    const bTime = parseTime(b.time);
+
+    return aTime - bTime;
+  };
 
   // Date changes
   const goToYesterday = () => {
