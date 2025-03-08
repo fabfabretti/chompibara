@@ -7,11 +7,9 @@ import { SupabaseManager } from "../../context/supabaseManager";
 import FileLoader from "../../components/FileLoader/FileLoader";
 import MealData from "../../types/MealData";
 import MealTypeSelector from "../../components/inputs/MealTypeSelector/MealTypeSelector";
-import TextInput from "../../components/inputs/TextInput/TextInput";
+import InputField from "../../components/inputs/MealInput/MealInput";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import MealCard from "../../components/MealCard/MealCard";
-import { useNavigate } from "react-router";
-import { useLocation } from "react-router";
 
 const today = new Date().toISOString().split("T")[0];
 const now = new Date().toTimeString().slice(0, 5);
@@ -131,9 +129,9 @@ function Track() {
 
                   {/* Date selector */}
                   <div className="upload-element">
-                    <TextInput
-                      meal={meal}
-                      setMeal={setMeal}
+                    <InputField
+                      item={meal}
+                      setItem={setMeal}
                       type="date"
                       label="Date"
                       fieldName="date"
@@ -142,9 +140,9 @@ function Track() {
 
                   {/* Time selector */}
                   <div className="upload-element">
-                    <TextInput
-                      meal={meal}
-                      setMeal={setMeal}
+                    <InputField
+                      item={meal}
+                      setItem={setMeal}
                       type="time"
                       label="Time"
                       fieldName="time"
@@ -154,9 +152,9 @@ function Track() {
 
                 {/* Title selector */}
                 <div className="upload-element">
-                  <TextInput
-                    meal={meal}
-                    setMeal={setMeal}
+                  <InputField
+                    item={meal}
+                    setItem={setMeal}
                     type="text"
                     label="Meal Name"
                     fieldName="title"
@@ -165,9 +163,9 @@ function Track() {
 
                 {/* Calories selector */}
                 <div className="upload-element">
-                  <TextInput
-                    meal={meal}
-                    setMeal={setMeal}
+                  <InputField
+                    item={meal}
+                    setItem={setMeal}
                     type="number"
                     label="Calories"
                     fieldName="calories"
@@ -179,9 +177,9 @@ function Track() {
                   style={{ justifyContent: "center" }}
                 >
                   <div className="upload-element">
-                    <TextInput
-                      meal={meal}
-                      setMeal={setMeal}
+                    <InputField
+                      item={meal}
+                      setItem={setMeal}
                       type="number"
                       label="Carbohydrates (g)"
                       fieldName="carbos"
@@ -189,9 +187,9 @@ function Track() {
                   </div>
 
                   <div className="upload-element">
-                    <TextInput
-                      meal={meal}
-                      setMeal={setMeal}
+                    <InputField
+                      item={meal}
+                      setItem={setMeal}
                       type="number"
                       label="Fats (g)"
                       fieldName="fats"
@@ -199,9 +197,9 @@ function Track() {
                   </div>
 
                   <div className="upload-element">
-                    <TextInput
-                      meal={meal}
-                      setMeal={setMeal}
+                    <InputField
+                      item={meal}
+                      setItem={setMeal}
                       type="number"
                       label="Proteins (g)"
                       fieldName="protein"

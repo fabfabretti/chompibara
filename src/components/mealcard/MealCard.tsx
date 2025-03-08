@@ -20,7 +20,7 @@ import {
 import Chip from "../Chip/Chip";
 import MealTypeSelector from "../inputs/MealTypeSelector/MealTypeSelector";
 import Loadingspinner from "../Loadingspinner/Loadingspinner";
-import TextInput from "../inputs/TextInput/TextInput";
+import InputField from "../inputs/MealInput/MealInput";
 import FileLoader from "../FileLoader/FileLoader";
 
 //Props
@@ -187,7 +187,7 @@ function MealCard(props: MealCardProp) {
                 className="flex-col space-between"
                 style={{ justifyContent: "center" }}
               >
-                <TextInput
+                <InputField
                   meal={meal}
                   setMeal={setMeal}
                   type="number"
@@ -195,7 +195,7 @@ function MealCard(props: MealCardProp) {
                   fieldName="carbos"
                 />
 
-                <TextInput
+                <InputField
                   meal={meal}
                   setMeal={setMeal}
                   type="number"
@@ -203,7 +203,7 @@ function MealCard(props: MealCardProp) {
                   fieldName="fats"
                 />
 
-                <TextInput
+                <InputField
                   meal={meal}
                   setMeal={setMeal}
                   type="number"
@@ -211,7 +211,7 @@ function MealCard(props: MealCardProp) {
                   fieldName="protein"
                 />
 
-                <TextInput
+                <InputField
                   meal={meal}
                   setMeal={setMeal}
                   type="number"
@@ -230,7 +230,7 @@ function MealCard(props: MealCardProp) {
           <div className="mealinfo">
             <div>
               {isEditing ? (
-                <TextInput
+                <InputField
                   meal={meal}
                   setMeal={setMeal}
                   type="text"
@@ -260,7 +260,7 @@ function MealCard(props: MealCardProp) {
               <div>
                 <FontAwesomeIcon icon={faCalendar} />{" "}
                 {isEditing ? (
-                  <TextInput
+                  <InputField
                     meal={meal}
                     setMeal={setMeal}
                     type="date"
@@ -275,7 +275,7 @@ function MealCard(props: MealCardProp) {
               <div>
                 <FontAwesomeIcon icon={faClock} />{" "}
                 {isEditing ? (
-                  <TextInput
+                  <InputField
                     meal={meal}
                     setMeal={setMeal}
                     type="time"

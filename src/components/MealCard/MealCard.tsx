@@ -20,7 +20,7 @@ import {
 import Chip from "../Chip/Chip";
 import MealTypeSelector from "../inputs/MealTypeSelector/MealTypeSelector";
 import Loadingspinner from "../Loadingspinner/Loadingspinner";
-import TextInput from "../inputs/TextInput/TextInput";
+import InputField from "../inputs/MealInput/MealInput";
 import FileLoader from "../FileLoader/FileLoader";
 
 //Props
@@ -187,33 +187,33 @@ function MealCard(props: MealCardProp) {
                 className="flex-col space-between"
                 style={{ justifyContent: "center" }}
               >
-                <TextInput
-                  meal={meal}
-                  setMeal={setMeal}
+                <InputField
+                  item={meal}
+                  setItem={setMeal}
                   type="number"
                   label="Carbohydrates (g)"
                   fieldName="carbos"
                 />
 
-                <TextInput
-                  meal={meal}
-                  setMeal={setMeal}
+                <InputField
+                  item={meal}
+                  setItem={setMeal}
                   type="number"
                   label="Fats (g)"
                   fieldName="fats"
                 />
 
-                <TextInput
-                  meal={meal}
-                  setMeal={setMeal}
+                <InputField
+                  item={meal}
+                  setItem={setMeal}
                   type="number"
                   label="Proteins (g)"
                   fieldName="protein"
                 />
 
-                <TextInput
-                  meal={meal}
-                  setMeal={setMeal}
+                <InputField
+                  item={meal}
+                  setItem={setMeal}
                   type="number"
                   label="Calories (kcal)"
                   fieldName="calories"
@@ -230,9 +230,9 @@ function MealCard(props: MealCardProp) {
           <div className="mealinfo">
             <div>
               {isEditing ? (
-                <TextInput
-                  meal={meal}
-                  setMeal={setMeal}
+                <InputField
+                  item={meal}
+                  setItem={setMeal}
                   type="text"
                   label="Meal Name"
                   fieldName="title"
@@ -260,9 +260,9 @@ function MealCard(props: MealCardProp) {
               <div>
                 <FontAwesomeIcon icon={faCalendar} />{" "}
                 {isEditing ? (
-                  <TextInput
-                    meal={meal}
-                    setMeal={setMeal}
+                  <InputField
+                    item={meal}
+                    setItem={setMeal}
                     type="date"
                     label="Date"
                     fieldName="date"
@@ -275,9 +275,9 @@ function MealCard(props: MealCardProp) {
               <div>
                 <FontAwesomeIcon icon={faClock} />{" "}
                 {isEditing ? (
-                  <TextInput
-                    meal={meal}
-                    setMeal={setMeal}
+                  <InputField
+                    item={meal}
+                    setItem={setMeal}
                     type="time"
                     label="Time"
                     fieldName="time"

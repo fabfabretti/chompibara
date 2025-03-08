@@ -1,33 +1,33 @@
-import MealData from "../../../types/MealData";
+import ProfileData from "../../../types/ProfileData";
 
-type TextInputProps = {
-  meal: MealData;
-  setMeal: React.Dispatch<React.SetStateAction<MealData>>;
+type ProfileInputProps = {
+  profile: ProfileData;
+  setProfile: React.Dispatch<React.SetStateAction<ProfileData>>;
   label: string;
   fieldName: string;
   type: string;
   align?: string;
 };
 
-function TextInput({
-  meal,
-  setMeal,
+function ProfileInput({
+  profile,
+  setProfile,
   type,
   label,
   fieldName,
   align,
-}: TextInputProps) {
+}: ProfileInputProps) {
   return (
     <label style={{ display: "flex", alignItems: align ?? "center" }}>
       {label}
       <input
         style={{ width: "80%" }}
-        type={type}
+        type="type"
         inputMode={type === "number" ? "numeric" : undefined}
         pattern={type === "number" ? "[0-9]*" : undefined}
-        value={meal[fieldName as keyof MealData] ?? ""}
+        value={profile[fieldName as keyof ProfileData] ?? ""}
         onChange={(e) => {
-          setMeal((prev) => ({
+          setProfile((prev) => ({
             ...prev,
             [fieldName]:
               type === "number" ? parseInt(e.target.value) : e.target.value,
@@ -39,4 +39,4 @@ function TextInput({
   );
 }
 
-export default TextInput;
+export default ProfileInput;

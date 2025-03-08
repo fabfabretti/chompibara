@@ -2,21 +2,10 @@ import { useState, useEffect } from "react";
 import "./Profile.css";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import { SupabaseManager } from "../../context/supabaseManager";
+import ProfileData from "../../types/ProfileData";
+import InputField from "../../components/inputs/MealInput/MealInput";
 
-export type ProfileDBType = {
-  height: number;
-  age: number;
-  id: number;
-  name: string;
-  surname: string;
-  targetcarbo: number;
-  targetfat: number;
-  targetprotein: number;
-  weight: number;
-  targetcalories: number;
-};
-
-export const defaultProfile: ProfileDBType = {
+export const defaultProfile: ProfileData = {
   height: 0,
   age: 0,
   id: -1,
@@ -32,7 +21,7 @@ export const defaultProfile: ProfileDBType = {
 function Profile() {
   // State
   const [editing, setEditing] = useState(false);
-  const [profile, setProfile] = useState<ProfileDBType>(defaultProfile);
+  const [profile, setProfile] = useState<ProfileData>(defaultProfile);
   const [isLoading, setIsLoading] = useState(true);
   const [errorString, setErrorString] = useState("");
 
@@ -94,179 +83,138 @@ function Profile() {
 
   // Render
   return (
-    <div className=" flex-col flex-center page">
-      <div className="page-title">Profile page</div>
+    <div className="profile-component flex-col flex-center page">
+      <h1>Profile page</h1>
       {!isLoading ? (
-        <div className="profile-container card-custom flex-col flex-center">
-          <div className="profile-info flex-col flex-center">
-            <img src="pfp" alt="Profile picture" />
-            <div>
-              {editing ? (
-                <input
-                  type="string"
-                  value={profile.name}
-                  onChange={(e) => {
-                    setProfile((prev) => ({
-                      ...prev,
-                      name: e.target.value,
-                    }));
-                  }}
-                ></input>
-              ) : (
-                profile.name
-              )}
-            </div>
-            <div>
-              {editing ? (
-                <input
-                  type="string"
-                  value={profile.surname}
-                  onChange={(e) => {
-                    setProfile((prev) => ({
-                      ...prev,
-                      surname: e.target.value,
-                    }));
-                  }}
-                ></input>
-              ) : (
-                profile.surname
-              )}
-            </div>
+        <div className="profileinfo-container card-custom flex-col flex-center">
+          <img src="pfp" alt="Profile picture" />
+          <div className="profileinput-container">
+            {editing ? (
+              <InputField
+                item={profile}
+                setItem={setProfile}
+                label="Name"
+                fieldName="name"
+                type="text"
+                align="left"
+              />
+            ) : (
+              profile.name
+            )}
           </div>
-          <div className="profile-data flex-col">
-            <div className="profile-row flex-row">
-              <div>Age</div>
-              <div>
-                {editing ? (
-                  <input
-                    type="number"
-                    value={profile.age}
-                    onChange={(e) => {
-                      setProfile((prev) => ({
-                        ...prev,
-                        age: parseInt(e.target.value),
-                      }));
-                    }}
-                  ></input>
-                ) : (
-                  profile.age
-                )}
-              </div>
-            </div>
-            <div className="profile-row flex-row">
-              <div>Height</div>
-              <div>
-                {editing ? (
-                  <input
-                    type="number"
-                    value={profile.height}
-                    onChange={(e) => {
-                      setProfile((prev) => ({
-                        ...prev,
-                        height: parseInt(e.target.value),
-                      }));
-                    }}
-                  ></input>
-                ) : (
-                  profile?.height
-                )}
-              </div>
-            </div>
-            <div className="profile-row flex-row">
-              <div>Weight</div>
-              <div>
-                {editing ? (
-                  <input
-                    type="number"
-                    value={profile.weight}
-                    onChange={(e) => {
-                      setProfile((prev) => ({
-                        ...prev,
-                        weight: parseFloat(e.target.value),
-                      }));
-                    }}
-                  ></input>
-                ) : (
-                  profile.weight
-                )}
-              </div>
-            </div>
-            <div className="profile-row flex-row">
-              <div>Target calories</div>
-              <div>
-                {editing ? (
-                  <input
-                    type="number"
-                    value={profile.targetcalories}
-                    onChange={(e) => {
-                      setProfile((prev) => ({
-                        ...prev,
-                        targetcalories: parseInt(e.target.value),
-                      }));
-                    }}
-                  ></input>
-                ) : (
-                  profile.targetcalories
-                )}
-              </div>
-            </div>{" "}
-            <div className="profile-row flex-row">
-              <div>Target carbohydrates (g)</div>
-              <div>
-                {editing ? (
-                  <input
-                    type="number"
-                    value={profile.targetcarbo}
-                    onChange={(e) => {
-                      setProfile((prev) => ({
-                        ...prev,
-                        targetcarbo: parseInt(e.target.value),
-                      }));
-                    }}
-                  ></input>
-                ) : (
-                  profile?.targetcarbo
-                )}
-              </div>
-            </div>{" "}
-            <div className="profile-row flex-row">
-              <div>Target protein (g)</div>
-              <div>
-                {editing ? (
-                  <input
-                    type="number"
-                    value={profile.targetprotein}
-                    onChange={(e) => {
-                      setProfile((prev) => ({
-                        ...prev,
-                        targetprotein: parseInt(e.target.value),
-                      }));
-                    }}
-                  ></input>
-                ) : (
-                  profile?.targetprotein
-                )}
-              </div>
-            </div>
-            <div className="profile-row flex-row">
-              <div>Target fats (g)</div>
-              <div>
-                {editing ? (
-                  <input
-                    type="number"
-                    value={profile.targetfat}
-                    onChange={(e) => {
-                      setProfile((prev) => ({
-                        ...prev,
-                        targetfat: parseInt(e.target.value),
-                      }));
-                    }}
-                  ></input>
-                ) : (
-                  profile.targetfat
-                )}
-              </div>
-            </div>
+          <div className="profileinput-container">
+            {editing ? (
+              <InputField
+                item={profile}
+                setItem={setProfile}
+                label="Surname"
+                fieldName="surname"
+                type="text"
+                align="left"
+              />
+            ) : (
+              profile.surname
+            )}
+          </div>
+          <div className="profileinput-container">
+            {editing ? (
+              <InputField
+                item={profile}
+                setItem={setProfile}
+                label="Age"
+                fieldName="age"
+                type="number"
+                align="left"
+              />
+            ) : (
+              "Age: " + profile.age
+            )}
+          </div>
+          <div className="profileinput-container">
+            {" "}
+            {editing ? (
+              <InputField
+                item={profile}
+                setItem={setProfile}
+                label="Height"
+                fieldName="height"
+                type="number"
+                align="left"
+              />
+            ) : (
+              "Height: " + profile.height
+            )}
+          </div>
+          <div className="profileinput-container">
+            {editing ? (
+              <InputField
+                item={profile}
+                setItem={setProfile}
+                label="Weight"
+                fieldName="weight"
+                type="number"
+                align="left"
+              />
+            ) : (
+              "Weight: " + profile.weight
+            )}
+          </div>
+          <div className="profileinput-container">
+            {editing ? (
+              <InputField
+                item={profile}
+                setItem={setProfile}
+                label="Target calories"
+                fieldName="targetcalories"
+                type="number"
+                align="left"
+              />
+            ) : (
+              "Target calories: " + profile.targetcalories + " kcal"
+            )}
+          </div>
+
+          <div className="profileinput-container">
+            {editing ? (
+              <InputField
+                item={profile}
+                setItem={setProfile}
+                label="Target carbos: "
+                fieldName="targetcarbos"
+                type="number"
+                align="left"
+              />
+            ) : (
+              "Target carbos: " + profile.targetcarbo + "g"
+            )}
+          </div>
+          <div className="profileinput-container">
+            {editing ? (
+              <InputField
+                item={profile}
+                setItem={setProfile}
+                label="Target protein: "
+                fieldName="targetprotein"
+                type="number"
+                align="left"
+              />
+            ) : (
+              "Target protein: " + profile.targetprotein + "g"
+            )}
+          </div>
+          <div className="profileinput-container">
+            {editing ? (
+              <InputField
+                item={profile}
+                setItem={setProfile}
+                label="Target carbos: "
+                fieldName="targetcarbos"
+                type="number"
+                align="left"
+              />
+            ) : (
+              "Target carbos: " + profile.targetcarbo + "g"
+            )}
           </div>
           {errorString}
           <button className="primary" onClick={() => changeEditStatus()}>
