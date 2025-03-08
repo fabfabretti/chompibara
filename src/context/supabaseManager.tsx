@@ -3,7 +3,7 @@ import {
   PostgrestError,
   SupabaseClient,
 } from "@supabase/supabase-js";
-import MealData from "../type/MealData";
+import MealData from "../types/MealData";
 import { defaultProfile, ProfileDBType } from "../pages/profile/Profile";
 // Database access
 const DBurl = import.meta.env.VITE_SUPABASE_URL;

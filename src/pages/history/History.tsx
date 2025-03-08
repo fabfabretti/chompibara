@@ -2,12 +2,12 @@ import "./History.css";
 
 import { useEffect, useState } from "react";
 
-import MealCard from "../../components/mealcard/MealCard";
+import MealCard from "../../components/MealCard/MealCard";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 
-import MealData from "../../type/MealData";
+import MealData from "../../types/MealData";
 
-import { SupabaseManager } from "../../components/supabaseManager";
+import { SupabaseManager } from "../../context/supabaseManager";
 import DailyDashboard from "../../components/DailyStat/DailyStat";
 
 function History() {

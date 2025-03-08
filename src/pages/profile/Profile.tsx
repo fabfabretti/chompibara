@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Profile.css";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
-import { SupabaseManager } from "../../components/supabaseManager";
+import { SupabaseManager } from "../../context/supabaseManager";
 
 export type ProfileDBType = {
   height: number;

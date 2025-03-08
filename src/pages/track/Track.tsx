@@ -2,14 +2,14 @@ import "./Track.css";
 
 import { useState } from "react";
 
-import { SupabaseManager } from "../../components/supabaseManager";
+import { SupabaseManager } from "../../context/supabaseManager";
 
 import FileLoader from "../../components/FileLoader/FileLoader";
-import MealData from "../../type/MealData";
+import MealData from "../../types/MealData";
 import MealTypeSelector from "../../components/inputs/MealTypeSelector/MealTypeSelector";
 import TextInput from "../../components/inputs/TextInput/TextInput";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
-import MealCard from "../../components/mealcard/MealCard";
+import MealCard from "../../components/MealCard/MealCard";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router";
 

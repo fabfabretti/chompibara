@@ -1,4 +1,4 @@
-import MealData from "../type/MealData.tsx";
+import MealData from "../types/MealData.tsx";
 
 const mockData: MealData[] = [
   {

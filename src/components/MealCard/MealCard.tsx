@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import MealData from "../../types/MealData";
 import { SupabaseManager } from "../../context/supabaseManager";
-import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart";
+import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
@@ -220,7 +220,7 @@ function MealCard(props: MealCardProp) {
                 />
               </div>
             ) : (
-              <MacroDonutChart2
+              <MacroDonutChart
                 meals={[meal]}
                 height={100}
                 legendPosition="bottom"

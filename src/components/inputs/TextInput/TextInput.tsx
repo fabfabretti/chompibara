@@ -1,4 +1,4 @@
-import MealData from "../../../type/MealData";
+import MealData from "../../../types/MealData";
 
 type TextInputProps = {
   meal: MealData;

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import MealData from "../../type/MealData";
-import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart";
-import MacroProgressRing from "../MacroProgressRing/MacroProgressRing";
-
-import { SupabaseManager } from "../supabaseManager";
+import MealData from "../../types/MealData";
+import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
+import MacroProgressRing from "../graphs/MacroProgressRing/MacroProgressRing";
+import { SupabaseManager } from "../../context/supabaseManager";
 import { defaultProfile } from "../../pages/profile/Profile";
 import MacroStackedChart from "../graphs/MacroStackedChart/MacroStackedChart";
 
@@ -47,7 +46,7 @@ function DailyDashboard({ meals }: DailyDashboardProps) {
     >
       <h1>Daily stats</h1>
       <div className="flex-col" style={{ gap: "10px", marginTop: "10px" }}>
-        <MacroDonutChart2
+        <MacroDonutChart
           meals={meals}
           height={150}
           targetCalories={profile.targetcalories}

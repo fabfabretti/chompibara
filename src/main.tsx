@@ -6,7 +6,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
 
 import Homepage from "./pages/homepage/Homepage.tsx";
-import Navbar from "./components/navbar/Navbar.tsx";
+import Navbar from "./components/Navbar/Navbar.tsx";
 import History from "./pages/history/History.tsx";
 import Track from "./pages/track/Track.tsx";
 import Profile from "./pages/profile/Profile.tsx";

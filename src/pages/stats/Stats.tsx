@@ -1,12 +1,10 @@
 import { useState } from "react";
-import InputCustom from "../../components/InputCustom/InputCustom";
-import MacroDonutChart from "../../components/MacroDonutChart/MacroDonutChart";
-import MealData from "../../type/MealData";
-import { SupabaseManager } from "../../components/supabaseManager";
+import MacroDonutChart from "../../components/graphs/MacroDonutChart/MacroDonutChart";
+import MealData from "../../types/MealData";
+import { SupabaseManager } from "../../context/supabaseManager";
 import MacroStackedChart from "../../components/graphs/MacroStackedChart/MacroStackedChart";
 
 const today = new Date().toISOString().split("T")[0];
-const now = new Date().toTimeString().slice(0, 5);
 
 function Stats() {
   //State
