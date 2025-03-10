@@ -4,7 +4,8 @@ import {
   SupabaseClient,
 } from "@supabase/supabase-js";
 import MealData from "../types/MealData";
-import { defaultProfile, ProfileDBType } from "../pages/profile/Profile";
+import ProfileData from "../types/ProfileData";
+import { defaultProfile } from "../types/defaultProfile";
 // Database access
 const DBurl = import.meta.env.VITE_SUPABASE_URL;
 const DBkey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -132,13 +133,13 @@ export class SupabaseManager {
   }
   // Profile functions
 
-  async getProfile(): Promise<ProfileDBType> {
+  async getProfile(): Promise<ProfileData> {
     const { data, error } = await supabase.from("ProfileDB").select("*");
     if (error) this.throwError("getProfile", error);
     return data?.[0] ?? defaultProfile;
   }
 
-  async setProfile(profile: ProfileDBType): Promise<boolean> {
+  async setProfile(profile: ProfileData): Promise<boolean> {
     if (!profile.id) {
       console.error("Missing ID!");
       return false;

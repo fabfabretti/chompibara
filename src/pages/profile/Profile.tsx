@@ -4,20 +4,7 @@ import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import { SupabaseManager } from "../../context/supabaseManager";
 import ProfileData from "../../types/ProfileData";
 import InputField from "../../components/inputs/MealInput/MealInput";
-
-export const defaultProfile: ProfileData = {
-  height: 0,
-  age: 0,
-  id: -1,
-  name: "name",
-  surname: "surname",
-  targetcarbo: 0,
-  targetfat: 0,
-  targetcalories: 0,
-  targetprotein: 0,
-  weight: 0,
-};
-
+import { defaultProfile } from "../../types/defaultProfile";
 function Profile() {
   // State
   const [editing, setEditing] = useState(false);
@@ -87,35 +74,39 @@ function Profile() {
       <h1>Profile page</h1>
       {!isLoading ? (
         <div className="profileinfo-container card-custom flex-col flex-center">
-          <img src="pfp" alt="Profile picture" />
-          <div className="profileinput-container">
-            {editing ? (
-              <InputField
-                item={profile}
-                setItem={setProfile}
-                label="Name"
-                fieldName="name"
-                type="text"
-                align="left"
-              />
-            ) : (
-              profile.name
-            )}
+          <img alt="Profile picture" src="chompibara.png" />
+
+          <div className="namesurname-container flex-row gap10">
+            <div className="profileinput-container">
+              {editing ? (
+                <InputField
+                  item={profile}
+                  setItem={setProfile}
+                  label="Name"
+                  fieldName="name"
+                  type="text"
+                  align="left"
+                />
+              ) : (
+                profile.name
+              )}
+            </div>
+            <div className="profileinput-container">
+              {editing ? (
+                <InputField
+                  item={profile}
+                  setItem={setProfile}
+                  label="Surname"
+                  fieldName="surname"
+                  type="text"
+                  align="left"
+                />
+              ) : (
+                profile.surname
+              )}
+            </div>
           </div>
-          <div className="profileinput-container">
-            {editing ? (
-              <InputField
-                item={profile}
-                setItem={setProfile}
-                label="Surname"
-                fieldName="surname"
-                type="text"
-                align="left"
-              />
-            ) : (
-              profile.surname
-            )}
-          </div>
+
           <div className="profileinput-container">
             {editing ? (
               <InputField

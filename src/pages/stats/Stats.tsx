@@ -3,7 +3,8 @@ import MacroDonutChart from "../../components/graphs/MacroDonutChart/MacroDonutC
 import MealData from "../../types/MealData";
 import { SupabaseManager } from "../../context/supabaseManager";
 import MacroStackedChart from "../../components/graphs/MacroStackedChart/MacroStackedChart";
-import { defaultProfile, ProfileDBType } from "../profile/Profile";
+import { defaultProfile } from "../../types/defaultProfile";
+import ProfileData from "../../types/ProfileData";
 
 const today = new Date().toISOString().split("T")[0];
 const aWeekAgo = new Date(); // Create a new Date object
@@ -16,7 +17,7 @@ function Stats() {
   const [startDay, setStartDay] = useState(weekAgo);
   const [endDay, setEndDay] = useState(today);
   const [meals, setMeals] = useState<MealData[]>([]);
-  const [profile, setProfile] = useState<ProfileDBType>(defaultProfile);
+  const [profile, setProfile] = useState<ProfileData>(defaultProfile);
 
   const supabaseManager = SupabaseManager.getInstance();
 

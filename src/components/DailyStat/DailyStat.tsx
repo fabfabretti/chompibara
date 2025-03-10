@@ -3,7 +3,7 @@ import MealData from "../../types/MealData";
 import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import MacroProgressRing from "../graphs/MacroProgressRing/MacroProgressRing";
 import { SupabaseManager } from "../../context/supabaseManager";
-import { defaultProfile } from "../../pages/profile/Profile";
+import { defaultProfile } from "../../types/defaultProfile";
 import MacroStackedChart from "../graphs/MacroStackedChart/MacroStackedChart";
 
 type DailyDashboardProps = {
