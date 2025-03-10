@@ -13,7 +13,7 @@ function Profile() {
   const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState<ProfileData>(defaultProfile);
   const [oldProfile, setOldProfile] = useState<ProfileData>(defaultProfile);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorString, setErrorString] = useState("");
 
   //DB manager
@@ -21,8 +21,10 @@ function Profile() {
 
   // Effects (load profile)
   useEffect(() => {
-    supabaseManager.getProfile().then((profile) => setProfile(profile));
-    setIsLoading(false);
+    supabaseManager.getProfile().then((profile) => {
+      setProfile(profile);
+      setIsLoading(false);
+    });
   }, []);
 
   // Client side input validation

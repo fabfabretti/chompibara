@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-import MacroDonutChart from "../../components/graphs/MacroDonutChart/MacroDonutChart";
-import MealData from "../../types/MealData";
+
 import { SupabaseManager } from "../../context/supabaseManager";
-import MacroStackedChart from "../../components/graphs/MacroStackedChart/MacroStackedChart";
-import { defaultProfile } from "../../types/defaultProfile";
+
 import ProfileData from "../../types/ProfileData";
+import { defaultProfile } from "../../types/defaultProfile";
+import MealData from "../../types/MealData";
+
+import MacroDonutChart from "../../components/graphs/MacroDonutChart/MacroDonutChart";
+import MacroStackedChart from "../../components/graphs/MacroStackedChart/MacroStackedChart";
+import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 
 const today = new Date().toISOString().split("T")[0];
 const aWeekAgo = new Date(); // Create a new Date object
@@ -19,26 +23,47 @@ function Stats() {
   const [meals, setMeals] = useState<MealData[]>([]);
   const [profile, setProfile] = useState<ProfileData>(defaultProfile);
 
+  const [errorString, setErrorString] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
   const supabaseManager = SupabaseManager.getInstance();
 
   //Functions
   const setMealsFromRange = () => {
+    if (new Date(startDay) > new Date(endDay)) {
+      setErrorString(
+        "La data di inizio non può essere successiva alla data di fine."
+      );
+      return;
+    }
+
+    setErrorString(""); // Reset errore se le date sono valide
+    setIsLoading(true);
+
     supabaseManager
       .getMealsInDateRange(new Date(startDay), new Date(endDay))
-      .then((result) => setMeals(result));
+      .then((result) => {
+        setMeals(result);
+        setIsLoading(false);
+      });
   };
 
   //Effects
   useEffect(() => {
-    setMealsFromRange();
+    setIsLoading(true);
+    //Get profile for target info
     supabaseManager.getProfile().then((profile) => {
       setProfile(profile);
     });
+
+    //Compute graphs
+    setMealsFromRange();
   }, []);
 
   //Render
   return (
     <div className="page">
+      <h1>Stats</h1>
       <div className="flexrow gap20">
         <label>
           Start date:
@@ -60,12 +85,19 @@ function Stats() {
         <button onClick={() => setMealsFromRange()}>Calculate</button>
       </div>
 
-      <MacroDonutChart meals={meals} average={true} />
-      <MacroStackedChart
-        meals={meals}
-        cumulative={false}
-        target={profile.targetcalories}
-      />
+      {errorString}
+      {isLoading ? (
+        <Loadingspinner />
+      ) : (
+        <div className="charts-container flex-col gap20">
+          <MacroDonutChart meals={meals} average={true} />
+          <MacroStackedChart
+            meals={meals}
+            cumulative={false}
+            target={profile.targetcalories}
+          />
+        </div>
+      )}
     </div>
   );
 }
