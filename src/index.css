@@ -80,6 +80,13 @@ h6 {
   font-family: var(--font-headings);
 }
 
+h1 {
+  font-family: Caprasimo;
+}
+h2 {
+  font-family: Caprasimo;
+}
+
 /* WE HAVE TAILWIND AT HOME*/
 .flex-col {
   display: flex;
@@ -100,15 +107,25 @@ h6 {
   justify-content: space-around;
   align-items: center;
 }
+.flex-between {
+  justify-content: space-between;
+  align-items: center;
+}
 .flex-start {
   align-items: flex-start;
 }
 
-gap20 {
+.gap20 {
   gap: 20px;
 }
-gap10 {
+.gap10 {
   gap: 10px;
+}
+.width100 {
+  width: 100%;
+}
+.text-center {
+  text-align: center;
 }
 
 /* Animazioni */

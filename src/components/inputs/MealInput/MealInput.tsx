@@ -16,7 +16,13 @@ function InputField<T>({
   align,
 }: InputFieldProps<T>) {
   return (
-    <label style={{ display: "flex", alignItems: align ?? "center" }}>
+    <label
+      style={{
+        display: "flex",
+        alignItems: align ?? "center",
+        textAlign: "left",
+      }}
+    >
       {label}
       <input
         style={{ width: "80%" }}
