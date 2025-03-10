@@ -108,7 +108,10 @@ function Profile() {
     <div className="profile-component flex-col flex-center page text-center ">
       <h1>Profile page</h1>
       {!isLoading ? (
-        <div className="profileinfo-container card-custom flex-col flex-center">
+        <div
+          className="profileinfo-container card-custom flex-col flex-center"
+          style={{ maxWidth: "600px" }}
+        >
           {/** Name, surname, pfp placeholder */}
           <div
             className="namesurnamepfp-container flex-col flex-center"
@@ -263,7 +266,9 @@ function Profile() {
             </div>
           </div>
 
-          {errorString}
+          <div className="errorstring-container color-primary">
+            {errorString}
+          </div>
 
           {/**Action button */}
           {editing ? (
