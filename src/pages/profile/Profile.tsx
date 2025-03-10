@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
 import "./Profile.css";
-import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
+
+import { useState, useEffect } from "react";
 import { SupabaseManager } from "../../context/supabaseManager";
 import ProfileData from "../../types/ProfileData";
-import InputField from "../../components/inputs/MealInput/MealInput";
 import { defaultProfile } from "../../types/defaultProfile";
+
+import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
+import InputField from "../../components/inputs/MealInput/MealInput";
+
 function Profile() {
   // State
   const [editing, setEditing] = useState(false);
@@ -22,6 +25,7 @@ function Profile() {
     setIsLoading(false);
   }, []);
 
+  // Client side input validation
   const profileIsValid = () => {
     let errors = [];
 
@@ -66,7 +70,7 @@ function Profile() {
     return errors.length === 0;
   };
 
-  //Update data
+  //Update data on the database
   const updateProfile = async () => {
     if (!profileIsValid()) return;
     supabaseManager.setProfile(profile).then(() => setIsLoading(false));
@@ -75,11 +79,10 @@ function Profile() {
   // Discard changes
   const discardEdits = () => {
     setProfile(oldProfile);
-
     setEditing((prev) => !prev);
   };
 
-  //Edit profile data
+  //Edit profile data (enter/exit edit mode)
   const changeEditStatus = () => {
     setEditing((prev) => !prev);
     if (editing) {
@@ -107,7 +110,10 @@ function Profile() {
       {!isLoading ? (
         <div className="profileinfo-container card-custom flex-col flex-center">
           {/** Name, surname, pfp placeholder */}
-          <div className="namesurnamepfp-container flex-col flex-center">
+          <div
+            className="namesurnamepfp-container flex-col flex-center"
+            style={{ color: "var(--primary-color)" }}
+          >
             <img alt="Profile picture" src="chompibara.png" />
             <div className="namesurname-container flex-row gap10">
               <div className="profileinput-container">
@@ -259,6 +265,7 @@ function Profile() {
 
           {errorString}
 
+          {/**Action button */}
           {editing ? (
             <div className="flex-row gap20">
               <button className="primary" onClick={() => changeEditStatus()}>
