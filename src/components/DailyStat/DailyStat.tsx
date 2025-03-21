@@ -42,42 +42,50 @@ function DailyDashboard({ meals }: DailyDashboardProps) {
         height: "100%",
         maxWidth: "400px",
         color: "var(--on-primary-color)",
+        gap: "30px",
       }}
     >
-      <h1>Daily stats</h1>
-      <div className="flex-col" style={{ gap: "10px", marginTop: "10px" }}>
-        <MacroDonutChart
-          meals={meals}
-          height={150}
-          targetCalories={profile.targetcalories}
-        />
-      </div>
-      <div className="macrorings-container">
-        <div className="macros flex-row flex-center">
-          <MacroProgressRing
-            label="Carbs"
-            target={profile.targetcarbo}
-            value={totalCarbs}
-          />
-          <MacroProgressRing
-            label="Protein"
-            target={profile.targetprotein}
-            value={totalProtein}
-          />
-          <MacroProgressRing
-            label="Fats"
-            target={profile.targetfat}
-            value={totalFats}
+      <div>
+        <h2>Daily stats</h2>
+        <div
+          className="macrodonutchart-container flex-col"
+          style={{ marginTop: "10px" }}
+        >
+          <MacroDonutChart
+            meals={meals}
+            height={150}
+            targetCalories={profile.targetcalories}
           />
         </div>
+        <div className="macrorings-container">
+          <div className="macros flex-row flex-center">
+            <MacroProgressRing
+              label="Carbs"
+              target={profile.targetcarbo}
+              value={totalCarbs}
+            />
+            <MacroProgressRing
+              label="Protein"
+              target={profile.targetprotein}
+              value={totalProtein}
+            />
+            <MacroProgressRing
+              label="Fats"
+              target={profile.targetfat}
+              value={totalFats}
+            />
+          </div>
+        </div>
       </div>
-      <h2>Cumulative calories by hour</h2>
       <div>
-        <MacroStackedChart
-          meals={meals}
-          target={profile.targetcalories}
-          cumulative={true}
-        />
+        <h2>Cumulative calories by hour</h2>
+        <div>
+          <MacroStackedChart
+            meals={meals}
+            target={profile.targetcalories}
+            cumulative={true}
+          />
+        </div>
       </div>
     </div>
   );

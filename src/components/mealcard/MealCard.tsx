@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import MealData from "../../types/MealData";
 import { SupabaseManager } from "../../context/supabaseManager";
-import MacroDonutChart2 from "../MacroDonutChart/MacroDonutChart";
+import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
@@ -158,8 +158,11 @@ function MealCard(props: MealCardProp) {
       {isUpdating ? (
         <Loadingspinner />
       ) : (
-        <div className="flexrow gap20 fadein-card">
-          <div className="image-container">
+        <div className="cardcontent-container flexrow gap20 fadein-card">
+          <div
+            className="image-container flex-row flex-center"
+            style={{ width: "100px" }}
+          >
             {isEditing ? (
               <FileLoader image={image} setImage={setImage} />
             ) : !meal.photo ? (
@@ -171,68 +174,67 @@ function MealCard(props: MealCardProp) {
                   height: "100%",
                 }}
               >
+                {/** Placeholder photo */}
                 <div>No image was uploaded</div>
               </div>
             ) : (
               <img
+                style={{ width: "100px" }}
                 className="mealphoto"
                 src={meal.photo}
                 alt={"Food photo for meal " + meal.id}
               />
             )}
           </div>
-          <div style={{ minWidth: "90px" }}>
+          <div
+            className="macros-container flex-col flex-center"
+            style={{ minWidth: "100px", alignItems: "center" }}
+          >
             {isEditing ? (
-              <div
-                className="flex-col space-between"
-                style={{ justifyContent: "center" }}
-              >
+              <div className="editingmacros-container flex-col flex-center">
                 <InputField
-                  meal={meal}
-                  setMeal={setMeal}
-                  type="number"
-                  label="Carbohydrates (g)"
-                  fieldName="carbos"
-                />
-
-                <InputField
-                  meal={meal}
-                  setMeal={setMeal}
-                  type="number"
-                  label="Fats (g)"
-                  fieldName="fats"
-                />
-
-                <InputField
-                  meal={meal}
-                  setMeal={setMeal}
-                  type="number"
-                  label="Proteins (g)"
-                  fieldName="protein"
-                />
-
-                <InputField
-                  meal={meal}
-                  setMeal={setMeal}
+                  item={meal}
+                  setItem={setMeal}
                   type="number"
                   label="Calories (kcal)"
                   fieldName="calories"
                 />
+                <InputField
+                  item={meal}
+                  setItem={setMeal}
+                  type="number"
+                  label="Carbohydrates (g)"
+                  fieldName="carbos"
+                />
+                <InputField
+                  item={meal}
+                  setItem={setMeal}
+                  type="number"
+                  label="Proteins (g)"
+                  fieldName="protein"
+                />
+                <InputField
+                  item={meal}
+                  setItem={setMeal}
+                  type="number"
+                  label="Fats (g)"
+                  fieldName="fats"
+                />
               </div>
             ) : (
-              <MacroDonutChart2
+              <MacroDonutChart
                 meals={[meal]}
                 height={100}
                 legendPosition="bottom"
               />
             )}
           </div>
-          <div className="mealinfo">
+          <div className="mealinfo" style={{ width: "100%" }}>
             <div>
               {isEditing ? (
                 <InputField
-                  meal={meal}
-                  setMeal={setMeal}
+                  item={meal}
+                  setItem={setMeal}
                   type="text"
                   label="Meal Name"
                   fieldName="title"
@@ -261,8 +263,8 @@ function MealCard(props: MealCardProp) {
                 <FontAwesomeIcon icon={faCalendar} />{" "}
                 {isEditing ? (
                   <InputField
-                    meal={meal}
-                    setMeal={setMeal}
+                    item={meal}
+                    setItem={setMeal}
                     type="date"
                     label="Date"
                     fieldName="date"
@@ -276,8 +278,8 @@ function MealCard(props: MealCardProp) {
                 <FontAwesomeIcon icon={faClock} />{" "}
                 {isEditing ? (
                   <InputField
-                    meal={meal}
-                    setMeal={setMeal}
+                    item={meal}
+                    setItem={setMeal}
                     type="time"
                     label="Time"
                     fieldName="time"
@@ -295,7 +297,12 @@ function MealCard(props: MealCardProp) {
                   <button onClick={discardEditing}>Discard</button>
                 </div>
               ) : (
-                <button onClick={() => setIsEditing(true)}>
+                <button
+                  onClick={() => {
+                    setIsEditing(true);
+                    setOldMeal(meal);
+                  }}
+                >
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
               )}

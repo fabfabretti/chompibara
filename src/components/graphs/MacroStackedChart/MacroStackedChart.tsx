@@ -112,7 +112,13 @@ function MacroStackedChart({
       <AreaChart width={chartWidth} height={250} data={dataPoints}>
         <CartesianGrid {...gridLineStyle} />
         <XAxis dataKey="dateTime" tickFormatter={xAxisFormatter} />
-        <YAxis domain={[0, maxYValue * 1.1]} />
+        <YAxis
+          domain={[0, maxYValue * 1.2]}
+          ticks={[...Array(Math.floor(maxYValue / 500)).keys()]
+            .map((i) => i * 500)
+            .concat(target || [])}
+        />
+
         <Tooltip />
         <Area
           type="monotone"

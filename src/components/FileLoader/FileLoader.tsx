@@ -25,17 +25,28 @@ function FileLoader(props: FileLoaderProps) {
     }
   };
   return (
-    <div className="upload-file" onClick={handleUploadClick}>
-      <div className="filedropper-text1">
-        Drop your picture to import your meal
+    <div
+      style={{ cursor: "pointer" }}
+      className="upload-file"
+      onClick={handleUploadClick}
+    >
+      <div style={{ textAlign: "center" }} className="filedropper-text2">
+        Click to {props.image ? "change" : "import"} your meal photo
       </div>
-      <div className="filedropper-text2">or click to browse</div>
       <input
+        style={{ display: "none" }}
         type="file"
         ref={fileInputRef}
         accept="image/png, image/jpeg"
         onChange={handleFileChange}
       />
+      <div style={{ color: "var(--primary-color)", minWidth: "100px" }}>
+        {props.image
+          ? props.image.name.length > 10
+            ? props.image.name.slice(0, 10) + "..."
+            : props.image.name
+          : ""}
+      </div>
     </div>
   );
 }

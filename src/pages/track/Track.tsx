@@ -38,7 +38,9 @@ function Track() {
   const [meal, setMeal] = useState(defaultMeal);
 
   // Functions
-  const isValid = () => {
+
+  // Check input
+  const mealIsValid = () => {
     let errors = [];
 
     if (meal.title.trim() === "") {
@@ -81,8 +83,9 @@ function Track() {
     return errors.length === 0;
   };
 
+  // Upload data and image if present
   const submitData = async () => {
-    if (isValid()) {
+    if (mealIsValid()) {
       console.log("Initiating upload");
       setIsUploading(true);
       let result: number | null = null;
@@ -108,18 +111,14 @@ function Track() {
   //Render
   return (
     <div className="track-page page">
-      {hasBeenUploaded ? (
-        <h1 className="page-title">Meal uploaded!</h1>
-      ) : (
-        <h1 className="page-title">Add a meal</h1>
-      )}
+      {hasBeenUploaded ? <h1>Meal uploaded!</h1> : <h1>Add a meal</h1>}
 
       {!hasBeenUploaded ? (
-        <div className="upload-container">
+        <div className="upload-container ">
           {isUploading ? (
             <Loadingspinner />
           ) : (
-            <div>
+            <div className="flex-col flex-center gap20">
               {/* Upload file */}
               <FileLoader image={image} setImage={setImage} />
 
