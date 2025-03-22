@@ -8,6 +8,8 @@ import InputField from "../../components/inputs/MealInput/MealInput";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import ExerciseTypeSelector from "../../components/inputs/ExerciseTypeSelector/ExerciseTypeSelector";
 
+import { SupabaseManager } from "../../context/supabaseManager";
+
 function Exercise() {
   //State
   const [errorString, setErrorString] = useState("");
@@ -30,12 +32,11 @@ function Exercise() {
 
   const submitData = async () => {
     if (exerciseIsValid()) {
-      console.log("Initiating upload");
       setIsUploading(true);
       let result: number | null = null;
 
-      // const supabaseManager = SupabaseManager.getInstance();
-      // result = await supabaseManager.createExercise(exercise);
+      const supabaseManager = SupabaseManager.getInstance();
+      result = await supabaseManager.createExercise(exercise);
 
       setIsUploading(false);
       setHasBeenUploaded(true);

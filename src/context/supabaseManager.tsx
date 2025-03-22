@@ -6,6 +6,7 @@ import {
 import MealData from "../types/MealData";
 import ProfileData from "../types/ProfileData";
 import { defaultProfile } from "../types/defaultProfile";
+import { ExerciseData } from "../types/ExerciseTypes";
 // Database access
 const DBurl = import.meta.env.VITE_SUPABASE_URL;
 const DBkey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -13,6 +14,7 @@ const supabase = createClient(DBurl, DBkey);
 
 const mealDB = "MealDataDB";
 const mealImgStorage = "meal-images";
+const exerciseDB = "ExerciseDB";
 
 export class SupabaseManager {
   private static instance: SupabaseManager;
@@ -81,6 +83,7 @@ export class SupabaseManager {
     if (error) this.throwError("getAllMeals", error);
     return data ?? [];
   }
+
   async getAllDailyMeals(date: Date): Promise<MealData[]> {
     const formattedDate = date.toISOString().split("T")[0]; // Convert Date in "YYYY-MM-DD"
 
@@ -131,6 +134,29 @@ export class SupabaseManager {
 
     return true;
   }
+
+  async updateMeal(meal: MealData): Promise<boolean> {
+    const { error, count } = await supabase
+      .from(mealDB)
+      .update(meal, { count: "exact" })
+      .eq("id", meal.id);
+
+    if (error) {
+      this.throwError("updateMeal", error);
+      return false;
+    }
+    if (count === 0) {
+      this.throwError(
+        "updateMeal",
+        undefined,
+        "The meal you're trying to update doesn't exist anymore."
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   // Profile functions
 
   async getProfile(): Promise<ProfileData> {
@@ -195,27 +221,30 @@ export class SupabaseManager {
     return publicUrl;
   };
 
-  // Meal update
-  async updateMeal(meal: MealData): Promise<boolean> {
-    const { error, count } = await supabase
-      .from(mealDB)
-      .update(meal, { count: "exact" })
-      .eq("id", meal.id);
+  // Exercise functions
+  async createExercise(exercise: ExerciseData) {
+    // #2: upload meal
+    const { data, error } = await this.supabase
+      .from(exerciseDB)
+      .insert([
+        {
+          name: exercise.name,
+          date: exercise.date,
+          time: exercise.time,
+          calories: exercise.calories,
+          duration: exercise.duration,
+          type: exercise.type,
+        },
+      ])
+      .select("id") // Recupera l'ID del pasto creato
+      .single();
 
     if (error) {
-      this.throwError("updateMeal", error);
-      return false;
-    }
-    if (count === 0) {
-      this.throwError(
-        "updateMeal",
-        undefined,
-        "The meal you're trying to update doesn't exist anymore."
-      );
-      return false;
+      this.throwError("createExercise", error);
+      return null;
     }
 
-    return true;
+    return data?.id ?? null;
   }
 
   //Error handling
