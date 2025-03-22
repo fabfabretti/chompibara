@@ -3,7 +3,9 @@ import {
   PostgrestError,
   SupabaseClient,
 } from "@supabase/supabase-js";
-import MealData from "../types/MealData";
+
+import { MealData } from "../types/MealTypes";
+
 import ProfileData from "../types/ProfileData";
 import { defaultProfile } from "../types/defaultProfile";
 import { ExerciseData } from "../types/ExerciseTypes";
@@ -113,28 +115,6 @@ export class SupabaseManager {
     return data ?? [];
   }
 
-  async deleteMeal(id: number): Promise<boolean> {
-    const { error, count } = await supabase
-      .from(mealDB)
-      .delete({ count: "exact" })
-      .eq("id", id);
-
-    if (error) {
-      this.throwError("deleteMeal", error);
-      return false;
-    }
-    if (count === 0) {
-      this.throwError(
-        "deleteMeal",
-        undefined,
-        "The meal you're trying to delete doesn't exist anymore."
-      );
-      return false;
-    }
-
-    return true;
-  }
-
   async updateMeal(meal: MealData): Promise<boolean> {
     const { error, count } = await supabase
       .from(mealDB)
@@ -157,6 +137,56 @@ export class SupabaseManager {
     return true;
   }
 
+  async deleteMeal(id: number): Promise<boolean> {
+    const { error, count } = await supabase
+      .from(mealDB)
+      .delete({ count: "exact" })
+      .eq("id", id);
+
+    if (error) {
+      this.throwError("deleteMeal", error);
+      return false;
+    }
+    if (count === 0) {
+      this.throwError(
+        "deleteMeal",
+        undefined,
+        "The meal you're trying to delete doesn't exist anymore."
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  uploadMealFile = async (file: File): Promise<string> => {
+    const timestamp = Date.now();
+    const fileExtension = file.name.split(".").pop();
+    const fileName = `uploads/${timestamp}.${fileExtension}`;
+
+    const { data, error } = await supabase.storage
+      .from(mealImgStorage)
+      .upload(fileName, file);
+
+    if (error) {
+      this.throwError("uploadMealFile", undefined, error.name + error.message);
+      return "";
+    }
+
+    //URL retrieval
+    const publicUrl = supabase.storage
+      .from(mealImgStorage)
+      .getPublicUrl(data.path).data.publicUrl;
+    if (!publicUrl) {
+      this.throwError(
+        "uploadMealFile",
+        undefined,
+        "Error retrieving public URL"
+      );
+      return "";
+    }
+    return publicUrl;
+  };
   // Profile functions
 
   async getProfile(): Promise<ProfileData> {
@@ -191,36 +221,6 @@ export class SupabaseManager {
     return true;
   }
 
-  // Image upload
-  uploadMealFile = async (file: File): Promise<string> => {
-    const timestamp = Date.now();
-    const fileExtension = file.name.split(".").pop();
-    const fileName = `uploads/${timestamp}.${fileExtension}`;
-
-    const { data, error } = await supabase.storage
-      .from(mealImgStorage)
-      .upload(fileName, file);
-
-    if (error) {
-      this.throwError("uploadMealFile", undefined, error.name + error.message);
-      return "";
-    }
-
-    //URL retrieval
-    const publicUrl = supabase.storage
-      .from(mealImgStorage)
-      .getPublicUrl(data.path).data.publicUrl;
-    if (!publicUrl) {
-      this.throwError(
-        "uploadMealFile",
-        undefined,
-        "Error retrieving public URL"
-      );
-      return "";
-    }
-    return publicUrl;
-  };
-
   // Exercise functions
   async createExercise(exercise: ExerciseData) {
     // #2: upload meal
@@ -247,8 +247,51 @@ export class SupabaseManager {
     return data?.id ?? null;
   }
 
-  //Error handling
+  async updateExercise(exercise: ExerciseData): Promise<boolean> {
+    const { error, count } = await supabase
+      .from(exerciseDB)
+      .update(exercise, { count: "exact" })
+      .eq("id", exercise.id);
 
+    if (error) {
+      this.throwError("updateExercise", error);
+      return false;
+    }
+    if (count === 0) {
+      this.throwError(
+        "updateExercise",
+        undefined,
+        "The exercise you're trying to update doesn't exist anymore."
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  async deleteExercise(id: number): Promise<boolean> {
+    const { error, count } = await supabase
+      .from(exerciseDB)
+      .delete({ count: "exact" })
+      .eq("id", id);
+
+    if (error) {
+      this.throwError("deleteExercise", error);
+      return false;
+    }
+    if (count === 0) {
+      this.throwError(
+        "deleteExercise",
+        undefined,
+        "The exercise you're trying to delete doesn't exist anymore."
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  //Error handling
   private throwError(
     operation: string,
     error?: PostgrestError,

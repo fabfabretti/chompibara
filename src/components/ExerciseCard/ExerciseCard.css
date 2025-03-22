@@ -1,0 +1,85 @@
+.exercisecard {
+  box-shadow: 0px 4px 0px #00000050;
+  padding: 10px 20px 10px 20px;
+  transition: transform 0.2s ease-out;
+  background-color: white;
+  border: 3px solid var(--primary-color);
+  border-radius: 10px;
+
+  transition: height 1s ease-in-out;
+}
+
+.exercisecard:hover {
+  transform: translate3d(0, -5px, 0);
+}
+
+.exerciseinfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 5px;
+  flex-grow: 3;
+}
+
+.flexrow {
+  display: flex;
+  flex-direction: row;
+}
+.flexcol {
+  display: flex;
+  flex-direction: column;
+}
+
+.firstrow {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tagcontainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 0 10px 0;
+}
+
+.action-container {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+}
+
+.gap20 {
+  gap: 20px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  max-width: 150px;
+  min-width: 100px;
+}
+
+.exercisephoto {
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.fade-out {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease,
+    margin 0.3s ease, border 0.3s ease;
+}

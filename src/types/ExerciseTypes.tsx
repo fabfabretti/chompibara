@@ -1,5 +1,5 @@
 export type ExerciseData = {
-  id?: number;
+  id: number;
   name: string;
   date: string;
   time?: string;
@@ -10,7 +10,8 @@ export type ExerciseData = {
 
 const today = new Date().toISOString().split("T")[0];
 
-export const defaultExerciseData = {
+export const defaultExerciseData: ExerciseData = {
+  id: 0,
   name: "",
   date: today,
   type: "Other",

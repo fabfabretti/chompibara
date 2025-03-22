@@ -9,6 +9,7 @@ import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import ExerciseTypeSelector from "../../components/inputs/ExerciseTypeSelector/ExerciseTypeSelector";
 
 import { SupabaseManager } from "../../context/supabaseManager";
+import ExerciseCard from "../../components/ExerciseCard/ExerciseCard";
 
 function Exercise() {
   //State
@@ -112,7 +113,10 @@ function Exercise() {
           )}
         </div>
       ) : (
-        <h2>Exercise Recorded: {exercise.name}</h2>
+        <ExerciseCard
+          exercise={exercise}
+          setExercise={setExercise}
+        ></ExerciseCard>
       )}
 
       <div>{errorString}</div>
