@@ -6,11 +6,10 @@ Chompibara is an educational project, created for learning purposes, as part of 
 
 ## Features
 
-- **Meal Photo Upload**: Users can capture or upload a photo of their meals.
-- **Manual Edit**: Users can add new meals with corresponding nutritional values manually.
-- **Daily Meal Log**: A list of meals with nutritional details displayed in a daily log.
-- **Nutritional Statistics**: Graphs and charts showing daily calories and macronutrient consumption (carbs, fats, proteins).
-- **Meal Types**: Categorize meals as breakfast, lunch, dinner, or snacks for better organization.
+* **Meal Tracking**: Users can add, update, and delete meals, including details like calories, macronutrients, and meal type. They can also add an image to visually represent their meal, and categorize them by their tipe (e.g. lunch, dinner)
+* **Exercise Tracking**: Users can log basic exercises data, including details like calories burned, duration, and exercise type.
+* **Profile Management**: Users can update their profile information, including height, weight, age, and target macros/calories. 
+* **History and Stats**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day, There is also a different page to get similar information throughout a personalized time period, to visualize longer trernds and improvements.
 
 ## Installation
 
