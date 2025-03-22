@@ -150,6 +150,8 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
                   />
                 ) : (
                   <div>
+                    <FontAwesomeIcon icon={faClock} />
+                    {exercise.time.substring(0, 5)}
                     <FontAwesomeIcon icon={faClock} />{" "}
                     {exercise.time.substring(0, 5)}
                   </div>
