@@ -1,8 +1,8 @@
 import "./Profile.css";
 
 import { useState, useEffect } from "react";
-import { SupabaseManager } from "../../context/supabaseManager";
-import { ProfileData, defaultProfile } from "../../types/ProfileTypes";
+import { SupabaseManager } from "../../context/SupabaseManager";
+import { ProfileData, defaultProfile } from "../../context/types/ProfileTypes";
 
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import InputField from "../../components/inputs/MealInput/MealInput";

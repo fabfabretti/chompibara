@@ -1,6 +1,6 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import COLORS from "../../../context/macroColors";
-import { MealData } from "../../../types/MealTypes";
+import { MealData } from "../../../context/types/MealTypes";
 
 type MacroDonutChartProps = {
   meals: MealData[];

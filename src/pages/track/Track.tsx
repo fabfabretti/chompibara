@@ -2,10 +2,10 @@ import "./Track.css";
 
 import { useState } from "react";
 
-import { SupabaseManager } from "../../context/supabaseManager";
+import { SupabaseManager } from "../../context/SupabaseManager";
 
 import FileLoader from "../../components/FileLoader/FileLoader";
-import { defaultMeal } from "../../types/MealTypes";
+import { defaultMeal } from "../../context/types/MealTypes";
 import MealTypeSelector from "../../components/inputs/MealTypeSelector/MealTypeSelector";
 import InputField from "../../components/inputs/MealInput/MealInput";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";

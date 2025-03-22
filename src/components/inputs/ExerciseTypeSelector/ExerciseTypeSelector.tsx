@@ -7,7 +7,7 @@ import {
   faStar,
   faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
-import { ExerciseData } from "../../../types/ExerciseTypes";
+import { ExerciseData } from "../../../context/types/ExerciseTypes";
 
 type ExerciseTypeSelectorProps = {
   exercise: ExerciseData;

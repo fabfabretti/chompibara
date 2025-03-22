@@ -2,14 +2,14 @@ import "./History.css";
 
 import { useEffect, useState } from "react";
 
-import { SupabaseManager } from "../../context/supabaseManager";
+import { SupabaseManager } from "../../context/SupabaseManager";
 
-import { MealData } from "../../types/MealTypes";
+import { MealData } from "../../context/types/MealTypes";
 
 import MealCard from "../../components/MealCard/MealCard";
 import DailyDashboard from "../../components/DailyStat/DailyStat";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
-import { ExerciseData } from "../../types/ExerciseTypes";
+import { ExerciseData } from "../../context/types/ExerciseTypes";
 import ExerciseCard from "../../components/ExerciseCard/ExerciseCard";
 
 function History() {
@@ -92,7 +92,7 @@ function History() {
           <div className="year">{viewDate.getFullYear()}</div>
           <div
             className="flex-row flex-center gap20"
-            style={{ minWidth: "500px", justifyContent: "space-between" }}
+            style={{ minWidth: "500px", justifyContent: "space-around" }}
           >
             {/** Back one day button */}
             <button onClick={goToYesterday}>

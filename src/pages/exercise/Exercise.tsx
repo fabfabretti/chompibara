@@ -2,13 +2,16 @@ import "./Exercise.css";
 
 import { useState } from "react";
 
-import { defaultExerciseData, ExerciseData } from "../../types/ExerciseTypes";
+import {
+  defaultExerciseData,
+  ExerciseData,
+} from "../../context/types/ExerciseTypes";
 
 import InputField from "../../components/inputs/MealInput/MealInput";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import ExerciseTypeSelector from "../../components/inputs/ExerciseTypeSelector/ExerciseTypeSelector";
 
-import { SupabaseManager } from "../../context/supabaseManager";
+import { SupabaseManager } from "../../context/SupabaseManager";
 import ExerciseCard from "../../components/ExerciseCard/ExerciseCard";
 
 function Exercise() {

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { MealData } from "../../types/MealTypes";
+import { MealData } from "../../context/types/MealTypes";
 import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import MacroProgressRing from "../graphs/MacroProgressRing/MacroProgressRing";
-import { SupabaseManager } from "../../context/supabaseManager";
-import { defaultProfile, ProfileData } from "../../types/ProfileTypes";
+import { SupabaseManager } from "../../context/SupabaseManager";
+import { defaultProfile, ProfileData } from "../../context/types/ProfileTypes";
 import MacroStackedChart from "../graphs/MacroStackedChart/MacroStackedChart";
 
 type DailyDashboardProps = {

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { SupabaseManager } from "../../context/supabaseManager";
+import { SupabaseManager } from "../../context/SupabaseManager";
 
-import { ProfileData, defaultProfile } from "../../types/ProfileTypes";
-import { MealData } from "../../types/MealTypes";
+import { ProfileData, defaultProfile } from "../../context/types/ProfileTypes";
+import { MealData } from "../../context/types/MealTypes";
 
 import MacroDonutChart from "../../components/graphs/MacroDonutChart/MacroDonutChart";
 import MacroStackedChart from "../../components/graphs/MacroStackedChart/MacroStackedChart";

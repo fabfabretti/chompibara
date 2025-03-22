@@ -1,8 +1,8 @@
 import "./MealCard.css";
 import { useState } from "react";
 
-import { MealData } from "../../types/MealTypes";
-import { SupabaseManager } from "../../context/supabaseManager";
+import { MealData } from "../../context/types/MealTypes";
+import { SupabaseManager } from "../../context/SupabaseManager";
 import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -67,7 +67,7 @@ function MealCard(props: MealCardProp) {
     if (meal.title.trim() === "") {
       errors.push("Title cannot be empty.");
     }
-    if (meal.calories !== null) {
+    if (meal.calories) {
       if (meal.calories <= 0) {
         errors.push("Calories must be greater than 0.");
       }
@@ -75,7 +75,7 @@ function MealCard(props: MealCardProp) {
         errors.push("Calories value is too large.");
       }
     }
-    if (meal.fats !== null) {
+    if (meal.fats) {
       if (meal.fats < 0) {
         errors.push("Fats cannot be negative.");
       }
@@ -83,7 +83,7 @@ function MealCard(props: MealCardProp) {
         errors.push("Fats value is too large.");
       }
     }
-    if (meal.carbos !== null) {
+    if (meal.carbos) {
       if (meal.carbos < 0) {
         errors.push("Carbohydrates cannot be negative.");
       }
@@ -91,7 +91,7 @@ function MealCard(props: MealCardProp) {
         errors.push("Carbohydrates value is too large.");
       }
     }
-    if (meal.protein !== null) {
+    if (meal.protein) {
       if (meal.protein < 0) {
         errors.push("Protein cannot be negative.");
       }

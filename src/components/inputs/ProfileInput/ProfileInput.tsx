@@ -1,4 +1,4 @@
-import { ProfileData } from "../../../types/ProfileTypes";
+import { ProfileData } from "../../../context/types/ProfileTypes";
 
 type ProfileInputProps = {
   profile: ProfileData;
