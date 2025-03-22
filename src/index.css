@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Cantora+One&family=Caprasimo&display=swap");
-
+@import "tailwindcss";
 /*FONTS*/
+
 .caprasimo-regular {
   font-family: "Caprasimo", serif;
   font-style: normal;

@@ -1,4 +1,3 @@
-import "./ExerciseCard.css";
 import { useState } from "react";
 
 import { ExerciseData } from "../../types/ExerciseTypes";
@@ -79,7 +78,11 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
 
   return (
     <div
-      className={`exercisecard ${deleted ? "fade-out" : ""}`}
+      className={`shadow-[0px_4px_0px_rgba(0,0,0,0.31)] border-3 border-[var(--primary-color)] bg-white rounded-lg p-4 transition-transform duration-200 hover:-translate-y-1 ${
+        deleted
+          ? "opacity-0 max-h-0 overflow-hidden p-0 m-0 border-0 transition-all duration-300"
+          : ""
+      }`}
       style={deleted ? { pointerEvents: "none" } : {}}
       onTransitionEnd={(e) => {
         if (deleted) e.currentTarget.style.display = "none";
@@ -88,8 +91,8 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
       {isUpdating ? (
         <Loadingspinner />
       ) : (
-        <div className="flexrow gap20 fadein-card">
-          <div className="exerciseinfo">
+        <div className="flex flex-row gap-5 fadein-card">
+          <div className="flex flex-col justify-around gap-2 flex-grow">
             <div>
               {isEditing ? (
                 <InputField
@@ -101,7 +104,7 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
                   align=""
                 />
               ) : (
-                <h2 className="exercisetitle">{exercise.name}</h2>
+                <h2 className="font-caprasimo text-2xl">{exercise.name}</h2>
               )}
             </div>
 
@@ -118,10 +121,7 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
               />
             )}
 
-            <div
-              className="flex-col"
-              style={{ color: "#12121", fontSize: "0.8em", gap: "5px" }}
-            >
+            <div className="flex flex-col text-gray-800 text-sm gap-1">
               <div>
                 {isEditing ? (
                   <InputField
@@ -134,12 +134,10 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
                   />
                 ) : (
                   <div>
-                    <FontAwesomeIcon icon={faCalendar} />
-                    {exercise.date}
+                    <FontAwesomeIcon icon={faCalendar} /> {exercise.date}
                   </div>
                 )}
               </div>
-
               <div>
                 {isEditing ? (
                   <InputField
@@ -152,7 +150,7 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
                   />
                 ) : (
                   <div>
-                    <FontAwesomeIcon icon={faClock} />
+                    <FontAwesomeIcon icon={faClock} />{" "}
                     {exercise.time.substring(0, 5)}
                   </div>
                 )}
@@ -170,7 +168,7 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
                 ) : (
                   <div>
                     {exercise.calories
-                      ? exercise.calories + " kcal"
+                      ? `${exercise.calories} kcal`
                       : "Burnt calories not set"}
                   </div>
                 )}
@@ -191,28 +189,23 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
               </div>
             </div>
 
-            <div className="action-container">
+            <div className="flex justify-end gap-3">
               {isEditing ? (
-                <div>
+                <>
                   <button onClick={saveEditing}>Save</button>
                   <button onClick={discardEditing}>Discard</button>
-                </div>
+                </>
               ) : (
                 <button
                   onClick={() => {
-                    setOldExercise(exercise), setIsEditing(true);
+                    setOldExercise(exercise);
+                    setIsEditing(true);
                   }}
                 >
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
               )}
-
-              <button
-                disabled={isBeingDeleted}
-                onClick={() => {
-                  setExercise(oldExercise), deleteExercise();
-                }}
-              >
+              <button disabled={isBeingDeleted} onClick={deleteExercise}>
                 <FontAwesomeIcon icon={faTrash} />
               </button>
               {isEditing ? errorString : ""}
