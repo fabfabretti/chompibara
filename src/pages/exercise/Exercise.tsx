@@ -116,10 +116,7 @@ function Exercise() {
           )}
         </div>
       ) : (
-        <ExerciseCard
-          exercise={exercise}
-          setExercise={setExercise}
-        ></ExerciseCard>
+        <ExerciseCard exercise={exercise} />
       )}
 
       <div>{errorString}</div>

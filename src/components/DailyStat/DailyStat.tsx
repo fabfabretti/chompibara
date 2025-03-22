@@ -3,7 +3,7 @@ import { MealData } from "../../types/MealTypes";
 import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import MacroProgressRing from "../graphs/MacroProgressRing/MacroProgressRing";
 import { SupabaseManager } from "../../context/supabaseManager";
-import { defaultProfile } from "../../types/defaultProfile";
+import { defaultProfile, ProfileData } from "../../types/ProfileTypes";
 import MacroStackedChart from "../graphs/MacroStackedChart/MacroStackedChart";
 
 type DailyDashboardProps = {
@@ -14,7 +14,7 @@ function DailyDashboard({ meals }: DailyDashboardProps) {
   const [totalCarbs, setTotalCarbs] = useState(0);
   const [totalFats, setTotalFats] = useState(0);
   const [totalProtein, setTotalProtein] = useState(0);
-  const [profile, setProfile] = useState(defaultProfile);
+  const [profile, setProfile] = useState<ProfileData>(defaultProfile);
 
   const supabaseManager = SupabaseManager.getInstance();
 

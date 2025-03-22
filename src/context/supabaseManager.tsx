@@ -6,8 +6,8 @@ import {
 
 import { MealData } from "../types/MealTypes";
 
-import ProfileData from "../types/ProfileData";
-import { defaultProfile } from "../types/defaultProfile";
+import { ProfileData, defaultProfile } from "../types/ProfileTypes";
+
 import { ExerciseData } from "../types/ExerciseTypes";
 // Database access
 const DBurl = import.meta.env.VITE_SUPABASE_URL;
