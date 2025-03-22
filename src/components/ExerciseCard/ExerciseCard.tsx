@@ -15,10 +15,12 @@ import {
   faEdit,
   faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
+
 import Chip from "../Chip/Chip";
 import ExerciseTypeSelector from "../inputs/ExerciseTypeSelector/ExerciseTypeSelector";
 import Loadingspinner from "../Loadingspinner/Loadingspinner";
 import InputField from "../inputs/MealInput/MealInput";
+
 // Props
 type ExerciseCardProp = {
   exercise: ExerciseData;
@@ -166,7 +168,11 @@ function ExerciseCard({ exercise, setExercise }: ExerciseCardProp) {
                     align=""
                   />
                 ) : (
-                  <div>{exercise.calories + " kcal"}</div>
+                  <div>
+                    {exercise.calories
+                      ? exercise.calories + " kcal"
+                      : "Burnt calories not set"}
+                  </div>
                 )}
               </div>
               <div>

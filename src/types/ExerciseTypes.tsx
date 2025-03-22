@@ -1,3 +1,5 @@
+const today = new Date().toISOString().split("T")[0];
+const now = new Date().toTimeString().slice(0, 5);
 export type ExerciseData = {
   id: number;
   name: string;
@@ -8,11 +10,10 @@ export type ExerciseData = {
   type: string;
 };
 
-const today = new Date().toISOString().split("T")[0];
-
 export const defaultExerciseData: ExerciseData = {
   id: 0,
   name: "",
   date: today,
+  time: now,
   type: "Other",
 };

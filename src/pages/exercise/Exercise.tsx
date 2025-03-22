@@ -27,6 +27,9 @@ function Exercise() {
     if (exercise.calories !== undefined && exercise.calories <= 0) {
       errors.push("Calories must be greater than 0.");
     }
+    if (exercise.calories !== undefined && exercise.calories > 32767) {
+      errors.push("Calories value is too large.");
+    }
     setErrorString(errors.join("\n"));
     return errors.length === 0;
   };
