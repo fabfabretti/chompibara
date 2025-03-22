@@ -239,7 +239,7 @@ function MealCard(props: MealCardProp) {
                   align=""
                 />
               ) : (
-                <h1 className="mealtitle">{meal.title} </h1>
+                <h2 className="mealtitle">{meal.title} </h2>
               )}
             </div>
 
@@ -284,7 +284,7 @@ function MealCard(props: MealCardProp) {
                     align=""
                   />
                 ) : (
-                  meal.time
+                  meal.time.substring(0, 5)
                 )}
               </div>
             </div>

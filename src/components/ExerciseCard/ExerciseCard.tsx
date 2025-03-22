@@ -24,15 +24,15 @@ import InputField from "../inputs/MealInput/MealInput";
 // Props
 type ExerciseCardProp = {
   exercise: ExerciseData;
-  setExercise: React.Dispatch<React.SetStateAction<ExerciseData>>;
 };
 type ExerciseType = "other" | "cardio" | "strength" | "endurance" | "complete";
 
-function ExerciseCard({ exercise, setExercise }: ExerciseCardProp) {
+function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
+  const [exercise, setExercise] = useState<ExerciseData>(propExercise);
   const [isBeingDeleted, setIsBeingDeleted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [oldExercise, setOldExercise] = useState(exercise);
+  const [oldExercise, setOldExercise] = useState(propExercise);
   const [deleted, setDeleted] = useState(false);
   const [errorString, setErrorString] = useState("");
 
@@ -101,7 +101,7 @@ function ExerciseCard({ exercise, setExercise }: ExerciseCardProp) {
                   align=""
                 />
               ) : (
-                <h1 className="exercisetitle">{exercise.name}</h1>
+                <h2 className="exercisetitle">{exercise.name}</h2>
               )}
             </div>
 
@@ -153,7 +153,7 @@ function ExerciseCard({ exercise, setExercise }: ExerciseCardProp) {
                 ) : (
                   <div>
                     <FontAwesomeIcon icon={faClock} />
-                    {exercise.time}
+                    {exercise.time.substring(0, 5)}
                   </div>
                 )}
               </div>

@@ -187,6 +187,7 @@ export class SupabaseManager {
     }
     return publicUrl;
   };
+
   // Profile functions
 
   async getProfile(): Promise<ProfileData> {
@@ -289,6 +290,18 @@ export class SupabaseManager {
     }
 
     return true;
+  }
+
+  async getAllDailyExercises(date: Date): Promise<ExerciseData[]> {
+    const formattedDate = date.toISOString().split("T")[0];
+
+    const { data, error } = await this.supabase
+      .from(exerciseDB)
+      .select("*")
+      .eq("date", formattedDate); // Filtra per data
+
+    if (error) this.throwError("getAllDailyExercises", error);
+    return data ?? [];
   }
 
   //Error handling

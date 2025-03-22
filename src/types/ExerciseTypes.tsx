@@ -4,7 +4,7 @@ export type ExerciseData = {
   id: number;
   name: string;
   date: string;
-  time?: string;
+  time: string;
   duration?: string;
   calories?: number;
   type: string;

@@ -39,7 +39,7 @@ function DailyDashboard({ meals }: DailyDashboardProps) {
       className="stat-container flex-col "
       style={{
         width: "50%",
-        height: "100%",
+        height: "92%",
         maxWidth: "400px",
         color: "var(--on-primary-color)",
         gap: "30px",
