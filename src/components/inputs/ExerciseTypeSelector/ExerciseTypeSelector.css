@@ -1,0 +1,34 @@
+.exercise-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.exercise-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.1s ease-in-out;
+  text-align: center;
+  font-size: 0.9em;
+  color: black;
+  background-color: transparent;
+}
+
+.exercise-option input {
+  display: none;
+}
+
+.exercise-option.selected {
+  background-color: var(--primary-color);
+  color: white;
+  border: 2px solid var(--primary-color);
+}
+
+.exercise-option:hover {
+  border-color: var(--primary-color);
+}

@@ -1,0 +1,61 @@
+.space-around {
+  justify-content: space-around;
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 80%;
+  padding: 30px;
+  border: 4px var(--primary-color) solid;
+  border-radius: 20px;
+}
+
+.upload-data {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-self: stretch;
+}
+
+.upload-element {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-grow: 1;
+}
+select,
+input {
+  background-color: var(--primary-color);
+  border-style: dashed;
+  border-color: var(--primary-color);
+  border-radius: 20px;
+  font-family: var(--font-body);
+}
+
+.submit,
+.submit:hover,
+.submit:active {
+  background-color: var(--primary-color);
+  color: black;
+  margin-top: 10px;
+}
+
+.secondary-button {
+  align-self: flex-end;
+  margin-left: 10px;
+}
+
+.meal-option {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}

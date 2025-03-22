@@ -11,6 +11,7 @@ import History from "./pages/history/History.tsx";
 import Track from "./pages/track/Track.tsx";
 import Profile from "./pages/profile/Profile.tsx";
 import Stats from "./pages/stats/Stats.tsx";
+import Exercise from "./pages/exercise/Exercise.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -22,6 +23,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/track" element={<Track />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/stats" element={<Stats />} />
+        <Route path="/exercise" element={<Exercise />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

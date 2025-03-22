@@ -25,7 +25,10 @@ function Navbar() {
           <Link to="/profile">Profile </Link>
         </li>
         <li>
-          <Link to="/track">Track </Link>
+          <Link to="/track">Add meal </Link>
+        </li>
+        <li>
+          <Link to="/exercise">Add exercise </Link>
         </li>
       </ul>
     </nav>
