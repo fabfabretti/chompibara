@@ -7,7 +7,7 @@ import {
   faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MealData from "../../../types/MealData";
+import { MealData } from "../../../types/MealTypes";
 
 type MealTypeSelectorProps = {
   meal: MealData;

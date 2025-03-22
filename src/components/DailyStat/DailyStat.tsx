@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MealData from "../../types/MealData";
+import { MealData } from "../../types/MealTypes";
 import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import MacroProgressRing from "../graphs/MacroProgressRing/MacroProgressRing";
 import { SupabaseManager } from "../../context/supabaseManager";

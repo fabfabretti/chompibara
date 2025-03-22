@@ -9,7 +9,7 @@ import {
   ReferenceLine,
   Label,
 } from "recharts";
-import MealData from "../../../types/MealData";
+import { MealData } from "../../../types/MealTypes";
 import COLORS from "../../../context/macroColors";
 
 interface MealChartProps {

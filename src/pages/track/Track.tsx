@@ -5,27 +5,11 @@ import { useState } from "react";
 import { SupabaseManager } from "../../context/supabaseManager";
 
 import FileLoader from "../../components/FileLoader/FileLoader";
-import MealData from "../../types/MealData";
+import { defaultMeal } from "../../types/MealTypes";
 import MealTypeSelector from "../../components/inputs/MealTypeSelector/MealTypeSelector";
 import InputField from "../../components/inputs/MealInput/MealInput";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import MealCard from "../../components/MealCard/MealCard";
-
-const today = new Date().toISOString().split("T")[0];
-const now = new Date().toTimeString().slice(0, 5);
-
-const defaultMeal: MealData = {
-  id: 1,
-  photo: undefined,
-  title: "",
-  mealtype: "Other",
-  date: today,
-  time: now,
-  calories: null,
-  fats: null,
-  carbos: null,
-  protein: null,
-};
 
 // Render
 function Track() {

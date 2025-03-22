@@ -1,7 +1,7 @@
 import "./MealCard.css";
 import { useState } from "react";
 
-import MealData from "../../types/MealData";
+import { MealData } from "../../types/MealTypes";
 import { SupabaseManager } from "../../context/supabaseManager";
 import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
