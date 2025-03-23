@@ -9,7 +9,7 @@ Chompibara is an educational project, created for learning purposes, as part of 
 - **Meal Tracking**: Users can add, update, and delete meals, including details like calories, macronutrients, and meal type. They can also add an image to visually represent their meal, and categorize them by their tipe (e.g. lunch, dinner)
 - **Exercise Tracking**: Users can log basic exercises data, including details like calories burned, duration, and exercise type.
 - **Profile Management**: Users can update their profile information, including height, weight, age, and target macros/calories.
-- **History and Stats**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day, There is also a different page to get similar information throughout a personalized time period, to visualize longer trernds and improvements.
+- **History and Stats**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day, There is also a different page to get similar information throughout a personalized time period, to visualize longer trends and improvements.
 
 ## Installation
 
@@ -18,7 +18,7 @@ To run the app locally, follow these steps:
 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/chompibara.git
+git clone https://github.com/fabfabretti/chompibara.git
 cd chompibara
 ```
 
