@@ -24,10 +24,14 @@ import InputField from "../inputs/InputField/InputField";
 // Props
 type ExerciseCardProp = {
   exercise: ExerciseData;
+  setUpdated?: React.Dispatch<React.SetStateAction<boolean>>; //when a meal is updated, this flag is flipped
 };
 type ExerciseType = "other" | "cardio" | "strength" | "endurance" | "complete";
 
-function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
+function ExerciseCard({
+  exercise: propExercise,
+  setUpdated,
+}: ExerciseCardProp) {
   const [exercise, setExercise] = useState<ExerciseData>(propExercise);
   const [isBeingDeleted, setIsBeingDeleted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -68,6 +72,7 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
     } catch (error) {
       console.error("Errore durante l'update dell'esercizio", error);
     }
+    if (setUpdated) setUpdated(true);
     setIsUpdating(false);
     setIsEditing(false);
   };

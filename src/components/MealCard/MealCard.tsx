@@ -26,6 +26,7 @@ import FileLoader from "../FileLoader/FileLoader";
 //Props
 type MealCardProp = {
   meal: MealData;
+  setUpdated?: React.Dispatch<React.SetStateAction<boolean>>; //when a meal is updated, this flag is flipped
 };
 type MealType = "other" | "breakfast" | "lunch" | "snack" | "dinner";
 
@@ -136,6 +137,8 @@ function MealCard(props: MealCardProp) {
     } catch (error) {
       console.error("Errore durante l'update del pasto", error);
     }
+
+    if (props.setUpdated) props.setUpdated((prev) => !prev);
 
     setIsUpdating(false);
     setIsEditing(false);

@@ -4,6 +4,7 @@ import { SupabaseManager } from "../../context/SupabaseManager";
 
 import { ProfileData, defaultProfile } from "../../context/types/ProfileTypes";
 import { MealData } from "../../context/types/MealTypes";
+import { ExerciseData } from "../../context/types/ExerciseTypes";
 
 import MacroDonutChart from "../../components/graphs/MacroDonutChart/MacroDonutChart";
 import MacroStackedChart from "../../components/graphs/MacroStackedChart/MacroStackedChart";
@@ -20,6 +21,7 @@ function Stats() {
   const [startDay, setStartDay] = useState(weekAgo);
   const [endDay, setEndDay] = useState(today);
   const [meals, setMeals] = useState<MealData[]>([]);
+  const [exercises, setExercises] = useState<ExerciseData[]>([]);
   const [profile, setProfile] = useState<ProfileData>(defaultProfile);
 
   const [errorString, setErrorString] = useState("");
@@ -29,6 +31,7 @@ function Stats() {
 
   //Functions
   const setMealsFromRange = () => {
+    // Loads meals and exercises from DB in selected range
     if (new Date(startDay) > new Date(endDay)) {
       setErrorString(
         "La data di inizio non può essere successiva alla data di fine."
@@ -39,12 +42,19 @@ function Stats() {
     setErrorString(""); // Reset errore se le date sono valide
     setIsLoading(true);
 
-    supabaseManager
+    supabaseManager // Load meals
       .getMealsInDateRange(new Date(startDay), new Date(endDay))
       .then((result) => {
         setMeals(result);
-        setIsLoading(false);
+
+        supabaseManager // Load exercises
+          .getExercisesInDateRange(new Date(startDay), new Date(endDay))
+          .then((result) => {
+            setExercises(result);
+          });
       });
+
+    setIsLoading(false);
   };
 
   //Effects

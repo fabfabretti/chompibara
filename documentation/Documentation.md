@@ -241,20 +241,21 @@ All API methods are `async` and will return a `Promise`.
 
 This is the available API:
 
-| Name                   | Description                                                  | Parameters                                                   | Return                                                       |
-| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `createMeal`           | Adds a new meal in the database. Image uploading is handled internally and automatically. | `meal:MealData`<br />`file:File` (optional, contains the image to be uploaded) | `Promise<MealData | null>`, with the added meal.             |
-| `getAllMeals`          | Returns an array with every meal in the database.            | None                                                         | `Promise <MealData[] | []>`                                  |
-| `getAllDailyMeals`     | Returns an array with every meal recorded for a certain day. | `date:Date`                                                  | `Promise <MealData[] | []>`                                  |
-| `getMealsInDateRange`  | Returns an array with every meal recorded in the time period passed as parameter. | `dateStart:Date`<br/>`dateEnd:Date`                          | `Promise <MealData[] |[]>`                                   |
-| `updateMeal`           | Updates a meal in the database.                              | `meal:MealData`                                              | `Promise<boolean>`, where `false` indicates the Meal has not been edited correctly. |
-| `deleteMeal`           | Deletes the meal from the database.                          | `id:number`                                                  | `Promise<boolean>`, where `false` indicates the Meal has not been deleted correctly. |
-| `getProfile`           | Returns the (single, at the moment) Profile in the database. | None                                                         | `ProfileData` if successful, `defaultProfile` otherwise.     |
-| `setProfile`           | Edits the (single, at the moment) Profile in the database.   | `profile:ProfileData`                                        | `Promise<boolean>`, where `false` indicates the Profile has not been edited correctly. |
-| `createExercise`       | Adds a new exercise to the database.                         | `exercise:ExerciseData`                                      | `Promise<number |null>`, where the number is the `id` of the created meal assigned by Supabase. |
-| `updateExercise`       | Updates an exercise in the database.                         | `exercise:ExerciseData`                                      | `Promise<boolean>`, where `false` indicates the Exercise has not been edited correctly. |
-| `deleteExercise`       | Deletes an exercise from the database.                       | `id:number`                                                  | `Promise<boolean>`, where `false` indicates the Exercise has not been deleted correctly. |
-| `getAllDailyExercises` | Given a Date, returns all exercises recorded to that day.    | `date:Date`                                                  | `Promise <ExerciseData[] |[]>`                               |
+| Name                      | Description                                                  | Parameters                                                   | Return                                                       |
+| ------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `createMeal`              | Adds a new meal in the database. Image uploading is handled internally and automatically. | `meal:MealData`<br />`file:File` (optional, contains the image to be uploaded) | `Promise<MealData | null>`, with the added meal.             |
+| `getAllMeals`             | Returns an array with every meal in the database.            | None                                                         | `Promise <MealData[] | []>`                                  |
+| `getAllDailyMeals`        | Returns an array with every meal recorded for a certain day. | `date:Date`                                                  | `Promise <MealData[] | []>`                                  |
+| `getMealsInDateRange`     | Returns an array with every meal recorded in the time period passed as parameter. | `dateStart:Date`<br/>`dateEnd:Date`                          | `Promise <MealData[] |[]>`                                   |
+| `updateMeal`              | Updates a meal in the database.                              | `meal:MealData`                                              | `Promise<boolean>`, where `false` indicates the Meal has not been edited correctly. |
+| `deleteMeal`              | Deletes the meal from the database.                          | `id:number`                                                  | `Promise<boolean>`, where `false` indicates the Meal has not been deleted correctly. |
+| `getProfile`              | Returns the (single, at the moment) Profile in the database. | None                                                         | `ProfileData` if successful, `defaultProfile` otherwise.     |
+| `setProfile`              | Edits the (single, at the moment) Profile in the database.   | `profile:ProfileData`                                        | `Promise<boolean>`, where `false` indicates the Profile has not been edited correctly. |
+| `createExercise`          | Adds a new exercise to the database.                         | `exercise:ExerciseData`                                      | `Promise<number |null>`, where the number is the `id` of the created meal assigned by Supabase. |
+| `updateExercise`          | Updates an exercise in the database.                         | `exercise:ExerciseData`                                      | `Promise<boolean>`, where `false` indicates the Exercise has not been edited correctly. |
+| `deleteExercise`          | Deletes an exercise from the database.                       | `id:number`                                                  | `Promise<boolean>`, where `false` indicates the Exercise has not been deleted correctly. |
+| `getAllDailyExercises`    | Given a Date, returns all exercises recorded to that day.    | `date:Date`                                                  | `Promise <ExerciseData[] | [] >`                             |
+| `getExercisesInDateRange` | Given two Dates, returns all exercises recorded in that time period | `dateStart:Date`<br/>`dateEnd:Date`                          | `Promise<ExerciseData[] | [] >`                              |
 
 ## Custom components
 

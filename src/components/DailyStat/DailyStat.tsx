@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
+
 import { MealData } from "../../context/types/MealTypes";
+import { ExerciseData } from "../../context/types/ExerciseTypes";
+import { defaultProfile, ProfileData } from "../../context/types/ProfileTypes";
+
+import { SupabaseManager } from "../../context/SupabaseManager";
+
 import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import MacroProgressRing from "../graphs/MacroProgressRing/MacroProgressRing";
-import { SupabaseManager } from "../../context/SupabaseManager";
-import { defaultProfile, ProfileData } from "../../context/types/ProfileTypes";
 import MacroStackedChart from "../graphs/MacroStackedChart/MacroStackedChart";
 
 type DailyDashboardProps = {
   meals: Array<MealData>;
+  exercises: Array<ExerciseData>;
 };
 
-function DailyDashboard({ meals }: DailyDashboardProps) {
+function DailyDashboard({ meals, exercises }: DailyDashboardProps) {
   const [totalCarbs, setTotalCarbs] = useState(0);
   const [totalFats, setTotalFats] = useState(0);
   const [totalProtein, setTotalProtein] = useState(0);

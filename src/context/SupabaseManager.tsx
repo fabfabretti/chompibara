@@ -305,6 +305,22 @@ export class SupabaseManager {
     return data ?? [];
   }
 
+  async getExercisesInDateRange(
+    dateStart: Date,
+    dateEnd: Date
+  ): Promise<ExerciseData[]> {
+    const formattedStartDate = dateStart.toISOString().split("T")[0]; // Convert Date in "YYYY-MM-DD"
+    const formattedEndDate = dateEnd.toISOString().split("T")[0]; // Convert Date in "YYYY-MM-DD"
+
+    const { data, error } = await this.supabase
+      .from(exerciseDB)
+      .select("*")
+      .gte("date", formattedStartDate) // date >= formattedStartDate
+      .lte("date", formattedEndDate); // date <= formattedEndDate
+
+    if (error) this.throwError("getExercisesInDateRange", error);
+    return data ?? [];
+  }
   //Error handling
   private throwError(
     operation: string,

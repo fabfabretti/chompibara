@@ -20,6 +20,9 @@ function History() {
   const [areExercisesLoading, setAreExercisesLoading] = useState(true);
   const [viewDate, setViewDate] = useState(new Date());
 
+  //a meal has been changed
+  const [mealsUpdated, setMealsUpdated] = useState(false);
+
   //DB manager
   const supabaseManager: SupabaseManager = SupabaseManager.getInstance();
 
@@ -32,7 +35,7 @@ function History() {
       setMeals(meals.sort(sortByTime));
       setAreMealsLoading(false);
     });
-  }, [viewDate]);
+  }, [viewDate, mealsUpdated]);
 
   // Load exercises effect
   useEffect(() => {
@@ -74,7 +77,7 @@ function History() {
   return (
     <div className="flex-row" style={{ height: "100dvh", marginTop: 60 }}>
       {/**Dashboard on left pane */}
-      <DailyDashboard meals={meals} />
+      <DailyDashboard meals={meals} exercises={exercises} />
 
       {/**Right pane */}
       <div
@@ -125,7 +128,11 @@ function History() {
             {meals.length == 0
               ? "No meals recorded on this day"
               : meals.map((meal) => (
-                  <MealCard meal={meal} key={"meal" + meal.time + meal.id} />
+                  <MealCard
+                    meal={meal}
+                    setUpdated={setMealsUpdated}
+                    key={"meal" + meal.time + meal.id}
+                  />
                 ))}
           </div>
         )}
