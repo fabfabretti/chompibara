@@ -243,7 +243,7 @@ This is the available API:
 
 | Name                   | Description                                                  | Parameters                                                   | Return                                                       |
 | ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `createMeal`           | Adds a new meal in the database. Image uploading is handled internally and automatically. | `meal:MealData`<br />`file:File` (optional, contains the image to be uploaded) | `Promise<number | null>`, where the number is the `id` of the created meal assigned by Supabase. |
+| `createMeal`           | Adds a new meal in the database. Image uploading is handled internally and automatically. | `meal:MealData`<br />`file:File` (optional, contains the image to be uploaded) | `Promise<MealData | null>`, with the added meal.             |
 | `getAllMeals`          | Returns an array with every meal in the database.            | None                                                         | `Promise <MealData[] | []>`                                  |
 | `getAllDailyMeals`     | Returns an array with every meal recorded for a certain day. | `date:Date`                                                  | `Promise <MealData[] | []>`                                  |
 | `getMealsInDateRange`  | Returns an array with every meal recorded in the time period passed as parameter. | `dateStart:Date`<br/>`dateEnd:Date`                          | `Promise <MealData[] |[]>`                                   |

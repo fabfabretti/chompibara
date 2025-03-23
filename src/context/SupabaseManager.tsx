@@ -35,7 +35,7 @@ export class SupabaseManager {
   }
 
   // Meal functions
-  async createMeal(meal: MealData, file?: File): Promise<number | null> {
+  async createMeal(meal: MealData, file?: File): Promise<MealData | null> {
     //#1: upload file
     let uploadMealFileResult = "";
     if (file) {
@@ -67,7 +67,7 @@ export class SupabaseManager {
           protein: meal.protein,
         },
       ])
-      .select("id") // Recupera l'ID del pasto creato
+      .select("*")
       .single();
 
     if (error) {
@@ -75,7 +75,7 @@ export class SupabaseManager {
       return null;
     }
 
-    return data?.id ?? null;
+    return data ?? null;
   }
 
   async getAllMeals(): Promise<MealData[]> {

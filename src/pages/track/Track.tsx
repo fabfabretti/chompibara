@@ -5,7 +5,7 @@ import { useState } from "react";
 import { SupabaseManager } from "../../context/SupabaseManager";
 
 import FileLoader from "../../components/FileLoader/FileLoader";
-import { defaultMeal } from "../../context/types/MealTypes";
+import { defaultMeal, MealData } from "../../context/types/MealTypes";
 import MealTypeSelector from "../../components/inputs/MealTypeSelector/MealTypeSelector";
 import InputField from "../../components/inputs/InputField/InputField";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
@@ -30,7 +30,7 @@ function Track() {
     if (meal.title.trim() === "") {
       errors.push("Title cannot be empty.");
     }
-    if (meal.calories !== null) {
+    if (meal.calories) {
       if (meal.calories <= 0) {
         errors.push("Calories must be greater than 0.");
       }
@@ -38,7 +38,7 @@ function Track() {
         errors.push("Calories value is too large.");
       }
     }
-    if (meal.fats !== null) {
+    if (meal.fats) {
       if (meal.fats < 0) {
         errors.push("Fats cannot be negative.");
       }
@@ -46,7 +46,7 @@ function Track() {
         errors.push("Fats value is too large.");
       }
     }
-    if (meal.carbos !== null) {
+    if (meal.carbos) {
       if (meal.carbos < 0) {
         errors.push("Carbohydrates cannot be negative.");
       }
@@ -54,7 +54,7 @@ function Track() {
         errors.push("Carbohydrates value is too large.");
       }
     }
-    if (meal.protein !== null) {
+    if (meal.protein) {
       if (meal.protein < 0) {
         errors.push("Protein cannot be negative.");
       }
@@ -72,20 +72,21 @@ function Track() {
     if (mealIsValid()) {
       console.log("Initiating upload");
       setIsUploading(true);
-      let result: number | null = null;
+      let uploadedMeal: MealData | null = null;
 
       const supabaseManager = SupabaseManager.getInstance();
       if (image) {
-        result = await supabaseManager.createMeal(meal, image);
+        uploadedMeal = await supabaseManager.createMeal(meal, image);
         console.log("Uploaded with image");
       } else {
-        result = await supabaseManager.createMeal(meal);
+        uploadedMeal = await supabaseManager.createMeal(meal);
         console.log("Uploaded with NO image");
       }
       setIsUploading(false);
       setHasBeenUploaded(true);
-      if (result != null) {
-        setMeal((prev) => ({ ...prev, id: result }));
+
+      if (uploadedMeal != null) {
+        setMeal(uploadedMeal);
       }
     } else {
       console.log("Input not valid!!");
