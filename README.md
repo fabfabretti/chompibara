@@ -6,10 +6,10 @@ Chompibara is an educational project, created for learning purposes, as part of 
 
 ## Features
 
-* **Meal Tracking**: Users can add, update, and delete meals, including details like calories, macronutrients, and meal type. They can also add an image to visually represent their meal, and categorize them by their tipe (e.g. lunch, dinner)
-* **Exercise Tracking**: Users can log basic exercises data, including details like calories burned, duration, and exercise type.
-* **Profile Management**: Users can update their profile information, including height, weight, age, and target macros/calories. 
-* **History and Stats**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day, There is also a different page to get similar information throughout a personalized time period, to visualize longer trernds and improvements.
+- **Meal Tracking**: Users can add, update, and delete meals, including details like calories, macronutrients, and meal type. They can also add an image to visually represent their meal, and categorize them by their tipe (e.g. lunch, dinner)
+- **Exercise Tracking**: Users can log basic exercises data, including details like calories burned, duration, and exercise type.
+- **Profile Management**: Users can update their profile information, including height, weight, age, and target macros/calories.
+- **History and Stats**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day, There is also a different page to get similar information throughout a personalized time period, to visualize longer trernds and improvements.
 
 ## Installation
 
@@ -56,4 +56,4 @@ This will start the app on http://localhost:5173 by default.
 - **React+Typescript**: The core library for building the user interface.
 - **Supabase**: For managing the database and handling authentication.
 - **Font Awesome**: For icons throughout the app.
-- **Chart.js**: A simple yet effective library for creating smooth, interactive, and visually appealing custom charts.
+- **Recharts**: A simple yet effective library for creating smooth, interactive, and visually appealing custom charts.
