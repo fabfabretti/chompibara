@@ -7,7 +7,7 @@ import {
   ExerciseData,
 } from "../../context/types/ExerciseTypes";
 
-import InputField from "../../components/inputs/MealInput/MealInput";
+import InputField from "../../components/inputs/InputField/InputField";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import ExerciseTypeSelector from "../../components/inputs/ExerciseTypeSelector/ExerciseTypeSelector";
 

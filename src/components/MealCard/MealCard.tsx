@@ -20,7 +20,7 @@ import {
 import Chip from "../Chip/Chip";
 import MealTypeSelector from "../inputs/MealTypeSelector/MealTypeSelector";
 import Loadingspinner from "../Loadingspinner/Loadingspinner";
-import InputField from "../inputs/MealInput/MealInput";
+import InputField from "../inputs/InputField/InputField";
 import FileLoader from "../FileLoader/FileLoader";
 
 //Props

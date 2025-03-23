@@ -7,7 +7,7 @@ import { SupabaseManager } from "../../context/SupabaseManager";
 import FileLoader from "../../components/FileLoader/FileLoader";
 import { defaultMeal } from "../../context/types/MealTypes";
 import MealTypeSelector from "../../components/inputs/MealTypeSelector/MealTypeSelector";
-import InputField from "../../components/inputs/MealInput/MealInput";
+import InputField from "../../components/inputs/InputField/InputField";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
 import MealCard from "../../components/MealCard/MealCard";
 

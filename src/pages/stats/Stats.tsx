@@ -81,7 +81,9 @@ function Stats() {
           ></input>
         </label>
 
-        <button onClick={() => setMealsFromRange()}>Calculate</button>
+        <button className="primary" onClick={() => setMealsFromRange()}>
+          Calculate
+        </button>
       </div>
 
       {errorString}

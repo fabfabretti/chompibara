@@ -1,6 +1,10 @@
 # Chompibara documentation
 
-## 1. What is Chompibara
+[TOC]
+
+
+
+## What is Chompibara
 
 Chompibara is a food tracking application built with  React, designed to help users monitor their nutrition by uploading  photos of their meals and manually adding nutritional information. It  offers a daily food diary, with visual charts to track calorie and macro consumption.
 
@@ -18,7 +22,7 @@ This project is licensed under the AGPL Affero Gnu Public License 3.0, and its s
 
 * **History and Stats**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day, There is also a different page to get similar information throughout a personalized time period, to visualize longer trernds and improvements.
 
-## Installation
+## 2. Installation
 
 ### 1. Supabase setup and schema
 
@@ -26,20 +30,18 @@ As this project uses [Supabase](https://supabase.com/) as its backend/database, 
 
 The project makes use of the following tables:
 
-* `ExerciseDB`
-  ![image-20250322184706993](Documentation.assets/image-20250322184706993.png)
+|              |                                                              |
+| ------------ | ------------------------------------------------------------ |
+| `ExerciseDB` | <img src="Documentation.assets/image-20250322184706993.png" alt="image-20250322184706993" style="zoom:50%;" /> |
+| `MealDataDB` | <img src="Documentation.assets/image-20250322184752303.png" alt="image-20250322184752303" style="zoom:50%;" /> |
+| `ProfileDB`  | <img src="Documentation.assets/image-20250322184848913.png" alt="image-20250322184848913" style="zoom:50%;" /> |
 
-* `MealDataDB`
-  ![image-20250322184752303](Documentation.assets/image-20250322184752303.png)
+Notes:
 
-* `ProfileDB`
+* Currently, Chompibara only supports and uses a single user. However, a database table has been set up to allow multi-user development in the future.
+* The white dot on the settings cog indicates that the value is nullable.
 
-  Currently, Chompibara only supports and uses a single user. However, a database table has been set up to allow multi-user development in the future.
-  ![image-20250322184848913](Documentation.assets/image-20250322184848913.png)
-
-The white dot on the settings cog indicates that the value is nullable.
-
-Furthermore, the images uploaded by the user are saved onto a Storage bucket called `meal-images` , and the database's "image" column contains a link to the image inside the storage.
+Furthermore, the images uploaded by the user are saved onto a Storage bucket called `meal-images` , and the database's  `image` column contains a link to the image inside the storage.
 
 It is possible to auto-fill with syntetic a week worth's of data with the follwing SQL query inside the SQL editor in Supabase. Please keep in mind that the URL for the images will need to be filled with a real url.
 
@@ -128,44 +130,43 @@ This will start the app on http://localhost:5173 by default.
 
 The same instructions are available on the project's README file.
 
-## For developers
-
-### Project structure
+## Project structure
 
 The project has been initialized using Vite+TS's default configuration.
 
 Additional installed packets are:
 
 * **Font Awesome**: For icons throughout the app.
-* **Chart.js**: A simple yet effective library for creating smooth, interactive, and visually appealing custom charts.
+* **Recharts**: A simple yet effective library for creating smooth, interactive, and visually appealing custom charts.
 * **ReactRouter**: A very common library to handle routing.
 
 The folder structure is as follows:
 
-* `src/components` contains all the custom component reused throughout the project.
-* `src/assets` contains alla assets used throughout the project, such as the loading animation and the logos. The only exception `chompiabara.png`, which as been moved to `/public` in order to be used as a favicon.
-* `src/context` contains utility data for the application:
-  * `types` contains data structure for meals, profiles and exercises.
-  * `supabaseManager.tsx` contains a utility object that wraps Supabase's official library to simplify database interactions
-  * `macroColors` contains the palette chosen for macros.
-* `src/pages` contains the main component for each navigable route.
+```
+src/ 
+├── assets/ //contains alla assets used throughout the project, such as the loading animation and the logos. The only exception `chompiabara.png`, which as been moved to `/public` in order to be used as a favicon.
+├── components/ //contains all the custom component reused throughout the project.
+├── context/ // contains utility data for the application
+│   ├── types/ // contains data structure for meals, profiles and exercises.
+│   ├── macroColors.tsx //contains the palette chosen for macronutrients
+│   └── supabaseManager.tsx // contains a utility object that wraps Supabase's official library to simplify database interactions
+└── pages/ // contains the main component for each navigable route.
+```
 
-### Pages
+## Pages
 
 Using React Router, these are the main components for each page.
 
-* `/pages/track/Track.tsx` -> This page lets the user upload an image and enter the details for the meal. Client-side input validation is performed. After the meal is added, the user is shown a card with their newly-added meal, and is able to edit or delete it directly.
-* `/pages/exercise/Exercise.tsx` -> This page lets the user enter details for their pysical activity. Client-side input validation is performed. After the exercise is added, the user is shown a card with their newly-added exercise, and is able to edit or delete it directly.
-* `/pages/history/History.tsx `-> This page is divided into two panes:
-  * A dash panel, that shows graphs for the currently viewed day such as daily macronutrient and calories intake graphs.
-  * A history panel, which lets the user choose a day and see the meals and exercises. Each meal/exercise card also lets the user edit or delete the card. Client-side input validation for editing is performed.
-* `/pages/stats/Stats.tsx` -> This page lets the user select a custom range of time and see stats such as macronutrient and calories intake graphs throughout multiple days.
-* `/pages/profile/Profiles.tsx`-> This page lets the user see and edit their profile, including setting a daily calories value that is displayed in Stats and History pages. Client-side input validation is performed.
-* `/pages/homepage/Homepage.tsx ` -> This page serves as a simple welcome page for the user, briefly explaining what the application is about.
+|                          Screenshot                          | Page file and details                                        |
+| :----------------------------------------------------------: | ------------------------------------------------------------ |
+| <img src="Documentation.assets/image-20250323004443726.png" alt="image-20250323004443726" style="zoom: 25%;" /> | `/pages/track/Track.tsx` -> This page lets the user upload an image and enter the details for the meal. Client-side input validation is performed. After the meal is added, the user is shown a card with their newly-added meal, and is able to edit or delete it directly. |
+| <img src="Documentation.assets/image-20250323004454275.png" alt="image-20250323004454275" style="zoom: 25%;" /> | `/pages/exercise/Exercise.tsx` -> This page lets the user enter details for their pysical activity. Client-side input validation is performed. After the exercise is added, the user is shown a card with their newly-added exercise, and is able to edit or delete it directly. |
+| <img src="Documentation.assets/image-20250323004509977.png" alt="image-20250323004509977" style="zoom:25%;" /> | `/pages/history/History.tsx `-> The History page allows users to view their meal and exercise history for a specific day. This page is divided into two panes:<br/>- A dash panel, that shows graphs for the currently viewed day such as daily macronutrient and calories intake graphs.<br />- A history panel, which lets the user choose a day and see the meals and exercises. Each meal/exercise card also lets the user edit or delete the card. Client-side input validation for editing is performed. |
+| <img src="Documentation.assets/image-20250323004520879.png" alt="image-20250323004520879" style="zoom:25%;" /> | `/pages/stats/Stats.tsx` -> This page lets the user select a custom range of time and see stats such as macronutrient and calories intake graphs throughout multiple days. |
+| <img src="Documentation.assets/image-20250323004531049.png" alt="image-20250323004531049" style="zoom:25%;" /> | `/pages/profile/Profile.tsx`-> This page lets the user see and edit their profile, including setting a daily calories value that is displayed in Stats and History pages. Client-side input validation is performed. |
+| <img src="Documentation.assets/image-20250323004552474.png" alt="image-20250323004552474" style="zoom:25%;" /> | `/pages/homepage/Homepage.tsx ` -> This page serves as a simple welcome page for the user, briefly explaining what the application is about. |
 
-### Context
-
-#### Types
+## Types
 
 This folder contains type definition and default/placeholder objects for Exercise, Profile and Meal data.
 
@@ -213,11 +214,7 @@ export type ProfileData = {
 };
 ```
 
-#### Macrocolors
-
-`MacroColors.tsx` provides a `COLORS` object with fixed color palette to visually identify carbohydrates, fats and protein graphs.
-
-#### SupabaseManager and its API
+## SupabaseManager
 
 SupabaseManager is a singleton object that wraps Supabase's database object to simplify interaction with the database.
 
@@ -244,21 +241,223 @@ All API methods are `async` and will return a `Promise`.
 
 This is the available API:
 
-| Name                  | Description                                                  | Parameters                                                   | Return                                                       |
-| --------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `createMeal`          | Creates a new meal in the database. Image uploading is handled internally and automatically. | `meal:MealData`<br />`file:File` (optional, contains the image to be uploaded) | `Promise<number | null>`, where the number is the `id` of the created meal assigned by Supabase. |
-| `getAllMeals`         | Returns an array with every meal in the database.            | None                                                         | `Promise <MealData[] | []>`                                  |
-| `getAllDailyMeals`    | Returns an array with every meal recorded for a certain day. | `date:Date`                                                  | `Promise <MealData[] | []>`                                  |
-| `getMealsInDateRange` | Returns an array with every meal recorded in the time period passed as parameter. | `dateStart:Date`<br/>`dateEnd:Date`                          | `Promise <MealData[] |[]>`                                   |
-| `updateMeal`          | Updates the meal in the database.                            | `meal:MealData`                                              | `Promise<boolean>`, where `false` indicates the Meal has not been edited correctly. |
-| `deleteMeal`          | Deletes the meal from the database.                          | `id:number`                                                  | `Promise<boolean>`, where `false` indicates the Meal has not been deleted correctly. |
-| `getProfile`          | Returns the (single, at the moment) Profile in the database. | None                                                         | `ProfileData` if successful, `defaultProfile` otherwise.     |
-| `setProfile`          | Edits the (single, at the moment) Profile in the database.   | `profile:ProfileData`                                        | `Promise<boolean>`, where `false` indicates the Profile has not been edited correctly. |
-|                       |                                                              |                                                              |                                                              |
+| Name                   | Description                                                  | Parameters                                                   | Return                                                       |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `createMeal`           | Adds a new meal in the database. Image uploading is handled internally and automatically. | `meal:MealData`<br />`file:File` (optional, contains the image to be uploaded) | `Promise<number | null>`, where the number is the `id` of the created meal assigned by Supabase. |
+| `getAllMeals`          | Returns an array with every meal in the database.            | None                                                         | `Promise <MealData[] | []>`                                  |
+| `getAllDailyMeals`     | Returns an array with every meal recorded for a certain day. | `date:Date`                                                  | `Promise <MealData[] | []>`                                  |
+| `getMealsInDateRange`  | Returns an array with every meal recorded in the time period passed as parameter. | `dateStart:Date`<br/>`dateEnd:Date`                          | `Promise <MealData[] |[]>`                                   |
+| `updateMeal`           | Updates a meal in the database.                              | `meal:MealData`                                              | `Promise<boolean>`, where `false` indicates the Meal has not been edited correctly. |
+| `deleteMeal`           | Deletes the meal from the database.                          | `id:number`                                                  | `Promise<boolean>`, where `false` indicates the Meal has not been deleted correctly. |
+| `getProfile`           | Returns the (single, at the moment) Profile in the database. | None                                                         | `ProfileData` if successful, `defaultProfile` otherwise.     |
+| `setProfile`           | Edits the (single, at the moment) Profile in the database.   | `profile:ProfileData`                                        | `Promise<boolean>`, where `false` indicates the Profile has not been edited correctly. |
+| `createExercise`       | Adds a new exercise to the database.                         | `exercise:ExerciseData`                                      | `Promise<number |null>`, where the number is the `id` of the created meal assigned by Supabase. |
+| `updateExercise`       | Updates an exercise in the database.                         | `exercise:ExerciseData`                                      | `Promise<boolean>`, where `false` indicates the Exercise has not been edited correctly. |
+| `deleteExercise`       | Deletes an exercise from the database.                       | `id:number`                                                  | `Promise<boolean>`, where `false` indicates the Exercise has not been deleted correctly. |
+| `getAllDailyExercises` | Given a Date, returns all exercises recorded to that day.    | `date:Date`                                                  | `Promise <ExerciseData[] |[]>`                               |
 
+## Custom components
 
+As an additional exercise to learn React, the original developer has chosen not to use any UI  library and develop all components by hands. This is a list of the available components and their use.
 
+### Chip
 
+#### Usage
 
+A simple chip that's animated on hover, and displays a lable and an icon from Font Awesome.
 
+It takes as prompts:
+
+* `icon`: a JSX element, which must be an icon from Font Awesome.
+* `label`: the label to be displayed besides the icon
+* `color` (optional):  the color of the label. 
+
+#### Dependencies
+
+The component uses Font Awesome's icons.
+
+It's used by [MealCard](###MealCard and ExerciseCard) and  [ExerciseCard](###MealCard and ExerciseCard).
+
+#### Pictures
+
+<img src="Documentation.assets/image-20250322201246067.png" alt="image-20250322201246067" style="zoom:90%;;display:block;margin-left:45%" />
+
+### DailyStats
+
+### Usage
+
+DailyStat is mostly a "bridge" component, not meant to be reused but more to avoid an overly long History component. It sets up various other components in a nice layout.
+
+#### Dependencies
+
+DailyStat uses [MacroDonutChart](###MacroDonutChart), [MacroProgressRing](###MacroProgressRing), [MacroStackedChart](###MacroStackedChart). 
+
+It's only used in the History page.
+
+#### Pictures
+
+<img src="Documentation.assets/image-20250322211601930.png" alt="image-20250322211601930" style="zoom:33%;display:block;margin-left:45%" />
+
+### MealCard and ExerciseCard
+
+#### Usage
+
+Both components are cards that represent an exercise/meal, and offer the user a button to edit and delete it. The edit function has client-side input validation.
+
+They only take a `meal:MealData`/`exercise:ExerciseData` as input, so they are able to display an element and edit in the database, but not to edit its state.
+
+#### Dependencies
+
+When the user enters edit mode, all data gets switches to the corresponding input components: [InputItem](###InputItem), [FileLoader](###FileLoader)  or [MealTypeSelector](MealTypeSelector and ExerciseTypeSelector)/[ExerciseTypeSelector](MealTypeSelector and ExerciseTypeSelector).
+
+The MealCard uses [Chip](###Chip) and a [MacroDonutChart](###MacroStat) component. The ExerciseCard only uses a  [Chip](###Chip)  component.
+
+#### Pictures
+
+<div style="display:flex;justify-content:center"><img src="Documentation.assets/image-20250322212216393.png" alt="image-20250322212216393" style="zoom: 50%;" /><img src="Documentation.assets/image-20250322212433218.png" alt="image-20250322212433218" style="zoom: 33%;" /><img src="Documentation.assets/image-20250322212510378.png" alt="image-20250322212510378" style="zoom:50%;" /><img src="Documentation.assets/image-20250322212518446.png" alt="image-20250322212518446" style="zoom:33%;" /></div>
+
+### FileLoader
+
+#### Usage
+
+The FileLoader component, as once can infer, handles an image input. As its state is handled by the parent component, it takes `image` and `setImage` as props, leaving the state management to the parent.
+
+#### Dependencies
+
+None.
+
+#### Pictures
+
+<div style="display:flex;justify-content:center;align-items:space-around">
+<img src="Documentation.assets/image-20250322214034460.png" alt="image-20250322214034460" style="zoom: 50%;" /><img src="Documentation.assets/image-20250322214044067.png" alt="image-20250322214044067" style="zoom:50%;" /></div>
+
+### MacroDonutChart
+
+#### Usage
+
+The MacroDonutChart component displays in an intuitive manner the proportion of each macronutrient over the total in a donut chart fashion. Optionally, it can either sum or average each meal's data, and show a white portion of the donut to display calories that are yet to be consumed before reaching the target intake.
+
+It takes as props:
+
+* `meals:MealData[]`: a list of `MealData` objects
+* `height:number` (optional): how tall the component will be
+* `legendPosition:side|bottom`: where the legend with macronutrients intake will be displayed. Defaults to `side`.
+* `targetCalories:number` (optional): the target calories intake, as per Profile.
+* `average:boolean`: whether the meals will be aggregated by sum or average.
+
+As user is free to input or not each calorie and each macronutrient, the calories will be computed in the following manner for each meal:
+
+- If user has entered a number of total calories, it will take precedence over the actual amount of calories computable from macronutrients.
+- If total calories are empty but there is at least a macronutrient's data, total calories for the meal will be computed by using the formula `carbohydrates * 4 + fats*9 + protein*4`, setting any missing macronutrient to 0.
+
+#### Dependencies
+
+The donut charts are made with Recharts.
+
+It's used by Stats and [DailyStats](###DailyStats).
+
+#### Pictures
+
+<img src="Documentation.assets/image-20250322215438495.png" alt="image-20250322215438495" style="zoom: 50%;" />![image-20250322215534264](Documentation.assets/image-20250322215534264.png)<img src="Documentation.assets/image-20250322215417122.png" alt="image-20250322215417122" style="zoom: 50%;" />
+
+### MacroProgressRing
+
+#### Usage
+
+The MacroProgressRingComponent shows a ring chart that displays how many calories of a macronutrient have been consumed in a visually pleasing way.
+
+It takes as props:
+
+* `label:string`: the name of the macronutrient to show.
+* `value:number`: the grams of macronutrient intake.
+* `target:value`: the target grams of macronutrient intake, as per Profile.
+
+#### Dependecies
+
+The donut charts are made with Recharts.
+
+It's used by [DailyStats](###DailyStats).
+
+#### Pictures
+
+![image-20250322221046592](Documentation.assets/image-20250322221046592.png)
+
+### MacroStackedChart
+
+The MacroStackedChart component shows a stacked area chart that displays the calories consumption throughout the day, with each color representing a macronutrient. In this case, if the calories computed by adding each macronutrient are less than the total calorie count inputted by the user, there will be a fourth grey area representing "unassigned" calories.
+
+It takes as prop:
+
+* `meals:MealData[]`: a list of `MealData` objects
+* `targetCalories:number` (optional): the target calories intake, as per Profile.
+* `cumulative:boolean`:whether the calories will be displayed cumulatively or point by point. This is because, if meals span across multiple days, it makes more sense to group meals by day and show daily average calories, instead of cumulating over multiple days. Defaults to `true`.
+
+##### Dependecies
+
+The donut charts are made with Recharts.
+
+It's used by Stats and [DailyStats](###DailyStats).
+
+##### Pictures
+
+<img src="Documentation.assets/image-20250322231605507.png" alt="image-20250322231605507" style="zoom:50%;" /><img src="Documentation.assets/image-20250322235430346.png" alt="image-20250322235430346" style="zoom:50%;" />
+
+### MealTypeSelector and ExerciseTypeSelector
+
+#### Usage
+
+MealTypeSelector and ExerciseTypeSelector are custom components whose function is, pretty simply, to wrap the default radio button selector and give it a nicer appearance. Thus, state is handled by the parent component and it will take as props `meal`/`setMeal` and `exercise`/`setExercise` respectively.
+
+#### Dependencies
+
+The components use Font Awesome's icons.
+
+It's used by [MealCard](###Mealcard and ExerciseCard)/[ExerciseCard](###MealCard and ExerciseCard) and Track/Exercise pages.
+
+#### Pictures
+
+<img src="Documentation.assets/image-20250323002243546.png" alt="image-20250323002243546" style="zoom:50%;" /><img src="Documentation.assets/image-20250323002250924.png" alt="image-20250323002250924" style="zoom:50%;" />
+
+### InputField
+
+#### Usage
+
+MealTypeSelector and ExerciseTypeSelector are custom components whose function is, pretty simply, to wrap the default input tag and give it a nicer appearance.  Thus, state is handled by the parent component and it will take as props `item`/`setItem` . In order to correctly handle data changes, it also takes:
+
+* `type`:string: input type - such as `date`,`text`,`time`.
+* `label:string`: the label to be displayed near the input field.
+* `fieldName`: the name of the property to be modified inside the `item` that was passed.
+* `align:string` (optional): it's possible to have the label be aligned to the left or centered by passing `center` or `left`. Default is `left`.
+
+#### Dependencies
+
+None.
+
+It's used in  [MealCard](###Mealcard and ExerciseCard), [ExerciseCard](###MealCard and ExerciseCard) and Track, Exercise, Profile and Stats pages.
+
+#### Pictures
+
+<img src="Documentation.assets/image-20250323003116305.png" alt="image-20250323003116305" style="zoom:50%;" /><img src="Documentation.assets/image-20250323003130898.png" alt="image-20250323003130898" style="zoom: 67%;" />
+
+### LoadingSpinner
+
+#### Usage
+
+LoadingSpinner is a custom component that displays a silly animation, to be used as a loading screen.
+
+#### Dependencies
+
+None.
+
+#### Pictures
+
+![image-20250323003714864](Documentation.assets/image-20250323003714864.png)
+
+## Future improvements ideas
+
+* Allow for users to create different profiles and log into them.
+* Add meal templates or favorites
+* Add weight tracking
+* Switch to Tailwind and improve the design system
+* Support an offline setup, as Supabase is selfhostable and storing personal health data on a third-party server might raise privacy and security concerns.
 

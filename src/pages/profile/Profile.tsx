@@ -5,7 +5,7 @@ import { SupabaseManager } from "../../context/SupabaseManager";
 import { ProfileData, defaultProfile } from "../../context/types/ProfileTypes";
 
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
-import InputField from "../../components/inputs/MealInput/MealInput";
+import InputField from "../../components/inputs/InputField/InputField";
 
 function Profile() {
   // State

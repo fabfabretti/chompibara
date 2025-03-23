@@ -19,7 +19,7 @@ import {
 import Chip from "../Chip/Chip";
 import ExerciseTypeSelector from "../inputs/ExerciseTypeSelector/ExerciseTypeSelector";
 import Loadingspinner from "../Loadingspinner/Loadingspinner";
-import InputField from "../inputs/MealInput/MealInput";
+import InputField from "../inputs/InputField/InputField";
 
 // Props
 type ExerciseCardProp = {

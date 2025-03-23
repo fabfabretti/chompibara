@@ -9,16 +9,18 @@ import {
   ReferenceLine,
   Label,
 } from "recharts";
+
 import { MealData } from "../../../context/types/MealTypes";
 import COLORS from "../../../context/macroColors";
 
-interface MealChartProps {
+type MealChartProps = {
   meals: MealData[];
   target?: number;
   cumulative?: boolean;
-}
+};
 
 type dataPoint = {
+  //this is each point in the chart.
   dateTime: string;
   carbs: number;
   fats: number;
@@ -29,22 +31,30 @@ type dataPoint = {
 function MacroStackedChart({
   meals,
   target,
-  cumulative = true,
+  cumulative = false,
 }: MealChartProps) {
+  // If no data, return
   if (!meals || meals.length === 0) {
     return <p>No meal data available.</p>;
   }
 
+  //Check how many days. If > 1, we need to group by day.
   const isSingleDay = isSameDay(meals);
+
+  //Expand meal into data points
   let mealDataPoints = meals.map(createMealDataPoint).sort(sortByDateTime);
 
   // If more than one day is included, group datapoints by day
   if (!isSingleDay) {
     mealDataPoints = Object.values(
       mealDataPoints.reduce(
+        // acc is accumulation, where sono salvati i risultati parziali
+        //accumulo in un dizionario la cui chiave sarà la data
         (acc: { [key: string]: dataPoint }, point: dataPoint) => {
-          const date = point.dateTime.split("T")[0]; // Extract date part
+          //questa below è eseguita su ogni elemento dell'array
+          const date = point.dateTime.split("T")[0]; // estrazione data
           if (!acc[date]) {
+            //se non avevamo ancora trovato quella data la creiamo
             acc[date] = {
               dateTime: date,
               carbs: 0,
@@ -53,13 +63,13 @@ function MacroStackedChart({
               unassigned: 0,
             };
           }
-          acc[date].carbs += point.carbs;
+          acc[date].carbs += point.carbs; //altrimenti aggiungiamo a dove c'è già
           acc[date].fats += point.fats;
           acc[date].protein += point.protein;
           acc[date].unassigned += point.unassigned;
           return acc;
         },
-        {}
+        {} //all'inizio nessuna data
       )
     );
   }
