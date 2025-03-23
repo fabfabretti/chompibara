@@ -28,6 +28,8 @@
   margin: 0;
   padding: 0;
   margin-right: 30px;
+  align-items: center;
+  text-align: center;
 }
 
 @media (max-width: 600px) {

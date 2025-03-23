@@ -158,7 +158,20 @@ function MealCard(props: MealCardProp) {
       {isUpdating ? (
         <Loadingspinner />
       ) : (
-        <div className="flexrow gap20 fadein-card">
+        <div
+          className="mealcard-content flexrow gap20 fadein-card"
+          style={
+            isEditing
+              ? {
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }
+              : {
+                  flexWrap: "nowrap",
+                  justifyContent: "center",
+                }
+          }
+        >
           <div className="image-container">
             {isEditing ? (
               <FileLoader image={image} setImage={setImage} />
@@ -181,7 +194,7 @@ function MealCard(props: MealCardProp) {
               />
             )}
           </div>
-          <div style={{ minWidth: "90px" }}>
+          <div style={{ minWidth: "90px", alignSelf: "center" }}>
             {isEditing ? (
               <div
                 className="flex-col space-between"
@@ -239,7 +252,9 @@ function MealCard(props: MealCardProp) {
                   align=""
                 />
               ) : (
-                <h2 className="mealtitle">{meal.title} </h2>
+                <h2 className="mealtitle" style={{ maxWidth: "100%" }}>
+                  {meal.title}{" "}
+                </h2>
               )}
             </div>
 
@@ -288,6 +303,8 @@ function MealCard(props: MealCardProp) {
                 )}
               </div>
             </div>
+
+            {isEditing ? errorString : ""}
             <div className="action-container">
               {isEditing ? (
                 <div>
@@ -303,7 +320,6 @@ function MealCard(props: MealCardProp) {
               <button disabled={isBeingDeleted} onClick={deleteMeal}>
                 <FontAwesomeIcon icon={faTrash} />
               </button>
-              {isEditing ? errorString : ""}
             </div>
           </div>
         </div>

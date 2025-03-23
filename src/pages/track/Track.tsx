@@ -108,7 +108,10 @@ function Track() {
               <FileLoader image={image} setImage={setImage} />
 
               <div className="upload-data">
-                <div className="flex-row space-around">
+                <div
+                  className="flex-row space-around"
+                  style={{ flexWrap: "wrap" }}
+                >
                   <MealTypeSelector meal={meal} setMeal={setMeal} />
 
                   {/* Date selector */}
@@ -157,7 +160,7 @@ function Track() {
                 </div>
 
                 <div
-                  className="calories-element flex-row space-between"
+                  className="calories-element flex-row flex-center space-between"
                   style={{ justifyContent: "center" }}
                 >
                   <div className="upload-element">

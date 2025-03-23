@@ -133,7 +133,13 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
                     align=""
                   />
                 ) : (
-                  <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "5px",
+                      alignItems: "center",
+                    }}
+                  >
                     <FontAwesomeIcon icon={faCalendar} />
                     {exercise.date}
                   </div>
@@ -151,7 +157,13 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
                     align=""
                   />
                 ) : (
-                  <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "5px",
+                      alignItems: "center",
+                    }}
+                  >
                     <FontAwesomeIcon icon={faClock} />
                     {exercise.time.substring(0, 5)}
                   </div>
@@ -169,9 +181,7 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
                   />
                 ) : (
                   <div>
-                    {exercise.calories
-                      ? exercise.calories + " kcal"
-                      : "Burnt calories not set"}
+                    {exercise.calories ? exercise.calories + " kcal" : ""}
                   </div>
                 )}
               </div>
@@ -193,7 +203,13 @@ function ExerciseCard({ exercise: propExercise }: ExerciseCardProp) {
 
             <div className="action-container">
               {isEditing ? (
-                <div>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "5px",
+                    alignItems: "center",
+                  }}
+                >
                   <button onClick={saveEditing}>Save</button>
                   <button onClick={discardEditing}>Discard</button>
                 </div>
