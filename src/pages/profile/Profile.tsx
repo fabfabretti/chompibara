@@ -280,12 +280,15 @@ function Profile() {
 
       {editing ? (
         <div className="flex-row gap20">
+          {/**Discard button */}
+          <button onClick={() => discardEdits()}>Discard</button>
+          {/**Save button */}
           <button className="primary" onClick={() => changeEditStatus()}>
             Save
           </button>
-          <button onClick={() => discardEdits()}>Discard</button>
         </div>
       ) : (
+        /**Edit button */
         <button className="primary" onClick={() => changeEditStatus()}>
           Edit
         </button>

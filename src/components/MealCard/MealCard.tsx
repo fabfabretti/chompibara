@@ -110,6 +110,7 @@ function MealCard(props: MealCardProp) {
       if (result == true) {
         setIsBeingDeleted(false);
         setDeleted(true);
+        if (props.setUpdated) props.setUpdated((prev) => !prev); //this makes the parent refresh
       }
     });
   };
@@ -310,19 +311,23 @@ function MealCard(props: MealCardProp) {
             {isEditing ? errorString : ""}
             <div className="action-container">
               {isEditing ? (
-                <div>
-                  <button onClick={saveEditing}>Save</button>
+                <div className="flex-row gap10">
+                  {/**Delete button */}
+                  <button disabled={isBeingDeleted} onClick={deleteMeal}>
+                    Delete
+                  </button>
+                  {/**Discard button */}
                   <button onClick={discardEditing}>Discard</button>
+                  {/**Save button */}
+                  <button className="primary" onClick={saveEditing}>
+                    Save
+                  </button>
                 </div>
               ) : (
                 <button onClick={() => setIsEditing(true)}>
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
               )}
-
-              <button disabled={isBeingDeleted} onClick={deleteMeal}>
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
             </div>
           </div>
         </div>

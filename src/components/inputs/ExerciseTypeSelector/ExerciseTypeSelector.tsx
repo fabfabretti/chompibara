@@ -27,7 +27,7 @@ function ExerciseTypeSelector({
   ];
 
   return (
-    <div className="upload-element exercise-selector">
+    <div className="upload-element exercise-selector flex-row flex-center flex-wrap">
       {exerciseOptions.map(({ value, icon }) => (
         <label
           key={value}

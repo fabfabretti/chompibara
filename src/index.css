@@ -116,6 +116,9 @@ h2 {
 .flex-start {
   align-items: flex-start;
 }
+.flex-wrap {
+  flex-wrap: wrap;
+}
 
 .gap20 {
   gap: 20px;
