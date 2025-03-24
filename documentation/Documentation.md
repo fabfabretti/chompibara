@@ -22,7 +22,9 @@ This project is licensed under the AGPL Affero Gnu Public License 3.0, and its s
 
 * **History and Stats**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day, There is also a different page to get similar information throughout a personalized time period, to visualize longer trernds and improvements.
 
-## 2. Installation
+The app was developed with the objective of practicing React as much as possible, and for this reason no UI libraries have been used. [Vikunja](https://vikunja.io/), a selfhostable and FOSS alternative for project managing, has been used to track development.
+
+## Installation
 
 ### 1. Supabase setup and schema
 
@@ -30,11 +32,7 @@ As this project uses [Supabase](https://supabase.com/) as its backend/database, 
 
 The project makes use of the following tables:
 
-|              |                                                              |
-| ------------ | ------------------------------------------------------------ |
-| `ExerciseDB` | <img src="Documentation.assets/image-20250322184706993.png" alt="image-20250322184706993" style="zoom:50%;" /> |
-| `MealDataDB` | <img src="Documentation.assets/image-20250322184752303.png" alt="image-20250322184752303" style="zoom:50%;" /> |
-| `ProfileDB`  | <img src="Documentation.assets/image-20250322184848913.png" alt="image-20250322184848913" style="zoom:50%;" /> |
+![image-20250324121241429](Documentation.assets/image-20250324121241429.png)
 
 Notes:
 
@@ -305,7 +303,9 @@ It's only used in the History page.
 
 Both components are cards that represent an exercise/meal, and offer the user a button to edit and delete it. The edit function has client-side input validation.
 
-They only take a `meal:MealData`/`exercise:ExerciseData` as input, so they are able to display an element and edit in the database, but not to edit its state.
+They mainly take a `meal:MealData`/`exercise:ExerciseData` as input, so they are able to display an element and edit in the database, but not to edit its state.
+
+Optionally, and only for their use in the History page, they also take a `setMealsUpdated`/`setExercisesUpdated` boolean state setter. This allows the child to warn the parent that the meal has been modified by the card, and in History's case it triggers a data refresh from the database, in order to update the data shown in [DailyStats](###DailyStats).
 
 #### Dependencies
 

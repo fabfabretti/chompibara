@@ -149,7 +149,7 @@ function History() {
               className="flex-row gap20 flex-center"
               style={{ flexFlow: "wrap" }}
             >
-              {meals.length == 0
+              {exercises.length == 0
                 ? "No exercises recorded on this day"
                 : exercises.map((exercise) => (
                     <ExerciseCard
