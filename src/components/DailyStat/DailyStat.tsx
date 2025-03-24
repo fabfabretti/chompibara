@@ -41,13 +41,13 @@ function DailyDashboard({ meals, exercises }: DailyDashboardProps) {
 
   return (
     <div
-      className="stat-container flex-col "
+      className="stat-component flex-col "
       style={{
-        width: "50%",
-        height: "92%",
-        maxWidth: "400px",
         color: "var(--on-primary-color)",
         gap: "30px",
+        height: "100%",
+        padding: "30px",
+        backgroundColor: "var(--dark-color)",
       }}
     >
       <div>

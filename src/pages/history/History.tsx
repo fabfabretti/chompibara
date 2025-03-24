@@ -75,30 +75,23 @@ function History() {
 
   // Render
   return (
-    <div className="flex-row" style={{ height: "100dvh", marginTop: 60 }}>
+    <div className="history-container">
       {/**Dashboard on left pane */}
-      <DailyDashboard meals={meals} exercises={exercises} />
+      <div className="left-pane">
+        <DailyDashboard meals={meals} exercises={exercises} />
+      </div>
 
       {/**Right pane */}
-      <div
-        className="history-container flex-col flex-start"
-        style={{
-          padding: "10px",
-          alignItems: "center",
-          minWidth: "500px",
-          width: "100%",
-          overflowY: "scroll",
-        }}
-      >
+      <div className="right-pane">
         {/** History header */}
         <div className="flex-col flex-center">
           <div className="year">{viewDate.getFullYear()}</div>
           <div
             className="flex-row flex-center gap20"
-            style={{ minWidth: "500px", justifyContent: "space-around" }}
+            style={{ justifyContent: "space-around" }}
           >
             {/** Back one day button */}
-            <button onClick={goToYesterday}>
+            <button className="primary" onClick={goToYesterday}>
               <h1>&lt;</h1>
             </button>
 
@@ -112,54 +105,68 @@ function History() {
             </h1>
 
             {/**Forwards one day button */}
-            <button onClick={goToTomorrow}>
+            <button className="primary" onClick={goToTomorrow}>
               <h1>&gt;</h1>
             </button>
           </div>
         </div>
 
-        {/** Meals */}
-        {areMealsLoading ? (
-          <div style={{ height: "90vh" }} className="flex-col flex-center">
-            <Loadingspinner />
-          </div>
-        ) : (
-          <div className="mealhistory">
-            {meals.length == 0
-              ? "No meals recorded on this day"
-              : meals.map((meal) => (
+        <div
+          className="dailyrecords-container flex-col gap20"
+          style={{ padding: "20px" }}
+        >
+          {/** Meals */}
+          {areMealsLoading ? (
+            <div className="flex-col flex-center">
+              <Loadingspinner />
+            </div>
+          ) : (
+            <div className="flex-col gap20">
+              <h2>Meal record</h2>
+              {meals.length == 0 ? (
+                <p style={{ color: "var(--greyed-out)" }}>
+                  No meals recorded on this day
+                </p>
+              ) : (
+                meals.map((meal) => (
                   <MealCard
                     meal={meal}
                     setUpdated={setMealsUpdated}
                     key={"meal" + meal.time + meal.id}
                   />
-                ))}
-          </div>
-        )}
+                ))
+              )}
+            </div>
+          )}
 
-        {/**Exercises */}
-        {areExercisesLoading ? (
-          <div style={{ height: "90vh" }} className="flex-col flex-center">
-            <Loadingspinner />
-          </div>
-        ) : (
-          <div className="exercises-container flex-col gap20">
-            <h2>Daily activities</h2>
-            <div
-              className="flex-row gap20 flex-center"
-              style={{ flexFlow: "wrap" }}
-            >
-              {exercises.length == 0
-                ? "No exercises recorded on this day"
-                : exercises.map((exercise) => (
+          {/**Exercises */}
+          {areExercisesLoading ? (
+            <div className="flex-col flex-center">
+              <Loadingspinner />
+            </div>
+          ) : (
+            <div className="exercises-container flex-col gap20">
+              <h2>Daily activities</h2>
+              <div
+                className="flex-row gap20 flex-center"
+                style={{ flexFlow: "wrap" }}
+              >
+                {exercises.length == 0 ? (
+                  <p style={{ color: "var(--greyed-out)" }}>
+                    No exercises recorded on this day
+                  </p>
+                ) : (
+                  exercises.map((exercise) => (
                     <ExerciseCard
                       exercise={exercise}
                       key={"exercise" + exercise.time + exercise.id}
                     />
-                  ))}
+                  ))
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

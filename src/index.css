@@ -20,6 +20,7 @@
   --font-headings: "Caprasimo";
   --font-body: "Cantora One";
   --dark-color: #2f2d2d;
+  --greyed-out: #ababab;
 }
 
 /*RESETS*/
@@ -86,7 +87,7 @@ h1 {
 }
 h2 {
   font-family: Caprasimo;
-  font-size: 1em;
+  font-size: 1.3em;
 }
 
 /* WE HAVE TAILWIND AT HOME*/
