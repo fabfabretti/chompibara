@@ -30,6 +30,9 @@ function Profile() {
   const profileIsValid = () => {
     let errors = [];
 
+    if (!profile.name || profile.name === "")
+      errors.push("Name cannot be empty.");
+
     if (!profile.age || profile.age <= 0 || profile.age > 120)
       errors.push("Age must be between 1 and 120 years.");
 
@@ -80,6 +83,7 @@ function Profile() {
   // Discard changes
   const discardEdits = () => {
     setProfile(oldProfile);
+    setErrorString("");
     setEditing((prev) => !prev);
   };
 
@@ -267,26 +271,24 @@ function Profile() {
             </div>
           </div>
 
-          <div className="errorstring-container color-primary">
-            {errorString}
-          </div>
-
           {/**Action button */}
-          {editing ? (
-            <div className="flex-row gap20">
-              <button className="primary" onClick={() => changeEditStatus()}>
-                Save
-              </button>
-              <button onClick={() => discardEdits()}>Discard</button>
-            </div>
-          ) : (
-            <button className="primary" onClick={() => changeEditStatus()}>
-              Edit
-            </button>
-          )}
         </div>
       ) : (
         <Loadingspinner />
+      )}
+      <div className="errorstring-container color-primary">{errorString}</div>
+
+      {editing ? (
+        <div className="flex-row gap20">
+          <button className="primary" onClick={() => changeEditStatus()}>
+            Save
+          </button>
+          <button onClick={() => discardEdits()}>Discard</button>
+        </div>
+      ) : (
+        <button className="primary" onClick={() => changeEditStatus()}>
+          Edit
+        </button>
       )}
     </div>
   );

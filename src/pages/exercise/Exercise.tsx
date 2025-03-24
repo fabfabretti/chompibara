@@ -122,7 +122,7 @@ function Exercise() {
         <ExerciseCard exercise={exercise} />
       )}
 
-      <div>{errorString}</div>
+      <div style={{ color: "var(--primary-color)" }}>{errorString}</div>
       {!hasBeenUploaded ? (
         <button
           className="submit primary"

@@ -33,9 +33,7 @@ function Stats() {
   const setMealsFromRange = () => {
     // Loads meals and exercises from DB in selected range
     if (new Date(startDay) > new Date(endDay)) {
-      setErrorString(
-        "La data di inizio non può essere successiva alla data di fine."
-      );
+      setErrorString("Start date cannot be after end date.");
       return;
     }
 
@@ -71,44 +69,70 @@ function Stats() {
 
   //Render
   return (
-    <div className="page">
+    <div className="page ">
       <h1>Stats</h1>
-      <div className="flexrow gap20">
-        <label>
-          Start date:
-          <input
-            type="date"
-            value={startDay}
-            onChange={(e) => setStartDay(e.target.value)}
-          ></input>
-        </label>
-        <label>
-          End date:
-          <input
-            type="date"
-            value={endDay}
-            onChange={(e) => setEndDay(e.target.value)}
-          ></input>
-        </label>
+      <p
+        style={{
+          marginTop: "-10px",
+          marginBottom: "-10px",
+          textAlign: "center",
+        }}
+      >
+        Select a start and end date to get an overview of your data!
+      </p>
 
-        <button className="primary" onClick={() => setMealsFromRange()}>
-          Calculate
-        </button>
-      </div>
+      {/**Content */}
+      <div className="flex-col flex-center ">
+        {/**Module to select date */}
+        <div className="dateselector-container flex-col flex-center gap20">
+          <div className="dateinputs-container flex-row gap20 ">
+            {/**Start date */}
+            <label>
+              Start date:
+              <input
+                type="date"
+                value={startDay}
+                onChange={(e) => setStartDay(e.target.value)}
+              ></input>
+            </label>
+            {/**End date */}
+            <label>
+              End date:
+              <input
+                type="date"
+                value={endDay}
+                onChange={(e) => setEndDay(e.target.value)}
+              ></input>
+            </label>
+          </div>
 
-      {errorString}
-      {isLoading ? (
-        <Loadingspinner />
-      ) : (
-        <div className="charts-container flex-col gap20">
-          <MacroDonutChart meals={meals} average={true} />
-          <MacroStackedChart
-            meals={meals}
-            cumulative={false}
-            target={profile.targetcalories}
-          />
+          {/** Error message */}
+          <div style={{ color: "var(--primary-color)" }}>{errorString}</div>
+
+          <button className="primary" onClick={() => setMealsFromRange()}>
+            Calculate
+          </button>
         </div>
-      )}
+
+        {isLoading ? (
+          <Loadingspinner />
+        ) : (
+          <div
+            className="charts-container card-custom gap20"
+            style={{ marginTop: "30px", width: "90%" }}
+          >
+            <h2>Macrocalories overview</h2>
+            <MacroDonutChart meals={meals} average={true} />
+            <h2>Daily macrocalories trends</h2>
+            <MacroStackedChart
+              meals={meals}
+              cumulative={false}
+              target={profile.targetcalories}
+            />
+            <h2>Daily burnt calories</h2>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

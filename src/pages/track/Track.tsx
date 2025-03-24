@@ -201,7 +201,7 @@ function Track() {
         <MealCard meal={meal} />
       )}
 
-      <div>{errorString}</div>
+      <div style={{ color: "var(--primary-color)" }}>{errorString}</div>
       {!hasBeenUploaded ? (
         <button
           className="submit primary"
