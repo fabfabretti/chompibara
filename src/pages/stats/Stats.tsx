@@ -9,6 +9,7 @@ import { ExerciseData } from "../../context/types/ExerciseTypes";
 import MacroDonutChart from "../../components/graphs/MacroDonutChart/MacroDonutChart";
 import MacroStackedChart from "../../components/graphs/MacroStackedChart/MacroStackedChart";
 import Loadingspinner from "../../components/Loadingspinner/Loadingspinner";
+import BurntCaloriesBarChart from "../../components/graphs/BurntCaloriesBarChart.tsx/BurntCaloriesBarChart";
 
 const today = new Date().toISOString().split("T")[0];
 const aWeekAgo = new Date(); // Create a new Date object
@@ -82,7 +83,7 @@ function Stats() {
       </p>
 
       {/**Content */}
-      <div className="flex-col flex-center ">
+      <div className="flex-col flex-center " style={{ marginTop: "20px" }}>
         {/**Module to select date */}
         <div className="dateselector-container flex-col flex-center gap20">
           <div className="dateinputs-container flex-row gap20 ">
@@ -106,30 +107,56 @@ function Stats() {
             </label>
           </div>
 
-          {/** Error message */}
-          <div style={{ color: "var(--primary-color)" }}>{errorString}</div>
-
           <button className="primary" onClick={() => setMealsFromRange()}>
             Calculate
           </button>
+          {/** Error message */}
+          <div style={{ color: "var(--primary-color)" }}>{errorString}</div>
         </div>
 
         {isLoading ? (
           <Loadingspinner />
         ) : (
           <div
-            className="charts-container card-custom gap20"
-            style={{ marginTop: "30px", width: "90%" }}
+            className="charts-container flex-row flex-wrap  flex-center gap20"
+            style={{
+              marginTop: "30px",
+              width: "90%",
+              alignItems: "center",
+              flex: "0 1 auto",
+            }}
           >
-            <h2>Macrocalories overview</h2>
-            <MacroDonutChart meals={meals} average={true} />
-            <h2>Daily macrocalories trends</h2>
-            <MacroStackedChart
-              meals={meals}
-              cumulative={false}
-              target={profile.targetcalories}
-            />
-            <h2>Daily burnt calories</h2>
+            <div
+              className="card-custom flex-col flex-center"
+              style={{ minWidth: "200px", maxWidth: "500px" }}
+            >
+              <h2>Daily macrocalories consumption trend</h2>
+              <MacroStackedChart
+                meals={meals}
+                cumulative={false}
+                target={profile.targetcalories}
+              />
+            </div>
+            {/**Burnt calories */}
+            <div
+              className="card-custom flex-col flex-center"
+              style={{ minWidth: "200px", maxWidth: "500px" }}
+            >
+              <h2>Daily burnt calories</h2>
+              <BurntCaloriesBarChart
+                exercises={exercises}
+                startDate={startDay}
+                endDate={endDay}
+              />
+            </div>
+            {/**Macrocalories overview (ring thing) */}
+            <div
+              className="card-custom flex-col flex-center"
+              style={{ minWidth: "200px", maxWidth: "500px" }}
+            >
+              <h2>Macrocalories overview</h2>
+              <MacroDonutChart meals={meals} average={true} />
+            </div>
           </div>
         )}
       </div>
