@@ -31,41 +31,41 @@ function Profile() {
     let errors = [];
 
     if (!profile.age || profile.age <= 0 || profile.age > 120)
-      errors.push("L'età deve essere compresa tra 1 e 120 anni.");
+      errors.push("Age must be between 1 and 120 years.");
 
     if (!profile.height || profile.height < 50 || profile.height > 250)
-      errors.push("L'altezza deve essere tra 50 e 250 cm.");
+      errors.push("Height must be between 50 and 250 cm.");
 
     if (!profile.weight || profile.weight < 20 || profile.weight > 300)
-      errors.push("Il peso deve essere tra 20 e 300 kg.");
+      errors.push("Weight must be between 20 and 300 kg.");
 
     if (
       !profile.targetcalories ||
       profile.targetcalories < 500 ||
       profile.targetcalories > 5000
     )
-      errors.push("Le calorie devono essere tra 500 e 5000.");
+      errors.push("Calories must be between 500 and 5000.");
 
     if (
       profile.targetcarbo === null ||
       profile.targetcarbo < 0 ||
       profile.targetcarbo > 1000
     )
-      errors.push("I carboidrati devono essere tra 0 e 1000 g.");
+      errors.push("Carbohydrates must be between 0 and 1000 g.");
 
     if (
       profile.targetprotein === null ||
       profile.targetprotein < 0 ||
       profile.targetprotein > 500
     )
-      errors.push("Le proteine devono essere tra 0 e 500 g.");
+      errors.push("Proteins must be between 0 and 500 g.");
 
     if (
       profile.targetfat === null ||
       profile.targetfat < 0 ||
       profile.targetfat > 500
     )
-      errors.push("I grassi devono essere tra 0 e 500 g.");
+      errors.push("Fats must be between 0 and 500 g.");
 
     setErrorString(errors.join("\n"));
     return errors.length === 0;
