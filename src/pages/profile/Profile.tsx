@@ -12,7 +12,7 @@ function Profile() {
   const [editing, setEditing] = useState(false);
   const [profile, setProfile] = useState<ProfileData>(defaultProfile);
   const [oldProfile, setOldProfile] = useState<ProfileData>(defaultProfile);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [errorString, setErrorString] = useState("");
 
   //DB manager

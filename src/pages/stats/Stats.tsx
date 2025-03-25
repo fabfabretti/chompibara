@@ -78,6 +78,7 @@ function Stats() {
   //Render
   return (
     <div className="page ">
+      <div></div>
       <h1>Stats</h1>
       <p
         style={{
@@ -92,7 +93,7 @@ function Stats() {
       {/**Content */}
       <div className="flex-col flex-center " style={{ marginTop: "20px" }}>
         {/**Module to select date */}
-        <div className="dateselector-container flex-col flex-center gap20">
+        <div className="dateselector-container flex-row flex-between flex-center gap20">
           <div className="dateinputs-container flex-row gap20 ">
             {/**Start date */}
             <label>
