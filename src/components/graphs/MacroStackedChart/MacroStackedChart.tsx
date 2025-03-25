@@ -44,7 +44,9 @@ function MacroStackedChart({
     );
   }
 
-  const isSingleDay = isSameDay(meals);
+  const isSingleDay =
+    startDay && endDay ? startDay === endDay : isSameDay(meals);
+
   let mealDataPoints = meals.map(createMealDataPoint).sort(sortByDateTime);
 
   if (!isSingleDay) {

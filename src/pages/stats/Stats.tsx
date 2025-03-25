@@ -30,6 +30,10 @@ function Stats() {
 
   const supabaseManager = SupabaseManager.getInstance();
 
+  // these are the dates sent to the stackcoso component
+  const [actualStartDate, setactualStartDate] = useState(weekAgo);
+  const [actualEndDate, setactualEndDate] = useState(today);
+
   //Functions
   const setMealsFromRange = () => {
     // Loads meals and exercises from DB in selected range
@@ -52,6 +56,9 @@ function Stats() {
             setExercises(result);
           });
       });
+
+    setactualEndDate(startDay);
+    setactualEndDate(endDay);
 
     setIsLoading(false);
   };
@@ -135,8 +142,8 @@ function Stats() {
                 meals={meals}
                 cumulative={false}
                 target={profile.targetcalories}
-                startDay={startDay}
-                endDay={endDay}
+                startDay={actualStartDate}
+                endDay={actualEndDate}
               />
             </div>
             {/**Burnt calories */}
