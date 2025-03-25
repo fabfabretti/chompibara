@@ -83,7 +83,7 @@ function History() {
       </div>
 
       {/**Right pane */}
-      <div className="right-pane">
+      <div className="right-pane flex-col" style={{ alignItems: "center" }}>
         {/** History header */}
         <div className="flex-col flex-center">
           <div className="year">{viewDate.getFullYear()}</div>
@@ -114,7 +114,7 @@ function History() {
 
         <div
           className="dailyrecords-container flex-col gap20"
-          style={{ padding: "20px" }}
+          style={{ padding: "20px", maxWidth: "700px" }}
         >
           {/** Meals */}
           {areMealsLoading ? (
