@@ -155,12 +155,12 @@ Using React Router, these are the main components for each page.
 
 |                          Screenshot                          | Page file and details                                        |
 | :----------------------------------------------------------: | ------------------------------------------------------------ |
-| <img src="Documentation.assets/image-20250323004443726.png" alt="image-20250323004443726" style="zoom: 25%;" /> | `/pages/track/Track.tsx` -> This page lets the user upload an image and enter the details for the meal. Client-side input validation is performed. After the meal is added, the user is shown a card with their newly-added meal, and is able to edit or delete it directly. |
-| <img src="Documentation.assets/image-20250323004454275.png" alt="image-20250323004454275" style="zoom: 25%;" /> | `/pages/exercise/Exercise.tsx` -> This page lets the user enter details for their pysical activity. Client-side input validation is performed. After the exercise is added, the user is shown a card with their newly-added exercise, and is able to edit or delete it directly. |
-| <img src="Documentation.assets/image-20250323004509977.png" alt="image-20250323004509977" style="zoom:25%;" /> | `/pages/history/History.tsx `-> The History page allows users to view their meal and exercise history for a specific day. This page is divided into two panes:<br/>- A dash panel, that shows graphs for the currently viewed day such as daily macronutrient and calories intake graphs.<br />- A history panel, which lets the user choose a day and see the meals and exercises. Each meal/exercise card also lets the user edit or delete the card. Client-side input validation for editing is performed. |
-| <img src="Documentation.assets/image-20250323004520879.png" alt="image-20250323004520879" style="zoom:25%;" /> | `/pages/stats/Stats.tsx` -> This page lets the user select a custom range of time and see stats such as macronutrient and calories intake graphs throughout multiple days. |
-| <img src="Documentation.assets/image-20250323004531049.png" alt="image-20250323004531049" style="zoom:25%;" /> | `/pages/profile/Profile.tsx`-> This page lets the user see and edit their profile, including setting a daily calories value that is displayed in Stats and History pages. Client-side input validation is performed. |
-| <img src="Documentation.assets/image-20250323004552474.png" alt="image-20250323004552474" style="zoom:25%;" /> | `/pages/homepage/Homepage.tsx ` -> This page serves as a simple welcome page for the user, briefly explaining what the application is about. |
+| ![image-20250325135449909](Documentation.assets/image-20250325135449909.png) | `/pages/track/Track.tsx` -> This page lets the user upload an image and enter the details for the meal. Client-side input validation is performed. After the meal is added, the user is shown a card with their newly-added meal, and is able to edit or delete it directly. |
+| ![image-20250325135456662](Documentation.assets/image-20250325135456662.png) | `/pages/exercise/Exercise.tsx` -> This page lets the user enter details for their pysical activity. Client-side input validation is performed. After the exercise is added, the user is shown a card with their newly-added exercise, and is able to edit or delete it directly. |
+| ![image-20250325135549671](Documentation.assets/image-20250325135549671.png) | `/pages/history/History.tsx `-> The History page allows users to view their meal and exercise history for a specific day. This page is divided into two panes:<br/>- A dash panel, that shows graphs for the currently viewed day such as daily macronutrient and calories intake graphs.<br />- A history panel, which lets the user choose a day and see the meals and exercises. Each meal/exercise card also lets the user edit or delete the card. Client-side input validation for editing is performed. |
+| ![image-20250325135535029](Documentation.assets/image-20250325135535029.png) | `/pages/stats/Stats.tsx` -> This page lets the user select a custom range of time and see stats such as macronutrient and calories intake graphs throughout multiple days. |
+| ![image-20250325135525901](Documentation.assets/image-20250325135525901.png) | `/pages/profile/Profile.tsx`-> This page lets the user see and edit their profile, including setting a daily calories value that is displayed in Stats and History pages. Client-side input validation is performed. |
+| ![image-20250325135431098](Documentation.assets/image-20250325135431098.png) | `/pages/homepage/Homepage.tsx ` -> This page serves as a simple welcome page for the user, briefly explaining what the application is about. |
 
 ## Types
 
@@ -283,7 +283,7 @@ It's used by [MealCard](###MealCard and ExerciseCard) and  [ExerciseCard](###Mea
 
 ### Usage
 
-DailyStat is mostly a "bridge" component, not meant to be reused but more to avoid an overly long History component. It sets up various other components in a nice layout.
+DailyStat is mostly a "bridge" component, not meant to be reused; it's a way to avoid an overly long History component. It sets up various other components in a nice layout.
 
 #### Dependencies
 
@@ -313,7 +313,13 @@ The MealCard uses [Chip](###Chip) and a [MacroDonutChart](###MacroStat) componen
 
 #### Pictures
 
-<div style="display:flex;justify-content:center"><img src="Documentation.assets/image-20250322212216393.png" alt="image-20250322212216393" style="zoom: 50%;" /><img src="Documentation.assets/image-20250322212433218.png" alt="image-20250322212433218" style="zoom: 33%;" /><img src="Documentation.assets/image-20250322212510378.png" alt="image-20250322212510378" style="zoom:50%;" /><img src="Documentation.assets/image-20250322212518446.png" alt="image-20250322212518446" style="zoom:33%;" /></div>
+<img src="Documentation.assets/image-20250325135737744.png" alt="image-20250325135737744" style="zoom:50%;" />
+
+<img src="Documentation.assets/image-20250325135750386.png" alt="image-20250325135750386" style="zoom:50%;" />
+
+<img src="Documentation.assets/image-20250325135837558.png" alt="image-20250325135837558" style="zoom:50%;" /><img src="Documentation.assets/image-20250325135846152.png" alt="image-20250325135846152" style="zoom:50%;" />
+
+
 
 ### FileLoader
 
@@ -391,7 +397,7 @@ It takes as prop:
 * `targetCalories:number` (optional): the target calories intake, as per Profile.
 * `cumulative:boolean`:whether the calories will be displayed cumulatively or point by point. This is because, if meals span across multiple days, it makes more sense to group meals by day and show daily average calories, instead of cumulating over multiple days. Defaults to `true`.
 
-##### Dependecies
+#### Dependecies
 
 The donut charts are made with Recharts.
 
@@ -400,6 +406,30 @@ It's used by Stats and [DailyStats](###DailyStats).
 ##### Pictures
 
 <img src="Documentation.assets/image-20250322231605507.png" alt="image-20250322231605507" style="zoom:50%;" /><img src="Documentation.assets/image-20250322235430346.png" alt="image-20250322235430346" style="zoom:50%;" />
+
+### BurntCaloriesBarChart
+
+#### Usage
+
+The BurntCaloriesBarChart component shows a bar chart with the calories burnt through exercise. 
+
+It takes as props:
+
+* `exercises:ExercisesData[]` : a list of exercises to display in the graph
+* `startDate:Date`(optional): the starting date of the time period to display. This is because the component is used in Stats, where the examined time period could start before the first exercise from the array, and the component will add "empty" days accordingly.
+* `endDate:Date` (optional): end of the time period to display, similar to `startDate.
+
+If all the exercises are in the same day, the component will not group calories by day and instead show directly each exercise's calories.
+
+#### Dependencies
+
+The bar chart is made with Recharts.
+
+It's used in Stats and [DailyStats](###DailyStats).
+
+#### Pictures
+
+![image-20250325141638227](Documentation.assets/image-20250325141638227.png)
 
 ### MealTypeSelector and ExerciseTypeSelector
 

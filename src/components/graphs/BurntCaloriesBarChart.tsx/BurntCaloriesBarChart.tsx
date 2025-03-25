@@ -7,27 +7,19 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export type ExerciseData = {
-  id: number;
-  name: string;
-  date: string;
-  time: string;
-  duration?: string;
-  calories?: number;
-  type: string;
-};
+import { ExerciseData } from "../../../context/types/ExerciseTypes";
 
-type Props = {
+type BurntCaloriesBarChartProps = {
   exercises: ExerciseData[];
   startDate?: string;
   endDate?: string;
 };
 
-const BurntCaloriesBarChart: React.FC<Props> = ({
+function BurntCaloriesBarChart({
   exercises,
   startDate,
   endDate,
-}) => {
+}: BurntCaloriesBarChartProps) {
   let chartData = [];
 
   if (!startDate || !endDate) {
@@ -69,6 +61,6 @@ const BurntCaloriesBarChart: React.FC<Props> = ({
       </BarChart>
     </ResponsiveContainer>
   );
-};
+}
 
 export default BurntCaloriesBarChart;
