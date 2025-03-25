@@ -135,6 +135,8 @@ function Stats() {
                 meals={meals}
                 cumulative={false}
                 target={profile.targetcalories}
+                startDay={startDay}
+                endDay={endDay}
               />
             </div>
             {/**Burnt calories */}

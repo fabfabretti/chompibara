@@ -17,10 +17,11 @@ type MealChartProps = {
   meals: MealData[];
   target?: number;
   cumulative?: boolean;
+  startDay?: string;
+  endDay?: string;
 };
 
 type dataPoint = {
-  //this is each point in the chart.
   dateTime: string;
   carbs: number;
   fats: number;
@@ -32,8 +33,9 @@ function MacroStackedChart({
   meals,
   target,
   cumulative = false,
+  startDay,
+  endDay,
 }: MealChartProps) {
-  // If no data, return
   if (!meals || meals.length === 0) {
     return (
       <p style={{ color: "var(--greyed-out)", textAlign: "center" }}>
@@ -42,51 +44,82 @@ function MacroStackedChart({
     );
   }
 
-  //Check how many days. If > 1, we need to group by day.
   const isSingleDay = isSameDay(meals);
-
-  //Expand meal into data points
   let mealDataPoints = meals.map(createMealDataPoint).sort(sortByDateTime);
 
-  // If more than one day is included, group datapoints by day
   if (!isSingleDay) {
-    mealDataPoints = Object.values(
-      mealDataPoints.reduce(
-        // acc is accumulation, where sono salvati i risultati parziali
-        //accumulo in un dizionario la cui chiave sarà la data
-        (acc: { [key: string]: dataPoint }, point: dataPoint) => {
-          //questa below è eseguita su ogni elemento dell'array
-          const date = point.dateTime.split("T")[0]; // estrazione data
-          if (!acc[date]) {
-            //se non avevamo ancora trovato quella data la creiamo
-            acc[date] = {
-              dateTime: date,
-              carbs: 0,
-              fats: 0,
-              protein: 0,
-              unassigned: 0,
-            };
-          }
-          acc[date].carbs += point.carbs; //altrimenti aggiungiamo a dove c'è già
-          acc[date].fats += point.fats;
-          acc[date].protein += point.protein;
-          acc[date].unassigned += point.unassigned;
-          return acc;
-        },
-        {} //all'inizio nessuna data
-      )
-    );
+    if (startDay && endDay) {
+      const groupedPoints: { [key: string]: dataPoint } = {};
+      mealDataPoints.forEach((point) => {
+        const date = point.dateTime.split("T")[0];
+        if (!groupedPoints[date]) {
+          groupedPoints[date] = {
+            dateTime: date,
+            carbs: 0,
+            fats: 0,
+            protein: 0,
+            unassigned: 0,
+          };
+        }
+        groupedPoints[date].carbs += point.carbs;
+        groupedPoints[date].fats += point.fats;
+        groupedPoints[date].protein += point.protein;
+        groupedPoints[date].unassigned += point.unassigned;
+      });
+
+      const startDateObj = new Date(startDay);
+      const endDateObj = new Date(endDay);
+      for (
+        let d = new Date(startDateObj);
+        d <= endDateObj;
+        d.setDate(d.getDate() + 1)
+      ) {
+        const dayStr = d.toISOString().split("T")[0];
+        if (!groupedPoints[dayStr]) {
+          groupedPoints[dayStr] = {
+            dateTime: dayStr,
+            carbs: 0,
+            fats: 0,
+            protein: 0,
+            unassigned: 0,
+          };
+        }
+      }
+      mealDataPoints = Object.values(groupedPoints).sort(sortByDateTime);
+    } else {
+      mealDataPoints = Object.values(
+        mealDataPoints.reduce(
+          (acc: { [key: string]: dataPoint }, point: dataPoint) => {
+            const date = point.dateTime.split("T")[0];
+            if (!acc[date]) {
+              acc[date] = {
+                dateTime: date,
+                carbs: 0,
+                fats: 0,
+                protein: 0,
+                unassigned: 0,
+              };
+            }
+            acc[date].carbs += point.carbs;
+            acc[date].fats += point.fats;
+            acc[date].protein += point.protein;
+            acc[date].unassigned += point.unassigned;
+            return acc;
+          },
+          {} as { [key: string]: dataPoint }
+        )
+      ).sort(sortByDateTime);
+    }
   }
 
-  const augmentedDataPoints = augmentDataPoints(mealDataPoints); // This adds an "empty" datapoint at start and end of day
-  const cumulativeMealDataPoints =
-    calculateCumulativeCalories(augmentedDataPoints);
+  // If startDay and endDay were not provided, we still augment the data with an empty datapoint at the start and end of the range.
+  const dataPoints =
+    startDay && endDay ? mealDataPoints : augmentDataPoints(mealDataPoints);
+  const cumulativeMealDataPoints = calculateCumulativeCalories(dataPoints);
+  const finalDataPoints = cumulative ? cumulativeMealDataPoints : dataPoints;
 
-  const dataPoints = cumulative ? cumulativeMealDataPoints : mealDataPoints;
-
-  // Style stuff
   const maxYValue = Math.max(
-    ...dataPoints.flatMap((point) => [
+    ...finalDataPoints.flatMap((point) => [
       point.carbs,
       point.fats,
       point.protein,
@@ -115,7 +148,6 @@ function MacroStackedChart({
 
     updateChartWidth();
     window.addEventListener("resize", updateChartWidth);
-
     return () => {
       window.removeEventListener("resize", updateChartWidth);
     };
@@ -123,16 +155,18 @@ function MacroStackedChart({
 
   return (
     <div ref={chartRef} style={{ width: "100%" }}>
-      <AreaChart width={chartWidth} height={250} data={dataPoints}>
+      <AreaChart width={chartWidth} height={250} data={finalDataPoints}>
         <CartesianGrid {...gridLineStyle} />
         <XAxis dataKey="dateTime" tickFormatter={xAxisFormatter} />
         <YAxis
           domain={[0, maxYValue * 1.2]}
-          ticks={[...Array(Math.floor(maxYValue / 500)).keys()]
-            .map((i) => i * 500)
-            .concat(target || [])}
+          ticks={[
+            ...Array(Math.floor(maxYValue / 500))
+              .fill(0)
+              .map((_, i) => i * 500),
+            target || 0,
+          ]}
         />
-
         <Tooltip />
         <Area
           type="monotone"
@@ -176,8 +210,7 @@ function MacroStackedChart({
   );
 }
 
-// This converts meals to data usable in the graph (e.g. macros weight is converted to calories)
-function createMealDataPoint(meal: MealData) {
+function createMealDataPoint(meal: MealData): dataPoint {
   const combinedDateTime = new Date(`${meal.date}T${meal.time}`).toISOString();
   const unassignedCalories =
     (meal.calories || 0) -
@@ -204,11 +237,9 @@ function isSameDay(meals: MealData[]) {
 function createXAxisFormatter(isSingleDay: boolean) {
   return (dateTime: string) => {
     const date = new Date(dateTime);
-
     if (isNaN(date.getTime())) {
       return "Invalid Date";
     }
-
     if (isSingleDay) {
       const hours = date.getHours().toString().padStart(2, "0");
       return `${hours}:00`;
@@ -223,13 +254,11 @@ function calculateCumulativeCalories(dataPoints: dataPoint[]) {
   let cumulativeFats = 0;
   let cumulativeProtein = 0;
   let cumulativeUnassigned = 0;
-
   return dataPoints.map((point) => {
     cumulativeCarbs += point.carbs;
     cumulativeFats += point.fats;
     cumulativeProtein += point.protein;
     cumulativeUnassigned += point.unassigned;
-
     return {
       dateTime: point.dateTime,
       carbs: cumulativeCarbs,
@@ -242,16 +271,12 @@ function calculateCumulativeCalories(dataPoints: dataPoint[]) {
 
 function augmentDataPoints(dataPoints: dataPoint[]) {
   if (dataPoints.length === 0) return [];
-
   const firstDateTime = new Date(dataPoints[0].dateTime);
   const lastDateTime = new Date(dataPoints[dataPoints.length - 1].dateTime);
-
   const startOfDay = new Date(firstDateTime);
   startOfDay.setHours(0, 0, 0, 0);
-
   const endOfDay = new Date(lastDateTime);
   endOfDay.setHours(23, 59, 59, 999);
-
   const augmentedData = [
     {
       dateTime: startOfDay.toISOString(),
@@ -269,7 +294,6 @@ function augmentDataPoints(dataPoints: dataPoint[]) {
       unassigned: 0,
     },
   ];
-
   return augmentedData;
 }
 
