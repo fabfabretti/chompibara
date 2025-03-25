@@ -34,6 +34,7 @@ function MealCard(props: MealCardProp) {
   //States
   const [meal, setMeal] = useState<MealData>(props.meal);
   const [image, setImage] = useState<File | null>(null);
+  const [deleteImage, setDeleteImage] = useState<boolean>(false);
 
   const [isBeingDeleted, setIsBeingDeleted] = useState(false);
   const [isEditing, setIsEditing] = useState(false); //User is editing the component
@@ -133,6 +134,8 @@ function MealCard(props: MealCardProp) {
       }
     }
 
+    if (deleteImage) updatedMeal = { ...updatedMeal, photo: "" };
+
     try {
       await supabaseManager.updateMeal(updatedMeal);
     } catch (error) {
@@ -140,6 +143,8 @@ function MealCard(props: MealCardProp) {
     }
 
     if (props.setUpdated) props.setUpdated((prev) => !prev);
+
+    setMeal(updatedMeal);
 
     setIsUpdating(false);
     setIsEditing(false);
@@ -178,7 +183,17 @@ function MealCard(props: MealCardProp) {
         >
           <div className="image-container">
             {isEditing ? (
-              <FileLoader image={image} setImage={setImage} />
+              <div>
+                <FileLoader image={image} setImage={setImage} />
+                <label className="flex-row gap10" style={{ marginTop: "10px" }}>
+                  <input
+                    type="checkbox"
+                    checked={deleteImage}
+                    onChange={(e) => setDeleteImage(e.target.checked)}
+                  ></input>
+                  Delete image
+                </label>
+              </div>
             ) : !meal.photo ? (
               <div
                 style={{
@@ -324,7 +339,13 @@ function MealCard(props: MealCardProp) {
                   </button>
                 </div>
               ) : (
-                <button onClick={() => setIsEditing(true)}>
+                <button
+                  onClick={() => {
+                    setIsEditing(true);
+                    setDeleteImage(false);
+                    setImage(null);
+                  }}
+                >
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
               )}
