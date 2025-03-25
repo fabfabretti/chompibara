@@ -35,7 +35,11 @@ function MacroStackedChart({
 }: MealChartProps) {
   // If no data, return
   if (!meals || meals.length === 0) {
-    return <p>No meal data available.</p>;
+    return (
+      <p style={{ color: "var(--greyed-out)", textAlign: "center" }}>
+        No meals recorded on this day.
+      </p>
+    );
   }
 
   //Check how many days. If > 1, we need to group by day.

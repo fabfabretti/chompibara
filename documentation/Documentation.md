@@ -2,8 +2,6 @@
 
 [TOC]
 
-
-
 ## What is Chompibara
 
 Chompibara is a food tracking application built with  React, designed to help users monitor their nutrition by uploading  photos of their meals and manually adding nutritional information. It  offers a daily food diary, with visual charts to track calorie and macro consumption.

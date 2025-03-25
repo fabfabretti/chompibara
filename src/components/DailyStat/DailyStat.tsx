@@ -9,6 +9,13 @@ import { SupabaseManager } from "../../context/SupabaseManager";
 import MacroDonutChart from "../graphs/MacroDonutChart/MacroDonutChart";
 import MacroProgressRing from "../graphs/MacroProgressRing/MacroProgressRing";
 import MacroStackedChart from "../graphs/MacroStackedChart/MacroStackedChart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowTrendUp,
+  faFire,
+  faGauge,
+} from "@fortawesome/free-solid-svg-icons";
+import BurntCaloriesBarChart from "../graphs/BurntCaloriesBarChart.tsx/BurntCaloriesBarChart";
 
 type DailyDashboardProps = {
   meals: Array<MealData>;
@@ -20,6 +27,7 @@ function DailyDashboard({ meals, exercises }: DailyDashboardProps) {
   const [totalFats, setTotalFats] = useState(0);
   const [totalProtein, setTotalProtein] = useState(0);
   const [profile, setProfile] = useState<ProfileData>(defaultProfile);
+  const [burned, setBurned] = useState<number>(0);
 
   const supabaseManager = SupabaseManager.getInstance();
 
@@ -27,6 +35,13 @@ function DailyDashboard({ meals, exercises }: DailyDashboardProps) {
   useEffect(() => {
     supabaseManager.getProfile().then((profile) => setProfile(profile));
   }, []);
+
+  // Recompute exercises when exercises changes
+  useEffect(() => {
+    setBurned(
+      exercises.reduce((sum, exercise) => sum + (exercise.calories || 0), 0)
+    );
+  }, [exercises]);
 
   // Compute total macros
   useEffect(() => {
@@ -41,7 +56,7 @@ function DailyDashboard({ meals, exercises }: DailyDashboardProps) {
 
   return (
     <div
-      className="stat-component flex-col "
+      className="stat-component flex-col gap20"
       style={{
         color: "var(--on-primary-color)",
         gap: "30px",
@@ -51,7 +66,14 @@ function DailyDashboard({ meals, exercises }: DailyDashboardProps) {
       }}
     >
       <div>
-        <h2>Daily stats</h2>
+        <div className="burned-title flex-row gap20">
+          <FontAwesomeIcon
+            icon={faGauge}
+            size="2x"
+            color="var(--primary-color)"
+          />
+          <h2>Targets</h2>
+        </div>{" "}
         <div
           className="macrodonutchart-container flex-col"
           style={{ marginTop: "10px" }}
@@ -82,15 +104,54 @@ function DailyDashboard({ meals, exercises }: DailyDashboardProps) {
           </div>
         </div>
       </div>
+
+      {/**Stacked chart */}
       <div>
-        <h2>Cumulative calories by hour</h2>
+        <div className="burned-title flex-row gap20">
+          <FontAwesomeIcon
+            icon={faArrowTrendUp}
+            color="var(--primary-color)"
+            size="2x"
+          />
+          <h2>Calorie consumption</h2>
+        </div>{" "}
         <div>
           <MacroStackedChart
             meals={meals}
             target={profile.targetcalories}
             cumulative={true}
-          />
+          />{" "}
         </div>
+      </div>
+
+      {/** Burned */}
+      <div className="burned-paragraph flex-col ">
+        <div className="burned-title flex-row gap20">
+          <FontAwesomeIcon
+            icon={faFire}
+            color="var(--primary-color)"
+            size="2x"
+          />
+          <h2>Exercise</h2>
+        </div>
+
+        {exercises.length == 0 ? (
+          <p style={{ color: "var(--greyed-out)", textAlign: "center" }}>
+            No exercises recorded on this day.
+          </p>
+        ) : (
+          <div className="flex-col gap20" style={{ alignItems: "center" }}>
+            {exercises.length > 1 ? (
+              <BurntCaloriesBarChart exercises={exercises} />
+            ) : null}
+            <p>
+              {" "}
+              {exercises.length}{" "}
+              {exercises.length == 1 ? "session" : "sessions"},
+              {burned != 0 ? <span> {burned} kcal burnt</span> : ""}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

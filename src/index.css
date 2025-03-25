@@ -120,6 +120,9 @@ h2 {
 .flex-wrap {
   flex-wrap: wrap;
 }
+.flex-align-center {
+  align-items: center;
+}
 
 .gap20 {
   gap: 20px;

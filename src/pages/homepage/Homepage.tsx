@@ -20,7 +20,6 @@ function Homepage() {
           </p>
 
           <div className="button-container">
-            <button className="secondary"> About Chompi</button>
             <button className="primary" onClick={() => navigate("/track")}>
               {" "}
               Add a meal

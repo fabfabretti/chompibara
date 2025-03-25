@@ -22,6 +22,7 @@ function History() {
 
   //a meal has been changed
   const [mealsUpdated, setMealsUpdated] = useState(false);
+  const [exerciseUpdated, setExerciseUpdated] = useState(false);
 
   //DB manager
   const supabaseManager: SupabaseManager = SupabaseManager.getInstance();
@@ -44,7 +45,7 @@ function History() {
       setExercises(exercises.sort(sortByTime));
       setAreExercisesLoading(false);
     });
-  }, [viewDate]);
+  }, [viewDate, exerciseUpdated]);
 
   // Manual sorting of dates for both exercises and meals
   const sortByTime = <T extends { time: string }>(a: T, b: T) => {
@@ -122,9 +123,9 @@ function History() {
             </div>
           ) : (
             <div className="flex-col gap20">
-              <h2>Meal record</h2>
+              <h2>Meal records</h2>
               {meals.length == 0 ? (
-                <p style={{ color: "var(--greyed-out)" }}>
+                <p style={{ color: "var(--greyed-out)", textAlign: "center" }}>
                   No meals recorded on this day
                 </p>
               ) : (
@@ -159,6 +160,7 @@ function History() {
                   exercises.map((exercise) => (
                     <ExerciseCard
                       exercise={exercise}
+                      setUpdated={setExerciseUpdated}
                       key={"exercise" + exercise.time + exercise.id}
                     />
                   ))

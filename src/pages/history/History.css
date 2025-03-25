@@ -16,7 +16,8 @@
 }
 
 .left-pane {
-  background-color: black;
+  background-color: var(--dark-color);
+  overflow-y: auto;
 }
 
 /* Responsive layout */

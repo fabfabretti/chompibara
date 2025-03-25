@@ -1,4 +1,3 @@
-import React from "react";
 import {
   BarChart,
   Bar,
@@ -20,8 +19,8 @@ export type ExerciseData = {
 
 type Props = {
   exercises: ExerciseData[];
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
 };
 
 const BurntCaloriesBarChart: React.FC<Props> = ({
@@ -29,19 +28,35 @@ const BurntCaloriesBarChart: React.FC<Props> = ({
   startDate,
   endDate,
 }) => {
-  const chartData = [];
+  let chartData = [];
 
-  for (
-    let d = new Date(startDate);
-    d <= new Date(endDate);
-    d.setDate(d.getDate() + 1)
-  ) {
-    const dateStr = d.toISOString().split("T")[0];
-    const totalCalories = exercises
-      .filter((ex) => ex.date === dateStr)
-      .reduce((sum, ex) => sum + (ex.calories || 0), 0);
+  if (!startDate || !endDate) {
+    chartData = exercises.map((ex) => ({
+      date: ex.date,
+      calories: ex.calories || 0,
+    }));
+  } else {
+    const groupedData: Record<string, number> = {};
 
-    chartData.push({ date: dateStr, calories: totalCalories });
+    for (
+      let d = new Date(startDate);
+      d <= new Date(endDate);
+      d.setDate(d.getDate() + 1)
+    ) {
+      const dateStr = d.toISOString().split("T")[0];
+      groupedData[dateStr] = 0;
+    }
+
+    exercises.forEach((ex) => {
+      if (groupedData.hasOwnProperty(ex.date)) {
+        groupedData[ex.date] += ex.calories || 0;
+      }
+    });
+
+    chartData = Object.entries(groupedData).map(([date, calories]) => ({
+      date,
+      calories,
+    }));
   }
 
   return (
