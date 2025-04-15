@@ -8,6 +8,17 @@ Chompibara is a food tracking application built with React, designed to help use
 
 Chompibara is an educational project, created for learning purposes, as part of a university React course.
 
+## Project Objectives
+This project had the main objective of serving as a learning project to get used to React's development style. 
+More generally, the scope of the project for teams based on a single person are:
+- Meal photo upload: Users can take or upload a photo of their meal.
+- Manual editing: Users can add new meals with related nutritional values.
+- Daily food log: A list of meals with nutritional details.
+- Progress charts: Stats on the daily calories intake.
+- Exercise tracking: Users can add exercise activities, including details such as the type of exercise, duration and calories burned.
+
+As a personal, additional objective I decided to try and make an app that had a simple, quirky design,
+
 ## Features
 
 - **Meal Tracking**: Users can add, update, and delete meals, including details like calories, macronutrients, and meal type. They can also add an image to visually represent their meal, and categorize them by their tipe (e.g. lunch, dinner)
@@ -19,49 +30,25 @@ Chompibara is an educational project, created for learning purposes, as part of 
 - **History and Stats**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day, There is also a different page to get similar information throughout a personalized time period, to visualize longer trends and improvements.
   ![image](https://github.com/user-attachments/assets/274e6d6d-4fb4-40ed-9ba8-e11fd79e6eb2)
 
-## Installation
-
-To run the app locally, follow these steps:
-
-1. Clone the repository
-
-```bash
-git clone https://github.com/fabfabretti/chompibara.git
-cd chompibara
-```
-
-2. Install dependencies
-
-Make sure you have Node.js and npm installed; the project was developed on Node.js version `20.18.1`. Then, run:
-
-```bash
-npm install
-```
-
-3. Environment Setup
-
-You will need to set up Supabase for backend storage. Create an .env file in the root of the project and include your Supabase credentials:
-
-```bash
-REACT_APP_SUPABASE_URL=your_supabase_url
-REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-Please note that, in its current version, the project does not handle RLS policies. Hence, the Supabase database must have them disabled or all queries will return 0 rows.
-
-4. Start the app
-
-Once everything is set up, you can start the development server:
-
-```bash
-npm start dev
-```
-
-This will start the app on http://localhost:5173 by default.
-
+## Installation and further details about the application
+Please refer to the documentation in `documenation/Documentation.md`, which contains very detailed information and implementation specifics about the installation of the app and the database, as well as the developed components.
 ## Technologies Used
 
 - **React+Typescript**: The core library for building the user interface.
 - **Supabase**: For managing the database and handling authentication.
 - **Font Awesome**: For icons throughout the app.
 - **Recharts**: A simple yet effective library for creating smooth, interactive, and visually appealing custom charts.
+
+## Limitations
+- At the moment, the app only supports a single user and it's not possible to make different accounts and log in/out.
+- Accessibility has not been a focus for this development cycle; hence, it would be strongly suggested to check how accessible the app is for future developments.
+- It's not possible to export/import data user-side.
+- All meal details must be entered by hand, and there is no feature to allow for making template meals or easily copy old meals.
+
+## Future improvements
+- Allow for users to create different profiles and log into them
+- Add meal templates or favorites
+- Add weight tracking
+- Switch to Tailwind and improve the design system
+- Support an offline setup, as Supabase is selfhostable and storing personal health data on a third-party server might raise privacy and security concerns.
+
