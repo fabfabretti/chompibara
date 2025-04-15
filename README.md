@@ -24,11 +24,15 @@ As a personal, additional objective I decided to try and make an app that had a 
 - **Meal Tracking**: Users can add, update, and delete meals, including details like calories, macronutrients, and meal type. They can also add an image to visually represent their meal, and categorize them by their tipe (e.g. lunch, dinner)
 ![image](https://github.com/user-attachments/assets/e0cdd0fc-149a-4e21-96d2-f6abf96a2077)
 - **Exercise Tracking**: Users can log basic exercises data, including details like calories burned, duration, and exercise type.
-  ![image](https://github.com/user-attachments/assets/89952f32-cc62-4275-a800-8fc76840d1a1)
+  ![image](https://github.com/user-attachments/assets/8a51e608-6f4f-4830-bfc2-0aca8277c84c)
+
 - **Profile Management**: Users can update their profile information, including height, weight, age, and target macros/calories.
-  ![image](https://github.com/user-attachments/assets/81c5b9f5-4f30-4e78-8a9d-c3ef1182cb91)
-- **History and Stats**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day, There is also a different page to get similar information throughout a personalized time period, to visualize longer trends and improvements.
+  ![image](https://github.com/user-attachments/assets/89952f32-cc62-4275-a800-8fc76840d1a1)
+- **Daily history**: Users can view their recorder meal for each day, and have an aesthetically pleasing dashboard informing them of their macronutrient and calories intake throughout the day.
   ![image](https://github.com/user-attachments/assets/274e6d6d-4fb4-40ed-9ba8-e11fd79e6eb2)
+- **Global stats**: There is also a different page to get similar information throughout a personalized time period, to visualize longer trends and improvements.
+  ![image](https://github.com/user-attachments/assets/baaeb2b4-a655-4090-8e36-7a493d683dbe)
+
 
 ## Installation and further details about the application
 Please refer to the documentation in `documenation/Documentation.md`, which contains very detailed information and implementation specifics about the installation of the app and the database, as well as the developed components.
