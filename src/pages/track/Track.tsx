@@ -20,12 +20,14 @@ function Track() {
   const [isUploading, setIsUploading] = useState(false);
   const [hasBeenUploaded, setHasBeenUploaded] = useState(false);
   const [meal, setMeal] = useState(defaultMeal);
+  const [isMagicFilling, setIsMagicFilling] = useState(false);
+  const [magicFillError, setMagicFillError] = useState("");
 
   // Functions
 
   // Check input
   const mealIsValid = () => {
-    let errors = [];
+    const errors = [];
 
     if (meal.title.trim() === "") {
       errors.push("Title cannot be empty.");
@@ -93,6 +95,84 @@ function Track() {
     }
   };
 
+  //Magic fill
+  const magicFill = async (file: File) => {
+    setIsMagicFilling(true);
+    const reader = new FileReader();
+    const base64 = await new Promise<string>((resolve, reject) => {
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+    });
+
+    const body = {
+      model: "gpt-4-turbo",
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: `
+You will be provided with an image of a meal and the time it was consumed. Your task is to respond with a JSON object containing the following fields:
+- title: Name of the dish (string)
+- mealtype: One of the following categories: Breakfast, Dinner, Lunch, Other, Snack (string). Consider the provided time of day when choosing.
+- calories: Estimated number of calories in the meal (integer)
+- carbos: Estimated grams of carbohydrates (integer)
+- fats: Estimated grams of fats (integer)
+- protein: Estimated grams of protein (integer)
+
+If the image does not contain food, return a JSON object like:
+{error: "This image does not contain food."}
+
+The meal was consumed at ${meal.time}.
+          `.trim(),
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: base64,
+              },
+            },
+          ],
+        },
+      ],
+      max_tokens: 500,
+    };
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`, // Sostituisci con la tua API key
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.text(); // Leggi il corpo della risposta in caso di errore
+      setMagicFillError(
+        "Something went wrong :( You can still enter your meal manually!"
+      );
+      throw new Error(`API Error: ${response.status} - ${errorBody}`);
+    }
+
+    const data = await response.json();
+
+    const content = data.choices[0].message.content;
+
+    const cleaned = content.replace(/```json|```/g, "").trim();
+    let parsed: Partial<MealData> = {};
+
+    try {
+      parsed = JSON.parse(cleaned);
+      setMeal((prev) => ({ ...prev, ...parsed }));
+    } catch (e) {
+      console.error("Parsing error:", e, cleaned);
+    }
+    setIsMagicFilling(false);
+  };
+
   //Render
   return (
     <div className="track-page page">
@@ -106,6 +186,22 @@ function Track() {
             <div className="flex-col flex-center gap20">
               {/* Upload file */}
               <FileLoader image={image} setImage={setImage} />
+
+              {image ? (
+                isMagicFilling ? (
+                  <Loadingspinner />
+                ) : (
+                  <button
+                    className="primary"
+                    title="Hello"
+                    onClick={() => magicFill(image)}
+                  >
+                    Ask Chompibara to fill it for you!
+                  </button>
+                )
+              ) : (
+                ""
+              )}
 
               <div className="upload-data">
                 <div
