@@ -34,8 +34,11 @@ As a personal, additional objective I decided to try and make an app that had a 
   ![image](https://github.com/user-attachments/assets/274e6d6d-4fb4-40ed-9ba8-e11fd79e6eb2)
 - **Global stats**: There is also a different page to get similar information throughout a personalized time period, to visualize longer trends and improvements.
   ![image](https://github.com/user-attachments/assets/baaeb2b4-a655-4090-8e36-7a493d683dbe)
-- **Mobile-friendly**: the app's layout adapts to smaller screens
+- **Mobile-friendly**: the app's layout adapts to smaller screens.
+  ![immagine](https://github.com/user-attachments/assets/032b3a0b-bcb1-4c00-8760-8f27a1337224)
 - **AI-powered autofill**: Once the user loads an image, it's possible to ask AI to look at the picture and autofill the form for them.
+  ![immagine](https://github.com/user-attachments/assets/081d69b7-8244-4a7b-a66b-38353e0131cb)
+
 
 ## Installation and further details about the application
 
