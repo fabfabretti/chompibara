@@ -191,13 +191,16 @@ The meal was consumed at ${meal.time}.
                 isMagicFilling ? (
                   <Loadingspinner />
                 ) : (
-                  <button
-                    className="primary"
-                    title="Hello"
-                    onClick={() => magicFill(image)}
-                  >
-                    Ask Chompibara to fill it for you!
-                  </button>
+                  <div className="flex-col">
+                    <button
+                      className="primary"
+                      title="Hello"
+                      onClick={() => magicFill(image)}
+                    >
+                      Ask Chompibara to fill it for you!
+                    </button>
+                    {magicFillError}
+                  </div>
                 )
               ) : (
                 ""
