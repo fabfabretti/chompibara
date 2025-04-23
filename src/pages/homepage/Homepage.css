@@ -96,3 +96,20 @@ footer {
     width: 80%;
   }
 }
+
+
+@media (max-width: 768px) {
+  .overtitle{
+    font-size:2.5em;
+  }
+  .title{
+    font-size: 3em;
+  }
+
+  .paragraph{
+    font-size: 1.2em;
+  }
+
+  .content-container{
+   }
+}

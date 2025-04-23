@@ -28,7 +28,7 @@ function Profile() {
 
   // Client side input validation
   const profileIsValid = () => {
-    let errors = [];
+    const errors = [];
 
     if (!profile.name || profile.name === "")
       errors.push("Name cannot be empty.");
@@ -156,7 +156,7 @@ function Profile() {
           </div>
 
           <div
-            className="flex-row flex-around flex-center"
+            className="userdata-container flex-row flex-around flex-center"
             style={{ width: "70%" }}
           >
             {/** Demographics */}
