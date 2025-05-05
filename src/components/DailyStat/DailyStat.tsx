@@ -141,7 +141,7 @@ function DailyDashboard({ meals, exercises }: DailyDashboardProps) {
           </p>
         ) : (
           <div className="flex-col gap20" style={{ alignItems: "center" }}>
-            {exercises.length > 1 ? (
+            {exercises.length > 0 ? (
               <BurntCaloriesBarChart exercises={exercises} />
             ) : null}
             <p>

@@ -31,8 +31,8 @@ function Stats() {
   const supabaseManager = SupabaseManager.getInstance();
 
   // these are the dates sent to the stackcoso component
-  const [actualStartDate, setactualStartDate] = useState(weekAgo);
-  const [actualEndDate, setactualEndDate] = useState(today);
+  const [actualStartDate, setActualStartDate] = useState(weekAgo);
+  const [actualEndDate, setActualEndDate] = useState(today);
 
   //Functions
   const setMealsFromRange = () => {
@@ -54,13 +54,13 @@ function Stats() {
           .getExercisesInDateRange(new Date(startDay), new Date(endDay))
           .then((result) => {
             setExercises(result);
+            setIsLoading(false);
           });
       });
 
-    setactualEndDate(startDay);
-    setactualEndDate(endDay);
-
-    setIsLoading(false);
+    // Fix: Correctly update both actualStartDate and actualEndDate
+    setActualStartDate(startDay);
+    setActualEndDate(endDay);
   };
 
   //Effects
@@ -136,7 +136,7 @@ function Stats() {
           >
             <div
               className="card-custom flex-col flex-center"
-              style={{ minWidth: "200px", maxWidth: "500px" }}
+              style={{ maxWidth: "100%" }}
             >
               <h2>Daily macrocalories consumption trend</h2>
               <MacroStackedChart
@@ -155,8 +155,8 @@ function Stats() {
               <h2>Daily burnt calories</h2>
               <BurntCaloriesBarChart
                 exercises={exercises}
-                startDate={startDay}
-                endDate={endDay}
+                startDate={actualStartDate}
+                endDate={actualEndDate}
               />
             </div>
             {/**Macrocalories overview (ring thing) */}

@@ -114,19 +114,19 @@ function Track() {
             {
               type: "text",
               text: `
-You will be provided with an image of a meal and the time it was consumed. Your task is to respond with a JSON object containing the following fields:
-- title: Name of the dish (string)
-- mealtype: One of the following categories: Breakfast, Dinner, Lunch, Other, Snack (string). Consider the provided time of day when choosing.
-- calories: Estimated number of calories in the meal (integer)
-- carbos: Estimated grams of carbohydrates (integer)
-- fats: Estimated grams of fats (integer)
-- protein: Estimated grams of protein (integer)
-
-If the image does not contain food, return a JSON object like:
-{error: "This image does not contain food."}
-
-The meal was consumed at ${meal.time}.
-          `.trim(),
+  You will be provided with an image of a meal and the time it was consumed. Your task is to respond with a JSON object containing the following fields:
+  - title: Name of the dish (string)
+  - mealtype: One of the following categories: Breakfast, Dinner, Lunch, Other, Snack (string). Consider the provided time of day when choosing.
+  - calories: Estimated number of calories in the meal (integer)
+  - carbos: Estimated grams of carbohydrates (integer)
+  - fats: Estimated grams of fats (integer)
+  - protein: Estimated grams of protein (integer)
+  
+  If the image does not contain food, return a JSON object like:
+  {error: "This image does not contain food."}
+  
+  The meal was consumed at ${meal.time}.
+            `.trim(),
             },
             {
               type: "image_url",
@@ -144,32 +144,52 @@ The meal was consumed at ${meal.time}.
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`, // Sostituisci con la tua API key
+        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
       },
       body: JSON.stringify(body),
     });
 
     if (!response.ok) {
-      const errorBody = await response.text(); // Leggi il corpo della risposta in caso di errore
+      const errorBody = await response.text();
+      alert(`API Error: ${response.status}\n${errorBody}`);
       setMagicFillError(
         "Something went wrong :( You can still enter your meal manually!"
       );
-      throw new Error(`API Error: ${response.status} - ${errorBody}`);
+      setIsMagicFilling(false);
+      return;
     }
 
     const data = await response.json();
-
     const content = data.choices[0].message.content;
-
     const cleaned = content.replace(/```json|```/g, "").trim();
     let parsed: Partial<MealData> = {};
 
     try {
       parsed = JSON.parse(cleaned);
-      setMeal((prev) => ({ ...prev, ...parsed }));
     } catch (e) {
+      alert("Error parsing response. Please enter your meal manually.");
       console.error("Parsing error:", e, cleaned);
+      setMagicFillError("Error parsing response");
+      setIsMagicFilling(false);
+      return;
     }
+
+    const validMealTypes = ["Breakfast", "Dinner", "Lunch", "Other", "Snack"];
+    if (
+      typeof parsed.title !== "string" ||
+      !validMealTypes.includes(parsed.mealtype as string) ||
+      typeof parsed.calories !== "number" ||
+      typeof parsed.carbos !== "number" ||
+      typeof parsed.fats !== "number" ||
+      typeof parsed.protein !== "number"
+    ) {
+      alert("Invalid response format. Please enter your meal manually.");
+      setMagicFillError("Invalid response format");
+      setIsMagicFilling(false);
+      return;
+    }
+
+    setMeal((prev) => ({ ...prev, ...parsed }));
     setIsMagicFilling(false);
   };
 

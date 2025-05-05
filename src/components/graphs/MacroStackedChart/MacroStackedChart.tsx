@@ -36,6 +36,23 @@ function MacroStackedChart({
   startDay,
   endDay,
 }: MealChartProps) {
+  const chartRef = useRef<HTMLDivElement>(null);
+  const [chartWidth, setChartWidth] = useState(0);
+
+  useEffect(() => {
+    const updateChartWidth = () => {
+      if (chartRef.current) {
+        setChartWidth(chartRef.current.offsetWidth);
+      }
+    };
+
+    updateChartWidth();
+    window.addEventListener("resize", updateChartWidth);
+    return () => {
+      window.removeEventListener("resize", updateChartWidth);
+    };
+  }, []);
+
   if (!meals || meals.length === 0) {
     return (
       <p style={{ color: "var(--greyed-out)", textAlign: "center" }}>
@@ -114,7 +131,6 @@ function MacroStackedChart({
     }
   }
 
-  // If startDay and endDay were not provided, we still augment the data with an empty datapoint at the start and end of the range.
   const dataPoints =
     startDay && endDay ? mealDataPoints : augmentDataPoints(mealDataPoints);
   const cumulativeMealDataPoints = calculateCumulativeCalories(dataPoints);
@@ -137,23 +153,6 @@ function MacroStackedChart({
     strokeOpacity: 0.2,
   };
   const xAxisFormatter = createXAxisFormatter(isSingleDay);
-
-  const chartRef = useRef<HTMLDivElement>(null);
-  const [chartWidth, setChartWidth] = useState(0);
-
-  useEffect(() => {
-    const updateChartWidth = () => {
-      if (chartRef.current) {
-        setChartWidth(chartRef.current.offsetWidth);
-      }
-    };
-
-    updateChartWidth();
-    window.addEventListener("resize", updateChartWidth);
-    return () => {
-      window.removeEventListener("resize", updateChartWidth);
-    };
-  }, []);
 
   return (
     <div ref={chartRef} style={{ width: "100%" }}>
@@ -246,7 +245,11 @@ function createXAxisFormatter(isSingleDay: boolean) {
       const hours = date.getHours().toString().padStart(2, "0");
       return `${hours}:00`;
     } else {
-      return date.toLocaleDateString();
+      // Format as YYYY-MM-DD instead of MM-DD-YYYY
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const day = date.getDate().toString().padStart(2, "0");
+      return `${year}-${month}-${day}`;
     }
   };
 }
