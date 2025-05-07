@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   AreaChart,
   Area,
@@ -8,6 +8,7 @@ import {
   CartesianGrid,
   ReferenceLine,
   Label,
+  ResponsiveContainer,
 } from "recharts";
 
 import { MealData } from "../../../context/types/MealTypes";
@@ -36,21 +37,16 @@ function MacroStackedChart({
   startDay,
   endDay,
 }: MealChartProps) {
-  const chartRef = useRef<HTMLDivElement>(null);
-  const [chartWidth, setChartWidth] = useState(0);
+  const [forceRerender, setForceRerender] = useState(0);
 
+  // Forza il componente a ri-renderizzarsi una volta che è montato
   useEffect(() => {
-    const updateChartWidth = () => {
-      if (chartRef.current) {
-        setChartWidth(chartRef.current.offsetWidth);
-      }
-    };
+    // Impostiamo un timeout per assicurarci che il DOM sia completamente caricato
+    const timer = setTimeout(() => {
+      setForceRerender((prev) => prev + 1);
+    }, 50);
 
-    updateChartWidth();
-    window.addEventListener("resize", updateChartWidth);
-    return () => {
-      window.removeEventListener("resize", updateChartWidth);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   if (!meals || meals.length === 0) {
@@ -155,58 +151,66 @@ function MacroStackedChart({
   const xAxisFormatter = createXAxisFormatter(isSingleDay);
 
   return (
-    <div ref={chartRef} style={{ width: "100%" }}>
-      <AreaChart width={chartWidth} height={250} data={finalDataPoints}>
-        <CartesianGrid {...gridLineStyle} />
-        <XAxis dataKey="dateTime" tickFormatter={xAxisFormatter} />
-        <YAxis
-          domain={[0, maxYValue * 1.2]}
-          ticks={[
-            ...Array(Math.floor(maxYValue / 500))
-              .fill(0)
-              .map((_, i) => i * 500),
-            target || 0,
-          ]}
-        />
-        <Tooltip />
-        <Area
-          type="monotone"
-          dataKey="carbs"
-          stackId="1"
-          stroke={COLORS.carbos}
-          fillOpacity={0.6}
-          fill={COLORS.carbos}
-        />
-        <Area
-          type="monotone"
-          dataKey="fats"
-          stackId="1"
-          stroke={COLORS.fats}
-          fillOpacity={0.6}
-          fill={COLORS.fats}
-        />
-        <Area
-          type="monotone"
-          dataKey="protein"
-          stackId="1"
-          stroke={COLORS.protein}
-          fillOpacity={0.6}
-          fill={COLORS.protein}
-        />
-        <Area
-          type="monotone"
-          dataKey="unassigned"
-          stackId="1"
-          stroke={COLORS.greyedOut}
-          fillOpacity={0.6}
-          fill={COLORS.greyedOut}
-        />
-        {target !== undefined && (
-          <ReferenceLine y={target} style={referenceLineStyle}>
-            <Label value="Daily target" position="insideTop" offset={10} />
-          </ReferenceLine>
-        )}
-      </AreaChart>
+    <div
+      style={{ width: "100%", height: "250px", minHeight: "250px" }}
+      key={`chart-container-${forceRerender}`}
+    >
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart
+          data={finalDataPoints}
+          margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+        >
+          <CartesianGrid {...gridLineStyle} />
+          <XAxis dataKey="dateTime" tickFormatter={xAxisFormatter} />
+          <YAxis
+            domain={[0, maxYValue * 1.2]}
+            ticks={[
+              ...Array(Math.floor(maxYValue / 500))
+                .fill(0)
+                .map((_, i) => i * 500),
+              target || 0,
+            ]}
+          />
+          <Tooltip />
+          <Area
+            type="monotone"
+            dataKey="carbs"
+            stackId="1"
+            stroke={COLORS.carbos}
+            fillOpacity={0.6}
+            fill={COLORS.carbos}
+          />
+          <Area
+            type="monotone"
+            dataKey="fats"
+            stackId="1"
+            stroke={COLORS.fats}
+            fillOpacity={0.6}
+            fill={COLORS.fats}
+          />
+          <Area
+            type="monotone"
+            dataKey="protein"
+            stackId="1"
+            stroke={COLORS.protein}
+            fillOpacity={0.6}
+            fill={COLORS.protein}
+          />
+          <Area
+            type="monotone"
+            dataKey="unassigned"
+            stackId="1"
+            stroke={COLORS.greyedOut}
+            fillOpacity={0.6}
+            fill={COLORS.greyedOut}
+          />
+          {target !== undefined && (
+            <ReferenceLine y={target} style={referenceLineStyle}>
+              <Label value="Daily target" position="insideTop" offset={10} />
+            </ReferenceLine>
+          )}
+        </AreaChart>
+      </ResponsiveContainer>
     </div>
   );
 }
